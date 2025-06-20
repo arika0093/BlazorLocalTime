@@ -6,3 +6,5 @@ riderModule.iml
 *.DotSettings*
 .idea/
 .vs/
+docs/api
+docs/_site
