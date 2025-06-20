@@ -1,10 +1,11 @@
 ﻿# BlazorLocalTime
 
-[![NuGet Version](https://img.shields.io/nuget/v/BlazorLocalTime?style=for-the-badge&logo=NuGet&color=%2308C)](https://www.nuget.org/packages/BlazorLocalTime/)
-
-![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/arika0093/BlazorLocalTime/test.yaml?branch=main&label=Testing&style=flat-square) ![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/arika0093/BlazorLocalTime/release.yaml?branch=main&label=Release&style=flat-square) ![GitHub last commit (branch)](https://img.shields.io/github/last-commit/arika0093/BlazorLocalTime?style=flat-square)
+[![NuGet Version](https://img.shields.io/nuget/v/BlazorLocalTime?style=flat-square&logo=NuGet&color=%2308C)](https://www.nuget.org/packages/BlazorLocalTime/) ![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/arika0093/BlazorLocalTime/test.yaml?branch=main&label=Testing&style=flat-square) ![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/arika0093/BlazorLocalTime/release.yaml?branch=main&label=Release&style=flat-square) ![GitHub last commit (branch)](https://img.shields.io/github/last-commit/arika0093/BlazorLocalTime?style=flat-square)
 
 `BlazorLocalTime` provides functionality to convert `DateTime` values to the user's local time zone in Blazor applications.
+
+## Demo
+[arika0093.github.io/BlazorLocalTime/](https://arika0093.github.io/BlazorLocalTime/)
 
 ## Usage
 
