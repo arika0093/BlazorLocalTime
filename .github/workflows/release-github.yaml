@@ -45,13 +45,10 @@ jobs:
         id: create_release
         uses: softprops/action-gh-release@v1
         with:
-          tag_name: ${{ steps.nbgv.outputs.NuGetPackageVersion }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Upload NuGet Package to Release
-        uses: softprops/action-gh-release@v1
-        with:
+          name: ${{ steps.nbgv.outputs.SemVer2 }}
+          tag_name: ${{ steps.nbgv.outputs.SemVer2 }}
+          generate_release_notes: true
           files: ./artifacts/*.nupkg
+          prerelease: ${{ steps.nbgv.outputs.IsPrerelease }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
