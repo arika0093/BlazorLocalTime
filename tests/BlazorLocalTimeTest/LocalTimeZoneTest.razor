@@ -1,0 +1,19 @@
+﻿@inherits TestContext
+@code
+{
+    [Fact]
+    public void TestTzId()
+    {
+        Services.AddScoped<ILocalTimeService,LocalTimeMockService>();
+
+        var dt = new DateTime(2023, 10, 1, 12, 30, 0, DateTimeKind.Utc);
+        
+        var cut = Render(
+            @<LocalTimeZone Context="tz">
+                @tz.Id
+            </LocalTimeZone>
+        );
+        
+        cut.MarkupMatches("Asia/Tokyo");
+    }
+}

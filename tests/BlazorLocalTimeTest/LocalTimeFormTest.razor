@@ -1,0 +1,92 @@
+﻿@using Shouldly
+@inherits TestContext
+@code
+{
+    [Fact]
+    public void TestFormUpdated1()
+    {
+        Services.AddScoped<ILocalTimeService,LocalTimeMockService>();
+
+        var dt = new DateTime(2023, 10, 1, 12, 30, 0, DateTimeKind.Utc);
+        
+        var cut = Render(
+            @<LocalTimeForm @bind-Value="dt" Context="dtf">
+                <InputDate Type="InputDateType.DateTimeLocal" Value="dtf.Value" ValueExpression="() => dtf.Value" ValueChanged="dtf.ValueChanged" />
+            </LocalTimeForm>
+        );
+        var input = cut.Find("input[type='datetime-local']");
+        
+        // value is set to the local time in the input
+        input.GetAttribute("value").ShouldBe("2023-10-01T21:30:00");
+        
+        // call update
+        input.Change("2023-10-01T22:00:00");
+        
+        // value should be updated to the local time
+        dt.ShouldBe(new DateTime(2023, 10, 1, 13, 00, 0, DateTimeKind.Utc));
+    }
+    
+    [Fact]
+    public void TestFormUpdated2()
+    {
+        Services.AddScoped<ILocalTimeService,LocalTimeMockService>();
+
+        DateTime? dt = new DateTime(2023, 10, 1, 12, 30, 0, DateTimeKind.Utc);
+        
+        var cut = Render(
+            @<LocalTimeForm @bind-Value="dt" Context="dtf">
+                <InputDate Type="InputDateType.DateTimeLocal" Value="dtf.Value" ValueExpression="() => dtf.Value" ValueChanged="dtf.ValueChanged" />
+            </LocalTimeForm>
+        );
+        var input = cut.Find("input[type='datetime-local']");
+        
+        // value is set to the local time in the input
+        input.GetAttribute("value").ShouldBe("2023-10-01T21:30:00");
+        
+        // call update
+        input.Change("2023-10-01T22:00:00");
+        
+        // value should be updated to the local time
+        dt.ShouldBe(new DateTime(2023, 10, 1, 13, 00, 0, DateTimeKind.Utc));
+    }
+
+    [Fact]
+    public void TestFormUpdated3()
+    {
+        Services.AddScoped<ILocalTimeService,LocalTimeMockService>();
+
+        var dt = new DateTimeOffset(2023, 10, 1, 12, 30, 0, TimeSpan.Zero);
+        
+        var cut = Render(
+            @<LocalTimeForm @bind-Value="dt" Context="dtf">
+                <InputDate Type="InputDateType.DateTimeLocal" Value="dtf.Value" ValueExpression="() => dtf.Value" ValueChanged="dtf.ValueChanged" />
+            </LocalTimeForm>
+        );
+        var input = cut.Find("input[type='datetime-local']");
+        
+        // value is set to the local time in the input
+        input.GetAttribute("value").ShouldBe("2023-10-01T21:30:00");
+        
+        // call update
+        input.Change("2023-10-01T22:00:00");
+        
+        // value should be updated to the local time
+        dt.ShouldBe(new DateTimeOffset(2023, 10, 1, 22, 00, 0, TimeSpan.FromHours(9)));
+    }
+    
+    [Fact]
+    public void TestFormSplitted1()
+    {
+        Services.AddScoped<ILocalTimeService,LocalTimeMockService>();
+
+        var dt = new DateTime(2023, 10, 1, 12, 30, 0, DateTimeKind.Utc);
+        
+        var cut = Render(
+            @<LocalTimeForm @bind-Value="dt" Context="dtf">
+                <InputDate Type="InputDateType.Date" Value="dtf.Date" ValueExpression="() => dtf.Date" ValueChanged="dtf.DateChanged"></InputDate>
+                <InputDate Type="InputDateType.Time" Value="dtf.Time" ValueExpression="() => dtf.Time" ValueChanged="dtf.TimeChanged"/>
+            </LocalTimeForm>
+        );
+    }
+    
+}

@@ -1,0 +1,10 @@
+﻿@namespace BlazorLocalTime
+
+@if (ChildContent != null && LocalTimeService.IsLocalTimeZoneSet)
+{
+    @ChildContent(LocalTimeService.GetBrowserTimeZone())
+}
+@if (UnknownContent != null && !LocalTimeService.IsLocalTimeZoneSet)
+{
+    @UnknownContent
+}

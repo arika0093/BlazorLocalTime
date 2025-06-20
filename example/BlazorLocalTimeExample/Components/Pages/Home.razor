@@ -1,0 +1,36 @@
+﻿@using BlazorLocalTime
+@page "/"
+
+<h3>UserTimeZone</h3>
+<LocalTimeZone Context="tz">
+    <p>@tz.DisplayName [@tz.Id]</p>
+</LocalTimeZone>
+
+<h3>Value(UTC)</h3>
+<p>@Dt?.ToString(Format)</p>
+
+<h3>Use <code>LocalTimeText</code></h3>
+<p>
+    <LocalTimeText Value="@Dt" Format="@Format" />
+</p>
+
+<h3>Use <code>LocalTime</code></h3>
+<LocalTime Value="@Dt" Context="dt">
+    <p>@dt.ToString(Format)</p>
+</LocalTime>
+
+<h3>Use <code>LocalTimeForm</code></h3>
+<LocalTimeForm @bind-Value="Dt" Context="dtf">
+    <InputDate Type="InputDateType.DateTimeLocal" Value="dtf.Value" ValueExpression="() => dtf.Value" ValueChanged="dtf.ValueChanged" />
+</LocalTimeForm>
+
+<h3>Use <code>LocalTimeForm</code> (Split)</h3>
+<LocalTimeForm @bind-Value="Dt" Context="dtf">
+    <InputDate Type="InputDateType.Date" Value="dtf.Date" ValueExpression="() => dtf.Date" ValueChanged="dtf.DateChanged" />
+    <InputDate Type="InputDateType.Time" Value="dtf.Time" ValueExpression="() => dtf.Time" ValueChanged="dtf.TimeChanged" />
+</LocalTimeForm>
+
+@code {
+    private static DateTime? Dt { get; set; } = DateTime.UtcNow;
+    private static string Format => "yyyy-MM-dd HH:mm:ssK";
+}

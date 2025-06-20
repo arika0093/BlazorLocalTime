@@ -1,0 +1,9 @@
+﻿<LocalTimeForm @bind-Value="Dto" Context="dtf">
+    <InputDate Type="InputDateType.Date" Value="dtf.Date" ValueExpression="() => dtf.Date" ValueChanged="dtf.DateChanged" />
+    <InputDate Type="InputDateType.Time" Value="dtf.Time" ValueExpression="() => dtf.Time" ValueChanged="dtf.TimeChanged" />
+</LocalTimeForm>
+
+@code {
+    [Parameter]
+    public DateTimeOffset Dto { get; set; } = new DateTimeOffset(2023, 10, 1, 12, 30, 0, TimeSpan.Zero);
+}

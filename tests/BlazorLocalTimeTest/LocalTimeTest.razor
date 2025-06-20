@@ -1,0 +1,72 @@
+﻿@inherits TestContext
+@code
+{
+    [Fact]
+    public void TestUnSpecifiedFormat1()
+    {
+        Services.AddScoped<ILocalTimeService,LocalTimeMockService>();
+
+        var dt = new DateTime(2023, 10, 1, 12, 30, 0, DateTimeKind.Utc);
+        
+        var cut = Render(
+            @<LocalTime Value="dt" Context="dtl">
+                @dtl.ToString("yyyy/MM/dd HH:mm:ss")
+            </LocalTime>
+        );
+        
+        // 12:30+09:00 -> 2023/10/01 21:30:00
+        cut.MarkupMatches("2023/10/01 21:30:00");
+    }
+    
+    [Fact]
+    public void TestUnSpecifiedFormat2()
+    {
+        Services.AddScoped<ILocalTimeService,LocalTimeMockService>();
+
+        // use DateTimeOffset
+        var dt = new DateTimeOffset(2023, 10, 1, 12, 30, 0, TimeSpan.FromHours(0));
+
+        var cut = Render(
+            @<LocalTime Value="dt" Context="dtl">
+                @dtl.ToString("yyyy/MM/dd HH:mm:ss")
+            </LocalTime>
+        );
+        
+        // 12:30+09:00 -> 2023/10/01 21:30:00
+        cut.MarkupMatches("2023/10/01 21:30:00");
+    }
+    
+    [Fact]
+    public void TestUnSpecifiedFormat3()
+    {
+        Services.AddScoped<ILocalTimeService,LocalTimeMockService>();
+
+        // use Asia/Tokyo timezone
+        var dt = new DateTimeOffset(2023, 10, 1, 12, 30, 0, TimeSpan.FromHours(9));
+
+        var cut = Render(
+            @<LocalTime Value="dt" Context="dtl">
+                @dtl.ToString("yyyy/MM/dd HH:mm:ss")
+            </LocalTime>
+        );
+        
+        cut.MarkupMatches("2023/10/01 12:30:00");
+    }
+    
+    [Fact]
+    public void TestCustomFormat1()
+    {
+        Services.AddScoped<ILocalTimeService,LocalTimeMockService>();
+
+        var dt = new DateTime(2023, 10, 1, 12, 30, 0, DateTimeKind.Utc);
+
+        var cut = Render(
+            @<LocalTime Value="dt" Context="dtl">
+                @dtl.ToString("yyyy-MM-dd HH:mm")
+            </LocalTime>
+        );
+        
+        cut.MarkupMatches("2023-10-01 21:30");
+    }
+    
+}

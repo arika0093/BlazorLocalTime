@@ -1,0 +1,24 @@
+﻿@using Shouldly
+@inherits TestContext
+@code
+{
+    [Fact]
+    public void TestLocalTimeProvider()
+    {
+        var tms = new LocalTimeMockService
+        {
+            TimeZoneInfo = null
+        };
+        
+        Services.AddScoped<ILocalTimeService, LocalTimeMockService>(_ => tms);
+        var module = JSInterop.SetupModule("./_content/BlazorLocalTime/Components/BlazorLocalTimeProvider.razor.js");
+        module.Setup<string>("getBrowserTimeZone").SetResult("Asia/Tokyo");
+
+        var cut = Render(
+            @<BlazorLocalTimeProvider />
+        );
+        
+        // timezone should be set to Asia/Tokyo
+        tms.TimeZoneInfo!.Id.ShouldBe("Asia/Tokyo");
+    }
+}

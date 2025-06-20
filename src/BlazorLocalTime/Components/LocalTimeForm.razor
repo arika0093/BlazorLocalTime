@@ -1,0 +1,7 @@
+﻿@namespace BlazorLocalTime
+@typeparam T
+
+@if (ChildContent != null && LocalTimeService.IsLocalTimeZoneSet)
+{
+    @ChildContent(@FormValue)
+}

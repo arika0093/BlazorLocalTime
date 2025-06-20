@@ -1,0 +1,65 @@
+﻿@using BlazorLocalTimeTest.Component
+@using Shouldly
+@inherits TestContext
+
+@code {
+    [Fact]
+    public void TestFormUpdated1()
+    {
+        Services.AddScoped<ILocalTimeService, LocalTimeMockService>();
+        
+        var cut = RenderComponent<LocalTimeFormSplit1>(parameters => parameters
+            .Add(p => p.Dt, new DateTime(2023, 10, 1, 12, 30, 0, DateTimeKind.Utc)));
+
+        // value should be updated to the local time
+        var inputDate = cut.Find("input[type='date']");
+        var inputTime = cut.Find("input[type='time']");
+        
+        // value is set to the local date in the input
+        inputDate.GetAttribute("value").ShouldBe("2023-10-01");
+        inputTime.GetAttribute("value").ShouldBe("21:30:00");
+        
+        // call update
+        inputDate.Change("2023-11-01");
+        
+        // re-render to update the time
+        cut.Render();
+        
+        // call update time
+        inputTime = cut.Find("input[type='time']");
+        inputTime.Change("08:00:00");
+        
+        // value should be updated to the local time
+        cut.Instance.Dt.ShouldBe(new DateTime(2023, 10, 31, 23, 00, 0, DateTimeKind.Utc));
+    }
+    
+    [Fact]
+    public void TestFormUpdated2()
+    {
+        Services.AddScoped<ILocalTimeService, LocalTimeMockService>();
+        
+        var cut = RenderComponent<LocalTimeFormSplit2>(parameters => parameters
+            .Add(p => p.Dto, new DateTimeOffset(2023, 10, 1, 12, 30, 0, TimeSpan.Zero)));
+
+        // value should be updated to the local time
+        var inputDate = cut.Find("input[type='date']");
+        var inputTime = cut.Find("input[type='time']");
+        
+        // value is set to the local date in the input
+        inputDate.GetAttribute("value").ShouldBe("2023-10-01");
+        inputTime.GetAttribute("value").ShouldBe("21:30:00");
+        
+        // call update
+        inputDate.Change("2023-11-01");
+        
+        // re-render to update the time
+        cut.Render();
+        
+        // call update time
+        inputTime = cut.Find("input[type='time']");
+        inputTime.Change("08:00:00");
+        
+        // value should be updated to the local time
+        cut.Instance.Dto.ShouldBe(new DateTimeOffset(2023, 11, 1, 8, 00, 0, TimeSpan.FromHours(9)));
+    }
+}

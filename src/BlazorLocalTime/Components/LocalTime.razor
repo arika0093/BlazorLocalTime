@@ -1,0 +1,6 @@
+﻿@namespace BlazorLocalTime
+
+@if (ChildContent != null && Value != null && LocalTimeService.IsLocalTimeZoneSet)
+{
+    @ChildContent(LocalTimeValue)
+}
