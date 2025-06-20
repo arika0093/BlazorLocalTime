@@ -1,4 +1,4 @@
-﻿name: Release Package
+﻿name: Release Package to GitHub
 
 on:
   push:
@@ -9,6 +9,9 @@ on:
       - '**.cs'
       - '**.yaml'
 
+permissions:
+  contents: write
+  
 jobs:
   release-github:
     runs-on: ubuntu-latest
