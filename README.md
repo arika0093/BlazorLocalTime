@@ -1,42 +1,44 @@
 ﻿# BlazorLocalTime
 
-`BlazorLocalTime`は、Blazorで`DateTime`をユーザーのローカルタイムゾーンに変換するための機能を提供します。
+`BlazorLocalTime` provides functionality to convert `DateTime` values to the user's local time zone in Blazor applications.
 
-## 使い方
+## Usage
 
-### インストール
-NuGetから`BlazorLocalTime`をインストールします。
+### Installation
+Install `BlazorLocalTime` from NuGet:
 
 ```bash
 dotnet add package BlazorLocalTime
 ```
 
-次に、`Program.cs`に以下のコードを追加して、サービスを登録します。
+Next, register the service in your `Program.cs`:
 
 ```csharp
 builder.Services.AddBlazorLocalTimeService();
 ```
 
-最後に、`App.razor`(または`MainLayout.razor`など)に以下のコンポーネントを追加します。
+Finally, add the following component to `Routes.razor` (or `MainLayout.razor`, etc.):
 
 ```razor
+@using BlazorLocalTime
 <BlazorLocalTimeProvider />
 ```
 
-詳細は、以下のサンプルを参照してください。
-* [example]()
-* [example/Program.cs]()
-* [example/App.razor]()
+For more details, refer to the following sample:
+* [BlazorLocalTimeExample](./example/BlazorLocalTimeExample)
+  * [Program.cs](./example/BlazorLocalTimeExample/Program.cs)
+  * [Routes.razor](./example/BlazorLocalTimeExample/Components/Routes.razor)
+  * [Home.razor](./example/BlazorLocalTimeExample/Components/Pages/Home.razor)
 
-### Componentとして使う
+### Using as a Component
 
-単純にローカル時刻で文字として表示したい場合は`LocalTimeText`コンポーネントを使用します。
+To simply display a local time as text, use the `LocalTimeText` component:
 
 ```razor
 <LocalTimeText Value="@DateTime.UtcNow" Format="yyyy/MM/dd HH:mm:ss" />
 ```
 
-または、`LocalTime`を使用して以下のようにコンポーネント直下で受け取ることもできます。
+Alternatively, you can use the `LocalTime` component to receive the converted value in the child content:
 
 ```razor
 <LocalTime Value="@DateTime.UtcNow" Context="dt">
@@ -44,20 +46,37 @@ builder.Services.AddBlazorLocalTimeService();
 </LocalTime>
 ```
 
-入力フォーム等において、ローカル時刻で表示、UTC時刻で保存したい場合は以下のように使います。
+For input forms, it is common to display values in local time and save them as UTC.  
+You can easily create such forms using the `LocalTimeForm` component:
 
 ```razor
-<LocalTime @bind-Value="dt" Context="dtl">
-    <DateTimeInput @bind-Value="dtl" />
-</LocalTime>
+<LocalTimeForm @bind-Value="Dt" Context="dtf">
+    <InputDate Type="InputDateType.DateTimeLocal"
+        Value="dtf.Value" ValueChanged="dtf.ValueChanged"
+        ValueExpression="() => dtf.Value" />
+</LocalTimeForm>
 
 @code {
-    private DateTime dt = DateTime.UtcNow;
+    private DateTime Dt { get; set; } = DateTime.UtcNow;
 }
 ```
 
-### Serviceとして使う
-`BlazorLocalTimeService`を使用して、コード側でローカルタイムゾーンに変換することもできます。
+Input forms also support separate date and time inputs:
+
+```razor
+<LocalTimeForm @bind-Value="Dt" Context="dtf">
+    <InputDate Type="InputDateType.Date" Value="dtf.Date" ValueExpression="() => dtf.Date" ValueChanged="dtf.DateChanged" />
+    <InputDate Type="InputDateType.Time" Value="dtf.Time" ValueExpression="() => dtf.Time" ValueChanged="dtf.TimeChanged" />
+</LocalTimeForm>
+
+@code {
+    private DateTime Dt { get; set; } = DateTime.UtcNow;
+}
+```
+
+### Using as a Service
+
+You can also use `ILocalTimeService` to convert values in your code:
 
 ```razor
 @inject ILocalTimeService LocalTimeService
@@ -69,8 +88,6 @@ builder.Services.AddBlazorLocalTimeService();
 }
 ```
 
+## Reference
 
-## 参考文献
-
-[この記事](https://www.meziantou.net/convert-datetime-to-user-s-time-zone-with-server-side-blazor-time-provider.htm)を大いに参考にさせていただきました。  
-実際のところ、このライブラリは上記の内容を毎回書きたくないために作成されています。
+[This article](https://www.meziantou.net/convert-datetime-to-user-s-time-zone-with-server-side-blazor-time-provider.htm) was used as a major reference.

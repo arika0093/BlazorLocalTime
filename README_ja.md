@@ -50,9 +50,7 @@ builder.Services.AddBlazorLocalTimeService();
 `LocalTimeForm`コンポーネントを使用することでそのようなフォームを簡単に作成できます。
 
 ```razor
-@* UTC時刻(Dt)を@bind-Valueで渡す *@
 <LocalTimeForm @bind-Value="Dt" Context="dtf">
-    @* 受け取った Value(=LocalTime) および ValueChanged を使用する *@
     <InputDate Type="InputDateType.DateTimeLocal"
         Value="dtf.Value" ValueChanged="dtf.ValueChanged"
         ValueExpression="() => dtf.Value" />
@@ -77,7 +75,7 @@ builder.Services.AddBlazorLocalTimeService();
 ```
 
 ### Serviceとして使う
-`BlazorLocalTimeService`を使用して、コード側で変換することもできます。
+`ILocalTimeService`を使用して、コード側で変換することもできます。
 
 ```razor
 @inject ILocalTimeService LocalTimeService
@@ -91,4 +89,4 @@ builder.Services.AddBlazorLocalTimeService();
 
 ## 参考文献
 
-[この記事](https://www.meziantou.net/convert-datetime-to-user-s-time-zone-with-server-side-blazor-time-provider.htm)を大いに参考にさせていただきました。  
+[この記事](https://www.meziantou.net/convert-datetime-to-user-s-time-zone-with-server-side-blazor-time-provider.htm)を大いに参考にさせていただきました。
