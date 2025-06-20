@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - release/v*
     paths:
       - '**.csproj'
       - '**.cs'
@@ -25,10 +26,10 @@ jobs:
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: |
-            9.0.x
-            8.0.x
-            7.0.x
-            6.0.x
+            9.x
+            8.x
+            7.x
+            6.x
           cache: true
           cache-dependency-path: '**/packages.lock.json'
 

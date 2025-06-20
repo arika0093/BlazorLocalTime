@@ -21,8 +21,8 @@ jobs:
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: |
-            9.0.x
-            8.0.x
+            9.x
+            8.x
           cache: true
           cache-dependency-path: '**/packages.lock.json'
 
