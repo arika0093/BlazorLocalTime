@@ -34,14 +34,14 @@ Finally, add the following component to `Routes.razor` (or `MainLayout.razor`, e
 To simply display a local time as text, use the `LocalTimeText` component:
 
 ```razor
-<LocalTimeText Value="@DateTime.UtcNow" Format="yyyy/MM/dd HH:mm:ss" />
+<LocalTimeText Value="@DateTime.UtcNow" Format="yyyy-MM-dd HH:mm:ss" />
 ```
 
 Alternatively, you can use the `LocalTime` component to receive the converted value in the child content:
 
 ```razor
 <LocalTime Value="@DateTime.UtcNow" Context="dt">
-    @dt.ToString("yyyy/MM/dd HH:mm:ss")
+    @dt.ToString("yyyy-MM-dd HH:mm:ss")
 </LocalTime>
 ```
 
@@ -77,7 +77,7 @@ Input forms also support separate date and time inputs:
 
 You can also use `ILocalTimeService` to convert values in your code:
 
-> [!WARNING]
+> [!WARNING]  
 > During the initial rendering (`OnInitialized`), the user's local time zone may not be available yet, so conversion can fail.  
 > Please perform conversions in response to `ILocalTimeService.LocalTimeZoneChanged`.
 

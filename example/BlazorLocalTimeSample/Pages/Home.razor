@@ -32,24 +32,24 @@
 
 <h3>Using as a Component</h3>
 <p>To simply display a local time as text, use the <code>LocalTimeText</code> component:</p>
-<pre><code class="language-razor">&lt;LocalTimeText Value="@@DateTime.UtcNow" Format="yyyy/MM/dd HH:mm:ssK" /&gt;
+<pre><code class="language-razor">&lt;LocalTimeText Value="@@DateTime.UtcNow" Format="yyyy-MM-dd HH:mm:ssK" /&gt;
 </code></pre>
 
 <div class="component-sample">
-    <LocalTimeText Value="@DateTime.UtcNow" Format="yyyy/MM/dd HH:mm:ssK" />
+    <LocalTimeText Value="@DateTime.UtcNow" Format="yyyy-MM-dd HH:mm:ssK" />
 </div>
 
 <p>
     Alternatively, you can use the <code>LocalTime</code> component to receive the converted value in the child content:
 </p>
 <pre><code class="language-razor">&lt;LocalTime Value="@@DateTime.UtcNow" Context="dt"&gt;
-    @@dt.ToString("yyyy/MM/dd HH:mm:ssK")
+    @@dt.ToString("yyyy-MM-dd HH:mm:ssK")
 &lt;/LocalTime&gt;
 </code></pre>
 
 <div class="component-sample">
     <LocalTime Value="@DateTime.UtcNow" Context="dt">
-        @dt.ToString("yyyy/MM/dd HH:mm:ssK")
+        @dt.ToString("yyyy-MM-dd HH:mm:ssK")
     </LocalTime>
 </div>
 
@@ -57,7 +57,7 @@
     For input forms, it is common to display values in local time and save them as UTC.<br />
     You can easily create such forms using the <code>LocalTimeForm</code> component:
 </p>
-<pre><code class="language-razor">Value: @@Dt.ToString("yyyy/MM/dd HH:mm:ssK")
+<pre><code class="language-razor">Value: @@Dt.ToString("yyyy-MM-dd HH:mm:ssK")
 &lt;br /&gt;
 &lt;LocalTimeForm @@bind-Value="Dt" Context="dtf"&gt;
     &lt;InputDate Type="InputDateType.DateTimeLocal"
@@ -71,7 +71,7 @@
 </code></pre>
 
 <div class="component-sample">
-    Value: @Dt.ToString("yyyy/MM/dd HH:mm:ssK")
+    Value: @Dt.ToString("yyyy-MM-dd HH:mm:ssK")
     <br />
     <LocalTimeForm @bind-Value="Dt" Context="dtf">
         <InputDate Type="InputDateType.DateTimeLocal"
@@ -81,7 +81,7 @@
 </div>
 
 <p>Input forms also support separate date and time inputs:</p>
-<pre><code class="language-razor">Value: @@Dt.ToString("yyyy/MM/dd HH:mm:ssK")
+<pre><code class="language-razor">Value: @@Dt.ToString("yyyy-MM-dd HH:mm:ssK")
 &lt;br /&gt;
 &lt;LocalTimeForm @@bind-Value="Dt" Context="dtf"&gt;
     &lt;InputDate Type="InputDateType.Date" Value="dtf.Date" ValueExpression="() =&gt; dtf.Date" ValueChanged="dtf.DateChanged" /&gt;
@@ -94,7 +94,7 @@
 </code></pre>
 
 <div class="component-sample">
-    Value: @Dt.ToString("yyyy/MM/dd HH:mm:ssK")
+    Value: @Dt.ToString("yyyy-MM-dd HH:mm:ssK")
     <br />
     <LocalTimeForm @bind-Value="Dt" Context="dtf">
         <InputDate Type="InputDateType.Date" Value="dtf.Date" ValueExpression="() => dtf.Date" ValueChanged="dtf.DateChanged" />
@@ -108,7 +108,7 @@
 </p>
 <pre><code class="language-razor">&lt;input type="button" value="Update" @@onclick="ButtonClicked" /&gt;
 &lt;br /&gt;
-@@LocalDt.ToString("yyyy/MM/dd HH:mm:ss")
+@@LocalDt.ToString("yyyy-MM-dd HH:mm:ss")
 
 @@inject ILocalTimeService LocalTimeService
 @@code {
@@ -125,7 +125,7 @@
 <div class="component-sample">
     <input type="button" value="Update" @onclick="ButtonClicked" />
     <br/>
-    @LocalDt.ToString("yyyy/MM/dd HH:mm:ss")
+    @LocalDt.ToString("yyyy-MM-dd HH:mm:ss")
 </div>
 
 <div class="blank"></div>
