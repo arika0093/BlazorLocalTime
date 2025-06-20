@@ -11,6 +11,7 @@
       Version="9.0.4"
       PrivateAssets="all"
     />
+    <PackageReference Include="PublishSPAforGitHubPages.Build" Version="3.0.0" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\BlazorLocalTime\BlazorLocalTime.csproj" />
