@@ -1,10 +1,16 @@
 ﻿name: Release Package
 
 on:
-  workflow_dispatch:     
-        
+  push:
+    branches:
+      - main
+    paths:
+      - '**.csproj'
+      - '**.cs'
+      - '**.yaml'
+
 jobs:
-  release-nuget:
+  release-github:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -22,7 +28,10 @@ jobs:
             6.0.x
           cache: true
           cache-dependency-path: '**/packages.lock.json'
-          
+
+      - uses: dotnet/nbgv@master
+        id: nbgv
+
       - name: Restore dependencies
         run: dotnet restore --locked-mode
 
@@ -31,8 +40,18 @@ jobs:
 
       - name: Generate Nuget Package
         run: dotnet pack --no-build -c Release --output ./artifacts
-        
-      - name: Publish Nuget Package
-        run: dotnet nuget push ./artifacts/*.nupkg --source https://api.nuget.org/v3/index.json --api-key $NUGET_API_KEY
+
+      - name: Create Release
+        id: create_release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ steps.nbgv.outputs.NuGetPackageVersion }}
         env:
-          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload NuGet Package to Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: ./artifacts/*.nupkg
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
