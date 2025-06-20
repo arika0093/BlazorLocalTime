@@ -24,12 +24,6 @@ Finally, add the following component to `Routes.razor` (or `MainLayout.razor`, e
 <BlazorLocalTimeProvider />
 ```
 
-For more details, refer to the following sample:
-* [BlazorLocalTimeExample](./example/BlazorLocalTimeExample)
-  * [Program.cs](./example/BlazorLocalTimeExample/Program.cs)
-  * [Routes.razor](./example/BlazorLocalTimeExample/Components/Routes.razor)
-  * [Home.razor](./example/BlazorLocalTimeExample/Components/Pages/Home.razor)
-
 ### Using as a Component
 
 To simply display a local time as text, use the `LocalTimeText` component:
@@ -78,10 +72,14 @@ Input forms also support separate date and time inputs:
 
 You can also use `ILocalTimeService` to convert values in your code:
 
+> [!WARNING]
+> During the initial rendering (`OnInitialized`), the user's local time zone may not be available yet, so conversion can fail.  
+> Please perform conversions in response to `ILocalTimeService.LocalTimeZoneChanged`.
+
 ```razor
 @inject ILocalTimeService LocalTimeService
 @code {
-    protected override void OnInitialized()
+    private void ButtonClicked()
     {
         var localNow = LocalTimeService.ToLocalTime(DateTime.UtcNow);
     }

@@ -24,12 +24,6 @@ builder.Services.AddBlazorLocalTimeService();
 <BlazorLocalTimeProvider />
 ```
 
-詳細は、以下のサンプルを参照してください。
-* [BlazorLocalTimeExample](./example/BlazorLocalTimeExample)
-  * [Program.cs](./example/BlazorLocalTimeExample/Program.cs)
-  * [Routes.razor](./example/BlazorLocalTimeExample/Components/Routes.razor)
-  * [Home.razor](./example/BlazorLocalTimeExample/Components/Pages/Home.razor)
-
 ### Componentとして使う
 
 単純にローカル時刻で文字として表示したい場合は`LocalTimeText`コンポーネントを使用します。
@@ -77,10 +71,14 @@ builder.Services.AddBlazorLocalTimeService();
 ### Serviceとして使う
 `ILocalTimeService`を使用して、コード側で変換することもできます。
 
+> [!WARNING]
+> 初回レンダリング時(`OnInitialized`)では、ユーザーのローカルタイムゾーンを取得できていないため、変換に失敗します。  
+> `ILocalTimeService.LocalTimeZoneChanged`をトリガーとして変換を行ってください。
+
 ```razor
 @inject ILocalTimeService LocalTimeService
 @code {
-    protected override void OnInitialized()
+    private void ButtonClicked()
     {
         var localNow = LocalTimeService.ToLocalTime(DateTime.UtcNow);
     }

@@ -1,0 +1,31 @@
+﻿code {
+    font-family: "Jetbrains Mono", Consolas, monospace;
+    font-size: 14px;
+}
+
+p > code {
+    display: inline-block;
+    padding: 2px;
+    background: #E0F0F0;
+    font-size: 14px;
+}
+
+input {
+    font-family: "Jetbrains Mono", Consolas, monospace;
+    font-size: 14px;
+    padding: 2px;
+    border: 1px solid #CCC;
+    border-radius: 4px;
+}
+
+.component-sample {
+    padding: 1ex 1em;
+    background: #EFF;
+    border: 1px dashed #08F;
+    margin-bottom: 3ex;
+    margin-top: -10px;
+}
+
+.blank {
+    min-height: 50px;
+}

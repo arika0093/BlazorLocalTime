@@ -1,0 +1,139 @@
+﻿@page "/"
+@using BlazorLocalTime
+
+<PageTitle>BlazorLocalTime</PageTitle>
+
+<h1>BlazorLocalTime</h1>
+
+<p>
+    <code>BlazorLocalTime</code> provides functionality to convert <code>DateTime</code> values to the user's local time zone in Blazor applications.
+</p>
+
+<h2>Usage</h2>
+
+<h3>Installation</h3>
+<p>Install <code>BlazorLocalTime</code> from NuGet:</p>
+<pre><code>dotnet add package BlazorLocalTime
+</code></pre>
+
+<p>Next, register the service in your <code>Program.cs</code>:</p>
+<pre><code class="language-csharp">builder.Services.AddBlazorLocalTimeService();
+</code></pre>
+
+<p>
+    Finally, add the following component to <code>Routes.razor</code> (or <code>MainLayout.razor</code>, etc.):
+</p>
+<pre><code class="language-razor">@@using BlazorLocalTime
+&lt;BlazorLocalTimeProvider /&gt;
+</code></pre>
+
+<h3>Using as a Component</h3>
+<p>To simply display a local time as text, use the <code>LocalTimeText</code> component:</p>
+<pre><code class="language-razor">&lt;LocalTimeText Value="@@DateTime.UtcNow" Format="yyyy/MM/dd HH:mm:ssK" /&gt;
+</code></pre>
+
+<div class="component-sample">
+    <LocalTimeText Value="@DateTime.UtcNow" Format="yyyy/MM/dd HH:mm:ssK" />
+</div>
+
+<p>
+    Alternatively, you can use the <code>LocalTime</code> component to receive the converted value in the child content:
+</p>
+<pre><code class="language-razor">&lt;LocalTime Value="@@DateTime.UtcNow" Context="dt"&gt;
+    @@dt.ToString("yyyy/MM/dd HH:mm:ssK")
+&lt;/LocalTime&gt;
+</code></pre>
+
+<div class="component-sample">
+    <LocalTime Value="@DateTime.UtcNow" Context="dt">
+        @dt.ToString("yyyy/MM/dd HH:mm:ssK")
+    </LocalTime>
+</div>
+
+<p>
+    For input forms, it is common to display values in local time and save them as UTC.<br />
+    You can easily create such forms using the <code>LocalTimeForm</code> component:
+</p>
+<pre><code class="language-razor">Value: @@Dt.ToString("yyyy/MM/dd HH:mm:ssK")
+&lt;br /&gt;
+&lt;LocalTimeForm @@bind-Value="Dt" Context="dtf"&gt;
+    &lt;InputDate Type="InputDateType.DateTimeLocal"
+        Value="dtf.Value" ValueChanged="dtf.ValueChanged"
+        ValueExpression="() =&gt; dtf.Value" /&gt;
+&lt;/LocalTimeForm&gt;
+
+@@code {
+    private DateTime Dt { get; set; } = DateTime.UtcNow;
+}
+</code></pre>
+
+<div class="component-sample">
+    Value: @Dt.ToString("yyyy/MM/dd HH:mm:ssK")
+    <br />
+    <LocalTimeForm @bind-Value="Dt" Context="dtf">
+        <InputDate Type="InputDateType.DateTimeLocal"
+                   Value="dtf.Value" ValueChanged="dtf.ValueChanged"
+                   ValueExpression="() => dtf.Value"/>
+    </LocalTimeForm>
+</div>
+
+<p>Input forms also support separate date and time inputs:</p>
+<pre><code class="language-razor">Value: @@Dt.ToString("yyyy/MM/dd HH:mm:ssK")
+&lt;br /&gt;
+&lt;LocalTimeForm @@bind-Value="Dt" Context="dtf"&gt;
+    &lt;InputDate Type="InputDateType.Date" Value="dtf.Date" ValueExpression="() =&gt; dtf.Date" ValueChanged="dtf.DateChanged" /&gt;
+    &lt;InputDate Type="InputDateType.Time" Value="dtf.Time" ValueExpression="() =&gt; dtf.Time" ValueChanged="dtf.TimeChanged" /&gt;
+&lt;/LocalTimeForm&gt;
+
+@@code {
+    private DateTime Dt { get; set; } = DateTime.UtcNow;
+}
+</code></pre>
+
+<div class="component-sample">
+    Value: @Dt.ToString("yyyy/MM/dd HH:mm:ssK")
+    <br />
+    <LocalTimeForm @bind-Value="Dt" Context="dtf">
+        <InputDate Type="InputDateType.Date" Value="dtf.Date" ValueExpression="() => dtf.Date" ValueChanged="dtf.DateChanged" />
+        <InputDate Type="InputDateType.Time" Value="dtf.Time" ValueExpression="() => dtf.Time" ValueChanged="dtf.TimeChanged" />
+    </LocalTimeForm>
+</div>
+
+<h3>Using as a Service</h3>
+<p>
+    You can also use <code>ILocalTimeService</code> to convert values in your code:
+</p>
+<pre><code class="language-razor">&lt;input type="button" value="Update" @@onclick="ButtonClicked" /&gt;
+&lt;br /&gt;
+@@LocalDt.ToString("yyyy/MM/dd HH:mm:ss")
+
+@@inject ILocalTimeService LocalTimeService
+@@code {
+    private DateTime LocalDt { get; set; }
+    private void ButtonClicked()
+    {
+        LocalDt = LocalTimeService.ToLocalTime(DateTime.UtcNow);
+        // DateTimeOffset version:
+        // LocalOffset = LocalTimeService.ToLocalTimeOffset(DateTime.UtcNow);
+    }
+}
+</code></pre>
+
+<div class="component-sample">
+    <input type="button" value="Update" @onclick="ButtonClicked" />
+    <br/>
+    @LocalDt.ToString("yyyy/MM/dd HH:mm:ss")
+</div>
+
+<div class="blank"></div>
+
+@inject ILocalTimeService LocalTimeService
+@code {
+    private DateTime Dt { get; set; } = DateTime.UtcNow;
+
+    private DateTime LocalDt { get; set; }
+    private void ButtonClicked()
+    {
+        LocalDt = LocalTimeService.ToLocalTime(DateTime.UtcNow);
+    }
+}

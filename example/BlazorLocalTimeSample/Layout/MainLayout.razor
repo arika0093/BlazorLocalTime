@@ -1,0 +1,16 @@
+﻿@inherits LayoutComponentBase
+
+<div style="max-width: 800px; margin: 0 auto;">
+    @Body
+</div>
+
+@inject IJSRuntime JSRuntime
+@code {
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await JSRuntime.InvokeVoidAsync("hljs.highlightAll");
+        }
+    }
+}
