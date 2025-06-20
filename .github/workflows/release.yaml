@@ -1,7 +1,7 @@
 ﻿name: Release Package to NuGet
 
 on:
-  workflow_dispatch:     
+  workflow_dispatch:
         
 jobs:
   release-nuget:
