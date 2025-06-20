@@ -25,7 +25,7 @@ jobs:
         run: dotnet restore
       
       - name: Build BlazorLocalTimeSample
-        run: dotnet publish -c:Release -o:public -p:GHPages=true example/BlazorLocalTimeSample.csproj
+        run: dotnet publish -c:Release -o:public -p:GHPages=true example/BlazorLocalTimeSample/BlazorLocalTimeSample.csproj
       
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
