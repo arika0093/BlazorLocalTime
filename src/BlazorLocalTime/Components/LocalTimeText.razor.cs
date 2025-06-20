@@ -41,7 +41,7 @@ public sealed partial class LocalTimeText : ComponentBase, IDisposable
 
     // formatted value
     private string? FormattedValue =>
-        Value.HasValue && LocalTimeService.IsLocalTimeZoneSet
+        Value.HasValue && LocalTimeService.IsTimeZoneInfoAvailable
             ? LocalTimeService.ToLocalTimeOffset(Value.Value).ToString(Format)
             : null;
 }

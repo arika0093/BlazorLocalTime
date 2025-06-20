@@ -18,7 +18,7 @@ public interface ILocalTimeService
     /// <summary>
     /// Is the local time zone set?
     /// </summary>
-    public bool IsLocalTimeZoneSet => TimeZoneInfo != null;
+    public bool IsTimeZoneInfoAvailable => TimeZoneInfo != null;
 
     /// <summary>
     /// Converts the specified UTC <see cref="DateTime"/> to local time.

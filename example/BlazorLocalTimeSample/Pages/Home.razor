@@ -54,6 +54,20 @@
 </div>
 
 <p>
+    If you want to use <code>TimeZoneInfo</code>, you can use the <code>LocalTimeZone</code> component:
+</p>
+<pre><code class="language-razor">&lt;LocalTimeZone Context="tz"&gt;
+    &lt;p&gt;Current Time Zone: @@tz.DisplayName&lt;/p&gt;
+&lt;/LocalTimeZone&gt;
+</code></pre>
+
+<div class="component-sample">
+    <LocalTimeZone Context="tz">
+        <p>Current Time Zone: @tz.DisplayName</p>
+    </LocalTimeZone>
+</div>
+
+<p>
     For input forms, it is common to display values in local time and save them as UTC.<br />
     You can easily create such forms using the <code>LocalTimeForm</code> component:
 </p>

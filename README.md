@@ -45,6 +45,14 @@ Alternatively, you can use the `LocalTime` component to receive the converted va
 </LocalTime>
 ```
 
+If you want to use `TimeZoneInfo`, you can use the `LocalTimeZone` component:
+
+```razor
+<LocalTimeZone Context="tz">
+    <p>Current Time Zone: @tz.DisplayName</p>
+</LocalTimeZone>
+```
+
 For input forms, it is common to display values in local time and save them as UTC.  
 You can easily create such forms using the `LocalTimeForm` component:
 
@@ -77,20 +85,45 @@ Input forms also support separate date and time inputs:
 
 You can also use `ILocalTimeService` to convert values in your code:
 
-> [!WARNING]  
-> During the initial rendering (`OnInitialized`), the user's local time zone may not be available yet, so conversion can fail.  
-> Please perform conversions in response to `ILocalTimeService.LocalTimeZoneChanged`.
-
 ```razor
 @inject ILocalTimeService LocalTimeService
 @code {
     private void ButtonClicked()
     {
         var localNow = LocalTimeService.ToLocalTime(DateTime.UtcNow);
+        // DateTimeOffset version:
+        // var localOffset = LocalTimeService.ToLocalTimeOffset(DateTime.UtcNow);
+    }
+}
+```
+
+During the initial rendering (`OnInitialized`), the user's local time zone may not be available yet, so conversion can fail.
+In such cases, you can use `ILocalTimeService.LocalTimeZoneChanged` to wait until the local time zone becomes available.
+
+```razor
+@implements IDisposable
+@inject ILocalTimeService LocalTimeService
+@code {
+    protected override void OnInitialized()
+    {
+        LocalTimeService.LocalTimeZoneChanged += OnLocalTimeZoneChanged;
+    }
+
+    public void Dispose()
+    {
+        LocalTimeService.LocalTimeZoneChanged -= OnLocalTimeZoneChanged;
+    }
+
+    private void OnLocalTimeZoneChanged(object? sender, EventArgs e)
+    {
+        if(LocalTimeService.IsTimeZoneInfoAvailable)
+        {
+            // can use LocalTimeService.ToLocalTime() now
+        }
     }
 }
 ```
 
 ## Reference
 
-[This article](https://www.meziantou.net/convert-datetime-to-user-s-time-zone-with-server-side-blazor-time-provider.htm) was used as a major reference.
+[This article](https://www.meziantou.net/convert-datetime-to-user-s-time-zone-with-server-side-blazor-time-provider.htm) was used as a major reference. I would like to express my gratitude for the reference article.

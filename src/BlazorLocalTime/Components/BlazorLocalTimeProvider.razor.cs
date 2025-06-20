@@ -20,7 +20,7 @@ public sealed partial class BlazorLocalTimeProvider : ComponentBase
     /// <inheritdoc />
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        if (firstRender && !LocalTimeService.IsLocalTimeZoneSet)
+        if (firstRender && !LocalTimeService.IsTimeZoneInfoAvailable)
         {
             try
             {
