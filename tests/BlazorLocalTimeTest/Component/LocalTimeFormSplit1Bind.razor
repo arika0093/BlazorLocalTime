@@ -1,0 +1,9 @@
+﻿<LocalTimeForm @bind-Value="Dt" Context="dtf">
+    <InputDate Type="InputDateType.Date" @bind-Value="dtf.Date" />
+    <InputDate Type="InputDateType.Time" @bind-Value="dtf.Time" />
+</LocalTimeForm>
+
+@code {
+    [Parameter]
+    public DateTime Dt { get; set; } = new DateTime(2023, 10, 1, 12, 30, 0, DateTimeKind.Utc);
+}
