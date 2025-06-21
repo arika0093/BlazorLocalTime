@@ -1,8 +1,12 @@
+using BlazorLocalTime;
 using BlazorLocalTimeSample;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.FluentUI.AspNetCore.Components;
 using MudBlazor.Services;
+
+// Set the local time zone to UTC (for sample purpose)
+LocalTimeZoneOverwrite.UseUtc();
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");

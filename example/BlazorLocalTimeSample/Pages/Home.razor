@@ -62,14 +62,18 @@
 <p>
     If you want to use <code>TimeZoneInfo</code>, you can use the <code>LocalTimeZone</code> component:
 </p>
-<pre><code class="language-razor">&lt;LocalTimeZone Context="tz"&gt;
-    Current Time Zone: @@tz.DisplayName
+<pre><code class="language-razor">Runtime Time Zone: @@TimeZoneInfo.Local.DisplayName
+&lt;br /&gt;
+&lt;LocalTimeZone Context="tz"&gt;
+    Browser Time Zone: @@tz.DisplayName
 &lt;/LocalTimeZone&gt;
 </code></pre>
 
 <div class="component-sample">
+    Runtime Time Zone: @TimeZoneInfo.Local.DisplayName
+    <br/>
     <LocalTimeZone Context="tz">
-        Current Time Zone: @tz.DisplayName
+        Browser Time Zone: @tz.DisplayName
     </LocalTimeZone>
 </div>
 
