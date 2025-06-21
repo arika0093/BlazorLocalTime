@@ -19,5 +19,4 @@ public static class BlazorLocalTimeExtension
         services.AddScoped<ILocalTimeService, LocalTimeService>();
         return services;
     }
-    
 }
