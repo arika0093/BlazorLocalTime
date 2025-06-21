@@ -58,6 +58,13 @@ public sealed partial class LocalTimeForm<T> : ComponentBase, IDisposable
             }
 
             var validVal = newValue.Value;
+
+            // Overwrite the Kind of the DateTime to Unspecified (because AntBlazor DatePicker send as UTC).
+            if (validVal.Kind != DateTimeKind.Unspecified)
+            {
+                validVal = DateTime.SpecifyKind(validVal, DateTimeKind.Unspecified);
+            }
+
             // Since the edited value is in local time, attach the current local time zone information and convert to DateTimeOffset.
             var timeZoneInfo = LocalTimeService.GetBrowserTimeZone();
             var newDateTimeOffset = new DateTimeOffset(
