@@ -200,50 +200,74 @@ public sealed partial class LocalTimeForm<T> : ComponentBase, IDisposable
 /// </summary>
 public record LocalTimeFormValue
 {
+    private DateTime? _innerValue;
+
     /// <summary>
     /// The local time value as a <see cref="DateTime"/>.
     /// </summary>
-    public DateTime? Value { get; init; }
+    public required DateTime? Value
+    {
+        get => _innerValue;
+        set
+        {
+            _innerValue = value;
+            ValueChanged.InvokeAsync(value);
+        }
+    }
 
     /// <summary>
     /// The date part of the local time value as a <see cref="DateOnly"/>.
     /// </summary>
-    public DateOnly? Date =>
-        Value.HasValue ? new DateOnly(Value.Value.Year, Value.Value.Month, Value.Value.Day) : null;
+    public DateOnly? Date
+    {
+        get =>
+            Value.HasValue
+                ? new DateOnly(Value.Value.Year, Value.Value.Month, Value.Value.Day)
+                : null;
+        set => DateChanged.InvokeAsync(value);
+    }
 
     /// <summary>
     /// The time part of the local time value as a <see cref="TimeOnly"/>.
     /// </summary>
-    public TimeOnly? Time =>
-        Value.HasValue
-            ? new TimeOnly(Value.Value.Hour, Value.Value.Minute, Value.Value.Second)
-            : null;
+    public TimeOnly? Time
+    {
+        get =>
+            Value.HasValue
+                ? new TimeOnly(Value.Value.Hour, Value.Value.Minute, Value.Value.Second)
+                : null;
+        set => TimeChanged.InvokeAsync(value);
+    }
 
     /// <summary>
-    /// The time span representation of the local time value.
+    /// The time span representation of the local time value (for MudBlazor.TimePicker).
     /// </summary>
-    public TimeSpan? TimeSpan =>
-        Value.HasValue
-            ? new TimeSpan(Value.Value.Hour, Value.Value.Minute, Value.Value.Second)
-            : null;
+    public TimeSpan? TimeSpan
+    {
+        get =>
+            Value.HasValue
+                ? new TimeSpan(Value.Value.Hour, Value.Value.Minute, Value.Value.Second)
+                : null;
+        set => TimeSpanChanged.InvokeAsync(value);
+    }
 
     /// <summary>
     /// An <see cref="EventCallback"/> that is invoked when the value changes.
     /// </summary>
-    public EventCallback<DateTime?> ValueChanged { get; init; }
+    public required EventCallback<DateTime?> ValueChanged { get; init; }
 
     /// <summary>
     /// An <see cref="EventCallback"/> that is invoked when the date changes.
     /// </summary>
-    public EventCallback<DateOnly?> DateChanged { get; init; }
+    public required EventCallback<DateOnly?> DateChanged { get; init; }
 
     /// <summary>
     /// An <see cref="EventCallback"/> that is invoked when the time changes.
     /// </summary>
-    public EventCallback<TimeOnly?> TimeChanged { get; init; }
+    public required EventCallback<TimeOnly?> TimeChanged { get; init; }
 
     /// <summary>
     /// An <see cref="EventCallback"/> that is invoked when the time span changes.
     /// </summary>
-    public EventCallback<TimeSpan?> TimeSpanChanged { get; init; }
+    public required EventCallback<TimeSpan?> TimeSpanChanged { get; init; }
 }
