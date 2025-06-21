@@ -137,7 +137,7 @@ public sealed partial class LocalTimeForm<T> : ComponentBase, IDisposable
             return;
         }
 
-        var lt = LocalTimeValue ?? DateTime.Now;
+        var lt = LocalTimeValue ?? LocalTimeService.Now.DateTime;
         var newDateTime = new DateTime(
             newDate.Value.Year,
             newDate.Value.Month,
@@ -158,7 +158,7 @@ public sealed partial class LocalTimeForm<T> : ComponentBase, IDisposable
             return;
         }
 
-        var lt = LocalTimeValue ?? DateTime.Now;
+        var lt = LocalTimeValue ?? LocalTimeService.Now.DateTime;
         var newDateTime = new DateTime(
             lt.Year,
             lt.Month,
@@ -180,7 +180,7 @@ public sealed partial class LocalTimeForm<T> : ComponentBase, IDisposable
             return;
         }
 
-        var lt = LocalTimeValue ?? DateTime.Now;
+        var lt = LocalTimeValue ?? LocalTimeService.Now.DateTime;
         var newDateTime = new DateTime(
             lt.Year,
             lt.Month,

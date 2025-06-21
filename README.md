@@ -133,8 +133,8 @@ You can also use `ILocalTimeService` to convert values in your code:
     private void ButtonClicked()
     {
         var localNow = LocalTimeService.ToLocalTime(DateTime.UtcNow);
-        // DateTimeOffset version:
-        // var localOffset = LocalTimeService.ToLocalTimeOffset(DateTime.UtcNow);
+        // or shorthand
+        // var localNow = LocalTimeService.LocalNow;
     }
 }
 ```

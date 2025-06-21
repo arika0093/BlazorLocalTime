@@ -5,7 +5,7 @@
     [Fact]
     public void TestFormUpdated1()
     {
-        Services.AddScoped<ILocalTimeService,LocalTimeMockService>();
+        Services.AddLocalTimeMockService();
 
         var dt = new DateTime(2023, 10, 1, 12, 30, 0, DateTimeKind.Utc);
         
@@ -29,7 +29,7 @@
     [Fact]
     public void TestFormUpdated1Bind()
     {
-        Services.AddScoped<ILocalTimeService,LocalTimeMockService>();
+        Services.AddLocalTimeMockService();
 
         var dt = new DateTime(2023, 10, 1, 12, 30, 0, DateTimeKind.Utc);
         
@@ -53,7 +53,7 @@
     [Fact]
     public void TestFormUpdated2()
     {
-        Services.AddScoped<ILocalTimeService,LocalTimeMockService>();
+        Services.AddLocalTimeMockService();
 
         DateTime? dt = new DateTime(2023, 10, 1, 12, 30, 0, DateTimeKind.Utc);
         
@@ -77,7 +77,7 @@
     [Fact]
     public void TestFormUpdated3()
     {
-        Services.AddScoped<ILocalTimeService,LocalTimeMockService>();
+        Services.AddLocalTimeMockService();
 
         var dt = new DateTimeOffset(2023, 10, 1, 12, 30, 0, TimeSpan.Zero);
         
@@ -99,33 +99,48 @@
     }
     
     [Fact]
-    public void TestFormSplitted1()
+    public void TestFormOnlyDateUpdate()
     {
-        Services.AddScoped<ILocalTimeService,LocalTimeMockService>();
+        // add a mock time provider to control the current time
+        Services.AddSingleton<TimeProvider>(_ => new MockTimeProvider(new(2023, 10, 1, 12, 34, 56, TimeSpan.Zero)));
+        Services.AddLocalTimeMockService();
 
-        var dt = new DateTime(2023, 10, 1, 12, 30, 0, DateTimeKind.Utc);
-        
-        var cut = Render(
-            @<LocalTimeForm @bind-Value="dt" Context="dtf">
-                <InputDate Type="InputDateType.Date" Value="dtf.Date" ValueExpression="() => dtf.Date" ValueChanged="dtf.DateChanged"></InputDate>
-                <InputDate Type="InputDateType.Time" Value="dtf.Time" ValueExpression="() => dtf.Time" ValueChanged="dtf.TimeChanged"/>
-            </LocalTimeForm>
-        );
-    }
-     
-    [Fact]
-    public void TestFormSplitted1Bind()
-    {
-        Services.AddScoped<ILocalTimeService,LocalTimeMockService>();
-
-        var dt = new DateTime(2023, 10, 1, 12, 30, 0, DateTimeKind.Utc);
+        DateTime? dt = null;
         
         var cut = Render(
             @<LocalTimeForm @bind-Value="dt" Context="dtf">
                 <InputDate Type="InputDateType.Date" @bind-Value="dtf.Date" />
+            </LocalTimeForm>
+        );
+        
+        // update the date
+        var input = cut.Find("input[type='date']");
+        input.Change("2023-11-02");
+        
+        // the time should be set to the current time
+        dt.ShouldBe(new DateTime(2023, 11, 2, 12, 34, 56, DateTimeKind.Utc));
+    }
+    
+    [Fact]
+    public void TestFormOnlyTimeUpdate()
+    {
+        // add a mock time provider to control the current time
+        Services.AddSingleton<TimeProvider>(_ => new MockTimeProvider(new(2023, 10, 1, 12, 34, 56, TimeSpan.Zero)));
+        Services.AddLocalTimeMockService();
+
+        DateTimeOffset? dt = null;
+        
+        var cut = Render(
+            @<LocalTimeForm @bind-Value="dt" Context="dtf">
                 <InputDate Type="InputDateType.Time" @bind-Value="dtf.Time" />
             </LocalTimeForm>
         );
+        
+        // update the time
+        var input = cut.Find("input[type='time']");
+        input.Change("01:45");
+        
+        // the date should be set to the current date
+        dt.ShouldBe(new DateTimeOffset(2023, 10, 1, 1, 45, 0, TimeSpan.FromHours((9))));
     }
-   
 }

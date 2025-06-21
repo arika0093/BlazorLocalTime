@@ -4,7 +4,7 @@
     [Fact]
     public void TestUnSpecifiedFormat1()
     {
-        Services.AddScoped<ILocalTimeService,LocalTimeMockService>();
+        Services.AddLocalTimeMockService();
 
         var dt = new DateTime(2023, 10, 1, 12, 30, 0, DateTimeKind.Utc);
         
@@ -21,7 +21,7 @@
     [Fact]
     public void TestUnSpecifiedFormat2()
     {
-        Services.AddScoped<ILocalTimeService,LocalTimeMockService>();
+        Services.AddLocalTimeMockService();
 
         // use DateTimeOffset
         var dt = new DateTimeOffset(2023, 10, 1, 12, 30, 0, TimeSpan.FromHours(0));
@@ -39,7 +39,7 @@
     [Fact]
     public void TestUnSpecifiedFormat3()
     {
-        Services.AddScoped<ILocalTimeService,LocalTimeMockService>();
+        Services.AddLocalTimeMockService();
 
         // use Asia/Tokyo timezone
         var dt = new DateTimeOffset(2023, 10, 1, 12, 30, 0, TimeSpan.FromHours(9));
@@ -56,7 +56,7 @@
     [Fact]
     public void TestCustomFormat1()
     {
-        Services.AddScoped<ILocalTimeService,LocalTimeMockService>();
+        Services.AddLocalTimeMockService();
 
         var dt = new DateTime(2023, 10, 1, 12, 30, 0, DateTimeKind.Utc);
 

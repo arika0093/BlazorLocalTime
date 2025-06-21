@@ -5,7 +5,7 @@
     [Fact]
     public void TestLocalTimeProvider()
     {
-        var tms = new LocalTimeMockService
+        var tms = new LocalTimeMockService(TimeProvider.System)
         {
             TimeZoneInfo = null
         };
