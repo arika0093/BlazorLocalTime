@@ -57,7 +57,7 @@ public sealed partial class LocalTimeForm<T> : ComponentBase, IDisposable
                 return;
             }
 
-            var validVal = newValue!.Value;
+            var validVal = newValue.Value;
             // Since the edited value is in local time, attach the current local time zone information and convert to DateTimeOffset.
             var timeZoneInfo = LocalTimeService.GetBrowserTimeZone();
             var newDateTimeOffset = new DateTimeOffset(
@@ -78,51 +78,11 @@ public sealed partial class LocalTimeForm<T> : ComponentBase, IDisposable
                 await ValueChanged.InvokeAsync((T)(object)utcValue);
                 return;
             }
+            // If T is neither DateTime nor DateTimeOffset, throw an exception.
+            throw new InvalidOperationException(
+                $"Unsupported type {typeof(T)}. Only DateTime, DateTimeOffset, and their nullable versions are supported."
+            );
         }
-    }
-
-    private async Task DateChangedHandler(DateOnly? newDate)
-    {
-        if (newDate == null || LocalTimeValue == null)
-        {
-            await ValueChanged.InvokeAsync(default(T));
-            return;
-        }
-
-        var lt = LocalTimeValue.Value;
-        var newDateTime = new DateTime(
-            newDate.Value.Year,
-            newDate.Value.Month,
-            newDate.Value.Day,
-            lt.Hour,
-            lt.Minute,
-            lt.Second,
-            lt.Kind
-        );
-
-        await ValueChangedHandler(newDateTime);
-    }
-
-    private async Task TimeChangedHandler(TimeOnly? newTime)
-    {
-        if (newTime == null || LocalTimeValue == null)
-        {
-            await ValueChanged.InvokeAsync(default(T));
-            return;
-        }
-
-        var lt = LocalTimeValue.Value;
-        var newDateTime = new DateTime(
-            lt.Year,
-            lt.Month,
-            lt.Day,
-            newTime.Value.Hour,
-            newTime.Value.Minute,
-            newTime.Value.Second,
-            lt.Kind
-        );
-
-        await ValueChangedHandler(newDateTime);
     }
 
     private LocalTimeFormValue FormValue =>
@@ -132,6 +92,7 @@ public sealed partial class LocalTimeForm<T> : ComponentBase, IDisposable
             ValueChanged = EventCallback.Factory.Create<DateTime?>(this, ValueChangedHandler),
             DateChanged = EventCallback.Factory.Create<DateOnly?>(this, DateChangedHandler),
             TimeChanged = EventCallback.Factory.Create<TimeOnly?>(this, TimeChangedHandler),
+            TimeSpanChanged = EventCallback.Factory.Create<TimeSpan?>(this, TimespanChangedHandler),
         };
 
     private DateTime? LocalTimeValue
@@ -160,6 +121,71 @@ public sealed partial class LocalTimeForm<T> : ComponentBase, IDisposable
             }
         }
     }
+
+    private async Task DateChangedHandler(DateOnly? newDate)
+    {
+        if (newDate == null)
+        {
+            await ValueChanged.InvokeAsync(default(T));
+            return;
+        }
+
+        var lt = LocalTimeValue ?? DateTime.Now;
+        var newDateTime = new DateTime(
+            newDate.Value.Year,
+            newDate.Value.Month,
+            newDate.Value.Day,
+            lt.Hour,
+            lt.Minute,
+            lt.Second,
+            lt.Kind
+        );
+        await ValueChangedHandler(newDateTime);
+    }
+
+    private async Task TimeChangedHandler(TimeOnly? newTime)
+    {
+        if (newTime == null)
+        {
+            await ValueChanged.InvokeAsync(default(T));
+            return;
+        }
+
+        var lt = LocalTimeValue ?? DateTime.Now;
+        var newDateTime = new DateTime(
+            lt.Year,
+            lt.Month,
+            lt.Day,
+            newTime.Value.Hour,
+            newTime.Value.Minute,
+            newTime.Value.Second,
+            lt.Kind
+        );
+
+        await ValueChangedHandler(newDateTime);
+    }
+
+    private async Task TimespanChangedHandler(TimeSpan? newTimeSpan)
+    {
+        if (newTimeSpan == null)
+        {
+            await ValueChanged.InvokeAsync(default(T));
+            return;
+        }
+
+        var lt = LocalTimeValue ?? DateTime.Now;
+        var newDateTime = new DateTime(
+            lt.Year,
+            lt.Month,
+            lt.Day,
+            newTimeSpan.Value.Hours,
+            newTimeSpan.Value.Minutes,
+            newTimeSpan.Value.Seconds,
+            lt.Kind
+        );
+
+        await ValueChangedHandler(newDateTime);
+    }
 }
 
 /// <summary>
@@ -187,6 +213,14 @@ public record LocalTimeFormValue
             : null;
 
     /// <summary>
+    /// The time span representation of the local time value.
+    /// </summary>
+    public TimeSpan? TimeSpan =>
+        Value.HasValue
+            ? new TimeSpan(Value.Value.Hour, Value.Value.Minute, Value.Value.Second)
+            : null;
+
+    /// <summary>
     /// An <see cref="EventCallback"/> that is invoked when the value changes.
     /// </summary>
     public EventCallback<DateTime?> ValueChanged { get; init; }
@@ -200,4 +234,9 @@ public record LocalTimeFormValue
     /// An <see cref="EventCallback"/> that is invoked when the time changes.
     /// </summary>
     public EventCallback<TimeOnly?> TimeChanged { get; init; }
+
+    /// <summary>
+    /// An <see cref="EventCallback"/> that is invoked when the time span changes.
+    /// </summary>
+    public EventCallback<TimeSpan?> TimeSpanChanged { get; init; }
 }
