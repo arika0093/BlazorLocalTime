@@ -1,15 +1,13 @@
 ﻿# BlazorLocalTime
 
-[![NuGet Version](https://img.shields.io/nuget/v/BlazorLocalTime?style=flat-square&logo=NuGet&color=0080CC)](https://www.nuget.org/packages/BlazorLocalTime/) ![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/arika0093/BlazorLocalTime/test.yaml?branch=main&label=Testing&style=flat-square) ![GitHub last commit (branch)](https://img.shields.io/github/last-commit/arika0093/BlazorLocalTime?style=flat-square)
+[![NuGet Version](https://img.shields.io/nuget/v/BlazorLocalTime?style=flat-square&logo=NuGet&color=0080CC)](https://www.nuget.org/packages/BlazorLocalTime/) ![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/arika0093/BlazorLocalTime/test.yaml?branch=main&label=Test&style=flat-square) ![GitHub last commit (branch)](https://img.shields.io/github/last-commit/arika0093/BlazorLocalTime?style=flat-square)
 
 `BlazorLocalTime` provides functionality to convert `DateTime` values to the user's local time zone in Blazor applications.
 
 ## Demo
 [arika0093.github.io/BlazorLocalTime/](https://arika0093.github.io/BlazorLocalTime/)
 
-## Usage
-
-### Installation
+## Installation
 Install `BlazorLocalTime` from [NuGet](https://www.nuget.org/packages/BlazorLocalTime):
 
 ```bash
@@ -29,7 +27,7 @@ Finally, add the following component to `Routes.razor` (or `MainLayout.razor`, e
 <BlazorLocalTimeProvider />
 ```
 
-### Using as a Component
+## Using as a Component
 
 To simply display a local time as text, use the `LocalTimeText` component:
 
@@ -81,7 +79,53 @@ Input forms also support separate date and time inputs:
 }
 ```
 
-### Using as a Service
+## Using with UI Libraries
+
+The `LocalTimeForm` component can be used with various UI libraries to create forms that handle local time input.
+Below are examples using [MudBlazor](https://mudblazor.com/), [Fluent UI](https://www.fluentui-blazor.net), and [Ant Design Blazor](https://antblazor.com/) components.
+
+### MudBlazor
+
+```razor
+<LocalTimeForm @bind-Value="Dt" Context="dtf">
+    <MudDatePicker Label="Date" Date="dtf.Value" DateChanged="dtf.ValueChanged" ShowToolbar="false" />
+    <MudTimePicker Label="Time" Time="dtf.TimeSpan" TimeChanged="dtf.TimeSpanChanged" ShowToolbar="false" />
+</LocalTimeForm>
+
+@code {
+    private DateTime? Dt { get; set; } = DateTime.UtcNow;
+}
+```
+
+### Fluent UI
+
+```razor
+<LocalTimeForm @bind-Value="Dt" Context="dtf">
+    <FluentDatePicker Label="Date" Value="dtf.Value" ValueChanged="dtf.ValueChanged" />
+    <FluentTimePicker Label="Time" Value="dtf.Value" ValueChanged="dtf.ValueChanged" />
+</LocalTimeForm>
+    
+@code {
+    private DateTime? Dt { get; set; } = DateTime.UtcNow;
+}
+```
+
+### Ant Design Blazor
+
+```razor
+<LocalTimeForm @bind-Value="Dt" Context="dtf">
+    <DatePicker TValue="DateTime?" ShowTime="@true" Value="dtf.Value" ValueChanged="dtf.ValueChanged"/>
+    @* Alternatively, you can use separate date and time pickers *@
+    <DatePicker TValue="DateOnly?" Picker="DatePickerType.Date" Value="dtf.Date" ValueChanged="dtf.DateChanged"/>
+    <TimePicker TValue="TimeOnly?" Picker="DatePickerType.Time" Value="dtf.Time" ValueChanged="dtf.TimeChanged"/>
+</LocalTimeForm>
+
+@code {
+    private DateTime? Dt { get; set; } = DateTime.UtcNow;
+}
+```
+
+## Using as a Service
 
 You can also use `ILocalTimeService` to convert values in your code:
 
