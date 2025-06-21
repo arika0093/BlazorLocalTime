@@ -56,9 +56,7 @@ You can easily create such forms using the `LocalTimeForm` component:
 
 ```razor
 <LocalTimeForm @bind-Value="Dt" Context="dtf">
-    <InputDate Type="InputDateType.DateTimeLocal"
-        Value="dtf.Value" ValueChanged="dtf.ValueChanged"
-        ValueExpression="() => dtf.Value" />
+    <InputDate Type="InputDateType.DateTimeLocal" @bind-Value="dtf.Value" />
 </LocalTimeForm>
 
 @code {
@@ -70,8 +68,8 @@ Input forms also support separate date and time inputs:
 
 ```razor
 <LocalTimeForm @bind-Value="Dt" Context="dtf">
-    <InputDate Type="InputDateType.Date" Value="dtf.Date" ValueExpression="() => dtf.Date" ValueChanged="dtf.DateChanged" />
-    <InputDate Type="InputDateType.Time" Value="dtf.Time" ValueExpression="() => dtf.Time" ValueChanged="dtf.TimeChanged" />
+    <InputDate Type="InputDateType.Date" @bind-Value="dtf.Date" />
+    <InputDate Type="InputDateType.Time" @bind-Value="dtf.Time" />
 </LocalTimeForm>
 
 @code {
@@ -88,8 +86,8 @@ Below are examples using [MudBlazor](https://mudblazor.com/), [Fluent UI](https:
 
 ```razor
 <LocalTimeForm @bind-Value="Dt" Context="dtf">
-    <MudDatePicker Label="Date" Date="dtf.Value" DateChanged="dtf.ValueChanged" ShowToolbar="false" />
-    <MudTimePicker Label="Time" Time="dtf.TimeSpan" TimeChanged="dtf.TimeSpanChanged" ShowToolbar="false" />
+    <MudDatePicker Label="Date" @bind-Date="dtf.Value" ShowToolbar="false" />
+    <MudTimePicker Label="Time" @bind-Time="dtf.TimeSpan" ShowToolbar="false" />
 </LocalTimeForm>
 
 @code {
@@ -101,8 +99,8 @@ Below are examples using [MudBlazor](https://mudblazor.com/), [Fluent UI](https:
 
 ```razor
 <LocalTimeForm @bind-Value="Dt" Context="dtf">
-    <FluentDatePicker Label="Date" Value="dtf.Value" ValueChanged="dtf.ValueChanged" />
-    <FluentTimePicker Label="Time" Value="dtf.Value" ValueChanged="dtf.ValueChanged" />
+    <FluentDatePicker Label="Date" @bind-Value="dtf.Value" />
+    <FluentTimePicker Label="Time" @bind-Value="dtf.Value" />
 </LocalTimeForm>
     
 @code {
@@ -114,10 +112,10 @@ Below are examples using [MudBlazor](https://mudblazor.com/), [Fluent UI](https:
 
 ```razor
 <LocalTimeForm @bind-Value="Dt" Context="dtf">
-    <DatePicker TValue="DateTime?" ShowTime="@true" Value="dtf.Value" ValueChanged="dtf.ValueChanged"/>
+    <DatePicker TValue="DateTime?" @bind-Value="dtf.Value" ShowTime="@true" />
     @* Alternatively, you can use separate date and time pickers *@
-    <DatePicker TValue="DateOnly?" Picker="DatePickerType.Date" Value="dtf.Date" ValueChanged="dtf.DateChanged"/>
-    <TimePicker TValue="TimeOnly?" Picker="DatePickerType.Time" Value="dtf.Time" ValueChanged="dtf.TimeChanged"/>
+    <DatePicker TValue="DateOnly?" @bind-Value="dtf.Date" />
+    <TimePicker TValue="TimeOnly?" @bind-Value="dtf.Time" />
 </LocalTimeForm>
 
 @code {

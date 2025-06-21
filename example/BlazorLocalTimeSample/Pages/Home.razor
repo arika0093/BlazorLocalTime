@@ -80,9 +80,7 @@
 <pre><code class="language-razor">Value: @@Dt?.ToString("yyyy-MM-dd HH:mm:ssK")
 &lt;br /&gt;
 &lt;LocalTimeForm @@bind-Value="Dt" Context="dtf"&gt;
-    &lt;InputDate Type="InputDateType.DateTimeLocal"
-        Value="dtf.Value" ValueChanged="dtf.ValueChanged"
-        ValueExpression="() =&gt; dtf.Value" /&gt;
+    &lt;InputDate Type="InputDateType.DateTimeLocal" @@bind-Value="dtf.Value" /&gt;
 &lt;/LocalTimeForm&gt;
 
 @@code {
@@ -94,9 +92,7 @@
     Value: @Dt?.ToString("yyyy-MM-dd HH:mm:ssK")
     <br />
     <LocalTimeForm @bind-Value="Dt" Context="dtf">
-        <InputDate Type="InputDateType.DateTimeLocal"
-                   Value="dtf.Value" ValueChanged="dtf.ValueChanged"
-                   ValueExpression="() => dtf.Value"/>
+        <InputDate Type="InputDateType.DateTimeLocal" @bind-Value="dtf.Value" />
     </LocalTimeForm>
 </div>
 
@@ -104,8 +100,8 @@
 <pre><code class="language-razor">Value: @@Dt?.ToString("yyyy-MM-dd HH:mm:ssK")
 &lt;br /&gt;
 &lt;LocalTimeForm @@bind-Value="Dt" Context="dtf"&gt;
-    &lt;InputDate Type="InputDateType.Date" Value="dtf.Date" ValueExpression="() =&gt; dtf.Date" ValueChanged="dtf.DateChanged" /&gt;
-    &lt;InputDate Type="InputDateType.Time" Value="dtf.Time" ValueExpression="() =&gt; dtf.Time" ValueChanged="dtf.TimeChanged" /&gt;
+    &lt;InputDate Type="InputDateType.Date" @@bind-Value="dtf.Date" /&gt;
+    &lt;InputDate Type="InputDateType.Time" @@bind-Value="dtf.Time" /&gt;
 &lt;/LocalTimeForm&gt;
 
 @@code {
@@ -117,8 +113,8 @@
     Value: @Dt?.ToString("yyyy-MM-dd HH:mm:ssK")
     <br />
     <LocalTimeForm @bind-Value="Dt" Context="dtf">
-        <InputDate Type="InputDateType.Date" Value="dtf.Date" ValueExpression="() => dtf.Date" ValueChanged="dtf.DateChanged" />
-        <InputDate Type="InputDateType.Time" Value="dtf.Time" ValueExpression="() => dtf.Time" ValueChanged="dtf.TimeChanged" />
+        <InputDate Type="InputDateType.Date" @bind-Value="dtf.Date" />
+        <InputDate Type="InputDateType.Time" @bind-Value="dtf.Time" />
     </LocalTimeForm>
 </div>
 
@@ -137,8 +133,8 @@
 <pre><code class="language-razor">Value: @@Dt?.ToString("yyyy-MM-dd HH:mm:ssK")
 &lt;br /&gt;
 &lt;LocalTimeForm @@bind-Value="Dt" Context="dtf"&gt;
-    &lt;MudDatePicker Label="Date" Date="dtf.Value" DateChanged="dtf.ValueChanged" ShowToolbar="false" /&gt;
-    &lt;MudTimePicker Label="Time" Time="dtf.TimeSpan" TimeChanged="dtf.TimeSpanChanged" ShowToolbar="false" /&gt;
+    &lt;MudDatePicker Label="Date" @@bind-Date="dtf.Value" ShowToolbar="false" /&gt;
+    &lt;MudTimePicker Label="Time" @@bind-Time="dtf.TimeSpan" ShowToolbar="false" /&gt;
 &lt;/LocalTimeForm&gt;
 
 @@code {
@@ -150,8 +146,8 @@
     Value: @Dt?.ToString("yyyy-MM-dd HH:mm:ssK")
     <br />
     <LocalTimeForm @bind-Value="Dt" Context="dtf">
-        <MudDatePicker Label="Date" Date="dtf.Value" DateChanged="dtf.ValueChanged" ShowToolbar="false" />
-        <MudTimePicker Label="Time" Time="dtf.TimeSpan" TimeChanged="dtf.TimeSpanChanged" ShowToolbar="false" />
+        <MudDatePicker Label="Date" @bind-Date="dtf.Value" ShowToolbar="false" />
+        <MudTimePicker Label="Time" @bind-Time="dtf.TimeSpan" ShowToolbar="false" />
     </LocalTimeForm>
 </div>
 
@@ -160,8 +156,8 @@
 <pre><code class="language-razor">Value: @@Dt?.ToString("yyyy-MM-dd HH:mm:ssK")
 &lt;br /&gt;
 &lt;LocalTimeForm @@bind-Value="Dt" Context="dtf"&gt;
-    &lt;FluentDatePicker Label="Date" Value="dtf.Value" ValueChanged="dtf.ValueChanged" /&gt;
-    &lt;FluentTimePicker Label="Time" Value="dtf.Value" ValueChanged="dtf.ValueChanged" /&gt;
+    &lt;FluentDatePicker Label="Date" @@bind-Value="dtf.Value" /&gt;
+    &lt;FluentTimePicker Label="Time" @@bind-Value="dtf.Value" /&gt;
 &lt;/LocalTimeForm&gt;
 
 @@code {
@@ -173,8 +169,8 @@
     Value: @Dt?.ToString("yyyy-MM-dd HH:mm:ssK")
     <br />
     <LocalTimeForm @bind-Value="Dt" Context="dtf">
-        <FluentDatePicker Label="Date" Value="dtf.Value" ValueChanged="dtf.ValueChanged" />
-        <FluentTimePicker Label="Time" Value="dtf.Value" ValueChanged="dtf.ValueChanged" />
+        <FluentDatePicker Label="Date" @bind-Value="dtf.Value" />
+        <FluentTimePicker Label="Time" @bind-Value="dtf.Value" />
     </LocalTimeForm>
 </div>
 
@@ -183,10 +179,10 @@
 <pre><code class="language-razor">Value: @@Dt?.ToString("yyyy-MM-dd HH:mm:ssK")
 &lt;br /&gt;
 &lt;LocalTimeForm @@bind-Value="Dt" Context="dtf"&gt;
-    &lt;DatePicker TValue="DateTime?" ShowTime="@@true" Value="dtf.Value" ValueChanged="dtf.ValueChanged" /&gt;
+    &lt;DatePicker TValue="DateTime?" @@bind-Value="dtf.Value" ShowTime="@@true" /&gt;
     &lt;br /&gt;
-    &lt;DatePicker TValue="DateOnly?" Picker="DatePickerType.Date" Value="dtf.Date" ValueChanged="dtf.DateChanged" /&gt;
-    &lt;TimePicker TValue="TimeOnly?" Picker="DatePickerType.Time" Value="dtf.Time" ValueChanged="dtf.TimeChanged" /&gt;
+    &lt;DatePicker TValue="DateOnly?" @@bind-Value="dtf.Date" /&gt;
+    &lt;TimePicker TValue="TimeOnly?" @@bind-Value="dtf.Time" /&gt;
 &lt;/LocalTimeForm&gt;
 
 @@code {
@@ -198,10 +194,10 @@
     Value: @Dt?.ToString("yyyy-MM-dd HH:mm:ssK")
     <br />
     <LocalTimeForm @bind-Value="Dt" Context="dtf">
-        <DatePicker TValue="DateTime?" ShowTime="@true" Value="dtf.Value" ValueChanged="dtf.ValueChanged"/>
+        <DatePicker TValue="DateTime?" @bind-Value="dtf.Value" ShowTime="@true" />
         <br/>
-        <DatePicker TValue="DateOnly?" Picker="DatePickerType.Date" Value="dtf.Date" ValueChanged="dtf.DateChanged"/>
-        <TimePicker TValue="TimeOnly?" Picker="DatePickerType.Time" Value="dtf.Time" ValueChanged="dtf.TimeChanged"/>
+        <DatePicker TValue="DateOnly?" @bind-Value="dtf.Date" />
+        <TimePicker TValue="TimeOnly?" @bind-Value="dtf.Time" />
     </LocalTimeForm>
 </div>
 
