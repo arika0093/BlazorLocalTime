@@ -1,20 +1,26 @@
 ﻿@page "/"
 @using BlazorLocalTime
+@using AntDesign
+@using Microsoft.FluentUI.AspNetCore.Components
+@using MudBlazor
 
 <PageTitle>BlazorLocalTime</PageTitle>
 
-<h1>BlazorLocalTime</h1>
-<a href="https://www.nuget.org/packages/BlazorLocalTime/" about="_blank">
-    <img alt="NuGet Version" src="https://img.shields.io/nuget/v/BlazorLocalTime?style=for-the-badge&logo=NuGet&color=0080CC">
-</a>
+<h1>
+    BlazorLocalTime
+</h1>
 
 <p>
     <code>BlazorLocalTime</code> provides functionality to convert <code>DateTime</code> values to the user's local time zone in Blazor applications.
 </p>
 
-<h2>Usage</h2>
+<p>
+    <a href="https://www.nuget.org/packages/BlazorLocalTime/" about="_blank">
+        <img alt="NuGet Version" src="https://img.shields.io/nuget/v/BlazorLocalTime?style=for-the-badge&logo=NuGet&color=0080CC">
+    </a>
+</p>
 
-<h3>Installation</h3>
+<h2>Installation</h2>
 <p>Install <code>BlazorLocalTime</code> from NuGet:</p>
 <pre><code>dotnet add package BlazorLocalTime
 </code></pre>
@@ -30,7 +36,7 @@
 &lt;BlazorLocalTimeProvider /&gt;
 </code></pre>
 
-<h3>Using as a Component</h3>
+<h2>Using as a Component</h2>
 <p>To simply display a local time as text, use the <code>LocalTimeText</code> component:</p>
 <pre><code class="language-razor">&lt;LocalTimeText Value="@@DateTime.UtcNow" Format="yyyy-MM-dd HH:mm:ssK" /&gt;
 </code></pre>
@@ -57,13 +63,13 @@
     If you want to use <code>TimeZoneInfo</code>, you can use the <code>LocalTimeZone</code> component:
 </p>
 <pre><code class="language-razor">&lt;LocalTimeZone Context="tz"&gt;
-    &lt;p&gt;Current Time Zone: @@tz.DisplayName&lt;/p&gt;
+    Current Time Zone: @@tz.DisplayName
 &lt;/LocalTimeZone&gt;
 </code></pre>
 
 <div class="component-sample">
     <LocalTimeZone Context="tz">
-        <p>Current Time Zone: @tz.DisplayName</p>
+        Current Time Zone: @tz.DisplayName
     </LocalTimeZone>
 </div>
 
@@ -71,7 +77,7 @@
     For input forms, it is common to display values in local time and save them as UTC.<br />
     You can easily create such forms using the <code>LocalTimeForm</code> component:
 </p>
-<pre><code class="language-razor">Value: @@Dt.ToString("yyyy-MM-dd HH:mm:ssK")
+<pre><code class="language-razor">Value: @@Dt?.ToString("yyyy-MM-dd HH:mm:ssK")
 &lt;br /&gt;
 &lt;LocalTimeForm @@bind-Value="Dt" Context="dtf"&gt;
     &lt;InputDate Type="InputDateType.DateTimeLocal"
@@ -80,12 +86,12 @@
 &lt;/LocalTimeForm&gt;
 
 @@code {
-    private DateTime Dt { get; set; } = DateTime.UtcNow;
+    private DateTime? Dt { get; set; } = DateTime.UtcNow;
 }
 </code></pre>
 
 <div class="component-sample">
-    Value: @Dt.ToString("yyyy-MM-dd HH:mm:ssK")
+    Value: @Dt?.ToString("yyyy-MM-dd HH:mm:ssK")
     <br />
     <LocalTimeForm @bind-Value="Dt" Context="dtf">
         <InputDate Type="InputDateType.DateTimeLocal"
@@ -95,7 +101,7 @@
 </div>
 
 <p>Input forms also support separate date and time inputs:</p>
-<pre><code class="language-razor">Value: @@Dt.ToString("yyyy-MM-dd HH:mm:ssK")
+<pre><code class="language-razor">Value: @@Dt?.ToString("yyyy-MM-dd HH:mm:ssK")
 &lt;br /&gt;
 &lt;LocalTimeForm @@bind-Value="Dt" Context="dtf"&gt;
     &lt;InputDate Type="InputDateType.Date" Value="dtf.Date" ValueExpression="() =&gt; dtf.Date" ValueChanged="dtf.DateChanged" /&gt;
@@ -103,12 +109,12 @@
 &lt;/LocalTimeForm&gt;
 
 @@code {
-    private DateTime Dt { get; set; } = DateTime.UtcNow;
+    private DateTime? Dt { get; set; } = DateTime.UtcNow;
 }
 </code></pre>
 
 <div class="component-sample">
-    Value: @Dt.ToString("yyyy-MM-dd HH:mm:ssK")
+    Value: @Dt?.ToString("yyyy-MM-dd HH:mm:ssK")
     <br />
     <LocalTimeForm @bind-Value="Dt" Context="dtf">
         <InputDate Type="InputDateType.Date" Value="dtf.Date" ValueExpression="() => dtf.Date" ValueChanged="dtf.DateChanged" />
@@ -116,17 +122,100 @@
     </LocalTimeForm>
 </div>
 
-<h3>Using as a Service</h3>
+<h2>Using with UI Libraries</h2>
+
+<p>
+    The <code>LocalTimeForm</code> component can be used with various UI libraries to create forms that handle local time input. Below are examples using
+    <a href="https://mudblazor.com/" about="_blank">MudBlazor</a>,
+    <a href="https://www.fluentui-blazor.net" about="_blank">Fluent UI</a>, and
+    <a href="https://antblazor.com/" about="_blank">Ant Design</a> components.
+</p>
+
+
+<h3>MudBlazor</h3>
+
+<pre><code class="language-razor">Value: @@Dt?.ToString("yyyy-MM-dd HH:mm:ssK")
+&lt;br /&gt;
+&lt;LocalTimeForm @@bind-Value="Dt" Context="dtf"&gt;
+    &lt;MudDatePicker Label="Date" Date="dtf.Value" DateChanged="dtf.ValueChanged" ShowToolbar="false" /&gt;
+    &lt;MudTimePicker Label="Time" Time="dtf.TimeSpan" TimeChanged="dtf.TimeSpanChanged" ShowToolbar="false" /&gt;
+&lt;/LocalTimeForm&gt;
+
+@@code {
+    private DateTime? Dt { get; set; } = DateTime.UtcNow;
+}
+</code></pre>
+
+<div class="component-sample">
+    Value: @Dt?.ToString("yyyy-MM-dd HH:mm:ssK")
+    <br />
+    <LocalTimeForm @bind-Value="Dt" Context="dtf">
+        <MudDatePicker Label="Date" Date="dtf.Value" DateChanged="dtf.ValueChanged" ShowToolbar="false" />
+        <MudTimePicker Label="Time" Time="dtf.TimeSpan" TimeChanged="dtf.TimeSpanChanged" ShowToolbar="false" />
+    </LocalTimeForm>
+</div>
+
+<h3>Fluent UI</h3>
+
+<pre><code class="language-razor">Value: @@Dt?.ToString("yyyy-MM-dd HH:mm:ssK")
+&lt;br /&gt;
+&lt;LocalTimeForm @@bind-Value="Dt" Context="dtf"&gt;
+    &lt;FluentDatePicker Label="Date" Value="dtf.Value" ValueChanged="dtf.ValueChanged" /&gt;
+    &lt;FluentTimePicker Label="Time" Value="dtf.Value" ValueChanged="dtf.ValueChanged" /&gt;
+&lt;/LocalTimeForm&gt;
+
+@@code {
+    private DateTime? Dt { get; set; } = DateTime.UtcNow;
+}
+</code></pre>
+
+<div class="component-sample">
+    Value: @Dt?.ToString("yyyy-MM-dd HH:mm:ssK")
+    <br />
+    <LocalTimeForm @bind-Value="Dt" Context="dtf">
+        <FluentDatePicker Label="Date" Value="dtf.Value" ValueChanged="dtf.ValueChanged" />
+        <FluentTimePicker Label="Time" Value="dtf.Value" ValueChanged="dtf.ValueChanged" />
+    </LocalTimeForm>
+</div>
+
+<h3>Ant Design</h3>
+
+<pre><code class="language-razor">Value: @@Dt?.ToString("yyyy-MM-dd HH:mm:ssK")
+&lt;br /&gt;
+&lt;LocalTimeForm @@bind-Value="Dt" Context="dtf"&gt;
+    &lt;DatePicker TValue="DateTime?" ShowTime="@@true" Value="dtf.Value" ValueChanged="dtf.ValueChanged" /&gt;
+    &lt;br /&gt;
+    &lt;DatePicker TValue="DateOnly?" Picker="DatePickerType.Date" Value="dtf.Date" ValueChanged="dtf.DateChanged" /&gt;
+    &lt;TimePicker TValue="TimeOnly?" Picker="DatePickerType.Time" Value="dtf.Time" ValueChanged="dtf.TimeChanged" /&gt;
+&lt;/LocalTimeForm&gt;
+
+@@code {
+    private DateTime? Dt { get; set; } = DateTime.UtcNow;
+}
+</code></pre>
+
+<div class="component-sample">
+    Value: @Dt?.ToString("yyyy-MM-dd HH:mm:ssK")
+    <br />
+    <LocalTimeForm @bind-Value="Dt" Context="dtf">
+        <DatePicker TValue="DateTime?" ShowTime="@true" Value="dtf.Value" ValueChanged="dtf.ValueChanged"/>
+        <br/>
+        <DatePicker TValue="DateOnly?" Picker="DatePickerType.Date" Value="dtf.Date" ValueChanged="dtf.DateChanged"/>
+        <TimePicker TValue="TimeOnly?" Picker="DatePickerType.Time" Value="dtf.Time" ValueChanged="dtf.TimeChanged"/>
+    </LocalTimeForm>
+</div>
+
+<h2>Using as a Service</h2>
 <p>
     You can also use <code>ILocalTimeService</code> to convert values in your code:
 </p>
 <pre><code class="language-razor">&lt;input type="button" value="Update" @@onclick="ButtonClicked" /&gt;
 &lt;br /&gt;
-@@LocalDt.ToString("yyyy-MM-dd HH:mm:ss")
+@@LocalDt?.ToString("yyyy-MM-dd HH:mm:ss")
 
 @@inject ILocalTimeService LocalTimeService
 @@code {
-    private DateTime LocalDt { get; set; }
+    private DateTime? LocalDt { get; set; }
     private void ButtonClicked()
     {
         LocalDt = LocalTimeService.ToLocalTime(DateTime.UtcNow);
@@ -139,16 +228,16 @@
 <div class="component-sample">
     <input type="button" value="Update" @onclick="ButtonClicked" />
     <br/>
-    @LocalDt.ToString("yyyy-MM-dd HH:mm:ss")
+    @LocalDt?.ToString("yyyy-MM-dd HH:mm:ss")
 </div>
 
 <div class="blank"></div>
 
 @inject ILocalTimeService LocalTimeService
 @code {
-    private DateTime Dt { get; set; } = DateTime.UtcNow;
+    private DateTime? Dt { get; set; } = DateTime.UtcNow;
 
-    private DateTime LocalDt { get; set; }
+    private DateTime? LocalDt { get; set; }
     private void ButtonClicked()
     {
         LocalDt = LocalTimeService.ToLocalTime(DateTime.UtcNow);
