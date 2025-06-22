@@ -11,14 +11,19 @@
         };
         
         Services.AddScoped<ILocalTimeService, LocalTimeMockService>(_ => tms);
-        var module = JSInterop.SetupModule("./_content/BlazorLocalTime/Components/BlazorLocalTimeProvider.razor.js");
-        module.Setup<string>("getBrowserTimeZone").SetResult("Asia/Tokyo");
+        JavaScriptInitializer(JSInterop);
 
-        var cut = Render(
+        Render(
             @<BlazorLocalTimeProvider />
         );
         
         // timezone should be set to Asia/Tokyo
         tms.TimeZoneInfo!.Id.ShouldBe("Asia/Tokyo");
+    }
+    
+    internal static void JavaScriptInitializer(BunitJSInterop jsInterop)
+    {
+        var module = jsInterop.SetupModule("./_content/BlazorLocalTime/Components/BlazorLocalTimeProvider.razor.js");
+        module.Setup<string>("getBrowserTimeZone").SetResult("Asia/Tokyo");
     }
 }

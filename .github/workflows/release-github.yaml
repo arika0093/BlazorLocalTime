@@ -9,6 +9,7 @@ on:
     paths:
       - '**.csproj'
       - '**.cs'
+      - '**.razor'
       - '**.yaml'
 
 permissions:
@@ -52,6 +53,7 @@ jobs:
         with:
           name: ${{ steps.nbgv.outputs.SemVer2 }}
           tag_name: ${{ steps.nbgv.outputs.SemVer2 }}
+          target_commitish: ${{ github.ref }}
           generate_release_notes: true
           files: ./artifacts/*.nupkg
           # if hyphen contains in the tag name, it will be prerelease
