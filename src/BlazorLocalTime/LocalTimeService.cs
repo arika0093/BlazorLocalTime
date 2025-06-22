@@ -13,7 +13,7 @@ public interface ILocalTimeService
     /// <summary>
     /// Gets the current browser's local time as a <see cref="DateTimeOffset"/>.
     /// </summary>
-    public DateTimeOffset Now { get; }
+    DateTimeOffset Now { get; }
 
     /// <summary>
     /// On local time zone changed event.
@@ -73,7 +73,17 @@ public interface ILocalTimeService
     {
         if (TimeZoneInfo == null)
         {
-            throw new InvalidOperationException("Browser time zone is not set.");
+            throw new InvalidOperationException(
+                """
+                Failed to obtain the browser's time zone information.
+                Possible causes:
+                1) The `<BrowserLocalTimeProvider />` component has not been added.
+                    In this case, please add `<BrowserLocalTimeProvider />` to a root component such as `Routes.razor`.
+                2) You are trying to use `ILocalTimeService` in `OnInitialized(Async)`.
+                    In this case, you need to subscribe to the `ILocalTimeService.OnLocalTimeZoneChanged` event
+                    and perform processing after the time zone information has been set.
+                """
+            );
         }
 
         return TimeZoneInfo;

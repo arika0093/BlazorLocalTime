@@ -134,7 +134,7 @@ You can also use `ILocalTimeService` to convert values in your code:
     {
         var localNow = LocalTimeService.ToLocalTime(DateTime.UtcNow);
         // or shorthand
-        // var localNow = LocalTimeService.LocalNow;
+        // var localNow = LocalTimeService.Now;
     }
 }
 ```

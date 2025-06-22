@@ -4,7 +4,7 @@
     <Nullable>enable</Nullable>
     <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
     <PackageDescription>BlazorLocalTime provides functionality to convert DateTime to the user's local time zone in Blazor applications.</PackageDescription>
-    <PackageProjectUrl>https://arika0093.github.io/BlazorLocalTime/</PackageProjectUrl>
+    <PackageProjectUrl>https://arika0093.github.io/BlazorLocalTime</PackageProjectUrl>
     <RepositoryUrl>https://github.com/arika0093/BlazorLocalTime</RepositoryUrl>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PackageReadmeFile>README.md</PackageReadmeFile>
