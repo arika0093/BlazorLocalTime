@@ -17,10 +17,13 @@ public sealed partial class LocalTimeText : ComponentBase, IDisposable
     public DateTimeOffset? Value { get; set; }
 
     /// <summary>
-    /// Gets or sets the format string used to display the local time.
+    /// Gets or sets the format string used to display the local time. <br/>
+    /// The default format is "yyyy-MM-dd HH:mm:ss". <br/>
+    /// You can use standard .NET date and time format strings, such as "MM/dd/yyyy" or "HH:mm:ss". <br/>
+    /// For more information, see <see href="https://learn.microsoft.com/dotnet/standard/base-types/standard-date-and-time-format-strings"/>.
     /// </summary>
     [Parameter]
-    public string Format { get; set; } = "yyyy/MM/dd HH:mm:ss";
+    public string Format { get; set; } = "yyyy-MM-dd HH:mm:ss";
 
     /// <inheritdoc />
     protected override void OnInitialized()
