@@ -13,7 +13,7 @@ public interface ILocalTimeService
     /// <summary>
     /// Gets the current browser's local time as a <see cref="DateTimeOffset"/>.
     /// </summary>
-    public DateTimeOffset Now { get; }
+    DateTimeOffset Now { get; }
 
     /// <summary>
     /// On local time zone changed event.
