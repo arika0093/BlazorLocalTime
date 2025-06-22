@@ -77,7 +77,7 @@ public interface ILocalTimeService
     /// <returns>The <see cref="TimeZoneInfo"/> representing the browser's time zone.</returns>
     public TimeZoneInfo GetBrowserTimeZone()
     {
-        if (TimeZoneInfo == null)
+        if (TimeZoneInfo == null || !IsTimeZoneInfoAvailable)
         {
             throw new InvalidOperationException(
                 """
@@ -91,7 +91,6 @@ public interface ILocalTimeService
                 """
             );
         }
-
         return TimeZoneInfo;
     }
 }
