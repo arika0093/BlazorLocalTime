@@ -1,0 +1,87 @@
+﻿[assembly: System.Reflection.AssemblyMetadata("RepositoryUrl", "https://github.com/arika0093/BlazorLocalTime")]
+[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("BlazorLocalTimeTest")]
+[assembly: System.Runtime.Versioning.TargetFramework(".NETCoreApp,Version=v8.0", FrameworkDisplayName=".NET 8.0")]
+namespace BlazorLocalTime
+{
+    public sealed class BlazorLocalTimeProvider : Microsoft.AspNetCore.Components.ComponentBase
+    {
+        public BlazorLocalTimeProvider() { }
+        protected override void BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder @__builder) { }
+        protected override System.Threading.Tasks.Task OnAfterRenderAsync(bool firstRender) { }
+    }
+    public interface ILocalTimeService
+    {
+        bool IsTimeZoneInfoAvailable { get; }
+        System.DateTimeOffset Now { get; }
+        System.TimeZoneInfo? TimeZoneInfo { get; }
+        event System.EventHandler LocalTimeZoneChanged;
+        System.TimeZoneInfo GetBrowserTimeZone();
+        System.DateTime ToLocalTime(System.DateTime utcDateTime);
+        System.DateTime ToLocalTime(System.DateTimeOffset dateTimeOffset);
+        System.DateTimeOffset ToLocalTimeOffset(System.DateTime utcDateTime);
+        System.DateTimeOffset ToLocalTimeOffset(System.DateTimeOffset dateTimeOffset);
+    }
+    public sealed class LocalTime : Microsoft.AspNetCore.Components.ComponentBase, System.IDisposable
+    {
+        public LocalTime() { }
+        [Microsoft.AspNetCore.Components.Parameter]
+        public Microsoft.AspNetCore.Components.RenderFragment<System.DateTimeOffset>? ChildContent { get; set; }
+        [Microsoft.AspNetCore.Components.Parameter]
+        public System.DateTimeOffset? Value { get; set; }
+        protected override void BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder @__builder) { }
+        public void Dispose() { }
+        protected override void OnInitialized() { }
+    }
+    public class LocalTimeFormValue : System.IEquatable<BlazorLocalTime.LocalTimeFormValue>
+    {
+        public LocalTimeFormValue() { }
+        public System.DateOnly? Date { get; set; }
+        public required Microsoft.AspNetCore.Components.EventCallback<System.DateOnly?> DateChanged { get; init; }
+        public System.TimeOnly? Time { get; set; }
+        public required Microsoft.AspNetCore.Components.EventCallback<System.TimeOnly?> TimeChanged { get; init; }
+        public System.TimeSpan? TimeSpan { get; set; }
+        public required Microsoft.AspNetCore.Components.EventCallback<System.TimeSpan?> TimeSpanChanged { get; init; }
+        public required System.DateTime? Value { get; set; }
+        public required Microsoft.AspNetCore.Components.EventCallback<System.DateTime?> ValueChanged { get; init; }
+    }
+    public sealed class LocalTimeForm<T> : Microsoft.AspNetCore.Components.ComponentBase, System.IDisposable
+    {
+        public LocalTimeForm() { }
+        [Microsoft.AspNetCore.Components.Parameter]
+        public Microsoft.AspNetCore.Components.RenderFragment<BlazorLocalTime.LocalTimeFormValue>? ChildContent { get; set; }
+        [Microsoft.AspNetCore.Components.Parameter]
+        public T Value { get; set; }
+        [Microsoft.AspNetCore.Components.Parameter]
+        public Microsoft.AspNetCore.Components.EventCallback<T> ValueChanged { get; set; }
+        protected override void BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder @__builder) { }
+        public void Dispose() { }
+        protected override void OnInitialized() { }
+    }
+    public sealed class LocalTimeText : Microsoft.AspNetCore.Components.ComponentBase, System.IDisposable
+    {
+        public LocalTimeText() { }
+        [Microsoft.AspNetCore.Components.Parameter]
+        public string Format { get; set; }
+        [Microsoft.AspNetCore.Components.Parameter]
+        public System.DateTimeOffset? Value { get; set; }
+        protected override void BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder @__builder) { }
+        public void Dispose() { }
+        protected override void OnInitialized() { }
+    }
+    public sealed class LocalTimeZone : Microsoft.AspNetCore.Components.ComponentBase, System.IDisposable
+    {
+        public LocalTimeZone() { }
+        [Microsoft.AspNetCore.Components.Parameter]
+        public Microsoft.AspNetCore.Components.RenderFragment<System.TimeZoneInfo>? ChildContent { get; set; }
+        [Microsoft.AspNetCore.Components.Parameter]
+        public Microsoft.AspNetCore.Components.RenderFragment? UnknownContent { get; set; }
+        protected override void BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder @__builder) { }
+        public void Dispose() { }
+        protected override void OnInitialized() { }
+    }
+    public static class LocalTimeZoneOverwrite
+    {
+        public static void UseCustomOffset(System.TimeSpan offset) { }
+        public static void UseUtc() { }
+    }
+}

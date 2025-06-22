@@ -7,6 +7,7 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="bunit" Version="1.40.0" />
+    <PackageReference Include="PublicApiGenerator" Version="11.4.6" />
   </ItemGroup>
   <ItemGroup>
     <Using Include="Xunit" />
