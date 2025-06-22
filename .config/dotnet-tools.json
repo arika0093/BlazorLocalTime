@@ -9,10 +9,10 @@
       ],
       "rollForward": false
     },
-    "docfx": {
-      "version": "2.78.3",
+    "csharpier": {
+      "version": "1.0.2",
       "commands": [
-        "docfx"
+        "csharpier"
       ],
       "rollForward": false
     }
