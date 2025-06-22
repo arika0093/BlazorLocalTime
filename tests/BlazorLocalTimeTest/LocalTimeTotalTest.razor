@@ -1,0 +1,29 @@
+﻿@using BlazorLocalTimeTest.Component
+@using Shouldly
+@inherits TestContext
+@code {
+    [Fact]
+    public void TestTotal1()
+    {
+        var timeProvider = new MockTimeProvider(new(2023, 10, 1, 12, 34, 56, TimeSpan.Zero));
+        Services.AddBlazorLocalTimeService(timeProvider);
+        BlazorLocalTimeProviderTest.JavaScriptInitializer(JSInterop);
+
+        var cut = RenderComponent<LocalTimeTotal1>();
+        // 12:34+09:00 -> 2023-10-01 21:34:56
+        cut.MarkupMatches("<p>2023-10-01 21:34:56</p>");
+    }
+    
+    [Fact]
+    public void TestTotalFailed1()
+    {
+        Services.AddBlazorLocalTimeService();
+        BlazorLocalTimeProviderTest.JavaScriptInitializer(JSInterop);
+
+        Should.Throw<InvalidOperationException>(() =>
+        {
+            // This test is expected to fail because BlazorLocalTimeProvider is not initialized
+            RenderComponent<LocalTimeTotalFailed1>();
+        });
+    }
+}

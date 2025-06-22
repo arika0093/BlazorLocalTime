@@ -1,0 +1,11 @@
+@inject ILocalTimeService LocalTimeService
+
+<BlazorLocalTimeProvider />
+
+@code {
+    protected override void OnInitialized()
+    { 
+        // that will be failed because the time zone is not available
+        var _ = LocalTimeService.Now;
+    }
+}
