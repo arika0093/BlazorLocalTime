@@ -11,6 +11,11 @@ public interface ILocalTimeService
     TimeZoneInfo? TimeZoneInfo { get; set; }
 
     /// <summary>
+    /// Gets the current browser's local time as a <see cref="DateTimeOffset"/>.
+    /// </summary>
+    public DateTimeOffset Now { get; }
+
+    /// <summary>
     /// On local time zone changed event.
     /// </summary>
     event EventHandler LocalTimeZoneChanged;
@@ -78,7 +83,7 @@ public interface ILocalTimeService
 /// <summary>
 /// Provides methods for converting UTC time to local time and retrieving browser time zone information.
 /// </summary>
-internal class LocalTimeService : ILocalTimeService
+internal class LocalTimeService(TimeProvider timeProvider) : ILocalTimeService
 {
     private TimeZoneInfo? _timeZoneInfo;
 
@@ -99,4 +104,8 @@ internal class LocalTimeService : ILocalTimeService
 
     /// <inheritdoc />
     public event EventHandler LocalTimeZoneChanged = delegate { };
+
+    /// <inheritdoc />
+    public DateTimeOffset Now =>
+        ((ILocalTimeService)this).ToLocalTimeOffset(timeProvider.GetUtcNow());
 }

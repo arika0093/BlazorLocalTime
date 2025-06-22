@@ -1,12 +1,25 @@
 ﻿using BlazorLocalTime;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace BlazorLocalTimeTest;
 
-internal class LocalTimeMockService : ILocalTimeService
+internal class LocalTimeMockService : LocalTimeService
 {
-    // Asia/Tokyo(+9:00) is the default time zone for this mock service.
-    public TimeZoneInfo? TimeZoneInfo { get; set; } =
-        TimeZoneInfo.FindSystemTimeZoneById("Asia/Tokyo");
+    public LocalTimeMockService(TimeProvider provider)
+        : base(provider)
+    {
+        // Mocking the browser's time zone to Asia/Tokyo for testing purposes.
+        TimeZoneInfo = TimeZoneInfo.FindSystemTimeZoneById("Asia/Tokyo");
+    }
+}
 
-    public event EventHandler LocalTimeZoneChanged = delegate { };
+internal static class LocalTimeMockServiceExtension
+{
+    public static IServiceCollection AddLocalTimeMockService(this IServiceCollection services)
+    {
+        services.AddScoped<ILocalTimeService, LocalTimeMockService>();
+        services.TryAddSingleton<TimeProvider>(TimeProvider.System);
+        return services;
+    }
 }

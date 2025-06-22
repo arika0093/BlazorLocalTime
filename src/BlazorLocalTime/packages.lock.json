@@ -15,6 +15,15 @@
           "System.IO.Pipelines": "6.0.3"
         }
       },
+      "Microsoft.Bcl.TimeProvider": {
+        "type": "Direct",
+        "requested": "[*, )",
+        "resolved": "9.0.6",
+        "contentHash": "ehNb0zQXNmkyuKV8Ms5fPUKYxX6K/SGAf466/u2dNgaO37RJF8K0NfQoYLp9zyXkRqT1SsTEIwt6zclLEPTjQg==",
+        "dependencies": {
+          "Microsoft.Bcl.AsyncInterfaces": "9.0.6"
+        }
+      },
       "Microsoft.Extensions.DependencyInjection.Abstractions": {
         "type": "Direct",
         "requested": "[6.*, )",
@@ -76,6 +85,11 @@
         "resolved": "6.0.36",
         "contentHash": "9VgcKKs3TU1JschItYWFesTZ1B1VVx/+JqBlFGePf/hu1gghnnioePy3bXeyYE0CSIfYTbCVofTxwd6HMmjgzg=="
       },
+      "Microsoft.Bcl.AsyncInterfaces": {
+        "type": "Transitive",
+        "resolved": "9.0.6",
+        "contentHash": "82rLw487j5jBXEi2r3WvA/cagOhcRREVRtet6izzjDMY+i392W5oNSN2KCtuIvlTpyMONEUD0MIlGAgDdsvQ/w=="
+      },
       "Microsoft.Extensions.DependencyInjection": {
         "type": "Transitive",
         "resolved": "6.0.2",
@@ -126,6 +140,15 @@
           "Microsoft.Extensions.DependencyInjection": "7.0.0",
           "Microsoft.JSInterop": "7.0.20",
           "System.IO.Pipelines": "7.0.0"
+        }
+      },
+      "Microsoft.Bcl.TimeProvider": {
+        "type": "Direct",
+        "requested": "[*, )",
+        "resolved": "9.0.6",
+        "contentHash": "ehNb0zQXNmkyuKV8Ms5fPUKYxX6K/SGAf466/u2dNgaO37RJF8K0NfQoYLp9zyXkRqT1SsTEIwt6zclLEPTjQg==",
+        "dependencies": {
+          "Microsoft.Bcl.AsyncInterfaces": "9.0.6"
         }
       },
       "Microsoft.Extensions.DependencyInjection.Abstractions": {
@@ -188,6 +211,11 @@
         "type": "Transitive",
         "resolved": "7.0.20",
         "contentHash": "c+dDosAEkOI1K48ImIy0pxxvOgXR/pbqodOqQ43k/hY8cGI8jbhRopDP/xbqqW+mkWmxbVIRaCJqDALeG8VKYA=="
+      },
+      "Microsoft.Bcl.AsyncInterfaces": {
+        "type": "Transitive",
+        "resolved": "9.0.6",
+        "contentHash": "82rLw487j5jBXEi2r3WvA/cagOhcRREVRtet6izzjDMY+i392W5oNSN2KCtuIvlTpyMONEUD0MIlGAgDdsvQ/w=="
       },
       "Microsoft.Extensions.DependencyInjection": {
         "type": "Transitive",

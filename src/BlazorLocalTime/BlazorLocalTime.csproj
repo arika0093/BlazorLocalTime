@@ -7,6 +7,7 @@
   </PropertyGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'net6.0'">
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="6.*" />
+    <PackageReference Include="Microsoft.Bcl.TimeProvider" Version="*" />
     <PackageReference
       Include="Microsoft.Extensions.DependencyInjection.Abstractions"
       Version="6.*"
@@ -14,6 +15,7 @@
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'net7.0'">
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="7.*" />
+    <PackageReference Include="Microsoft.Bcl.TimeProvider" Version="*" />
     <PackageReference
       Include="Microsoft.Extensions.DependencyInjection.Abstractions"
       Version="7.*"

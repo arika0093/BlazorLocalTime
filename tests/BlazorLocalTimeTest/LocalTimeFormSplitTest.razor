@@ -6,7 +6,7 @@
     [Fact]
     public void TestFormUpdated1()
     {
-        Services.AddScoped<ILocalTimeService, LocalTimeMockService>();
+        Services.AddLocalTimeMockService();
         
         var cut = RenderComponent<LocalTimeFormSplit1>(parameters => parameters
             .Add(p => p.Dt, new DateTime(2023, 10, 1, 12, 30, 0, DateTimeKind.Utc)));
@@ -25,18 +25,18 @@
         // re-render to update the time
         cut.Render();
         
-        // call update time
+        // call update time 
         inputTime = cut.Find("input[type='time']");
         inputTime.Change("08:00:00");
         
         // value should be updated to the local time
         cut.Instance.Dt.ShouldBe(new DateTime(2023, 10, 31, 23, 00, 0, DateTimeKind.Utc));
-    }
+    } 
     
     [Fact]
     public void TestFormUpdated1Bind()
     {
-        Services.AddScoped<ILocalTimeService, LocalTimeMockService>();
+        Services.AddLocalTimeMockService();
         
         var cut = RenderComponent<LocalTimeFormSplit1Bind>(parameters => parameters
             .Add(p => p.Dt, new DateTime(2023, 10, 1, 12, 30, 0, DateTimeKind.Utc)));
@@ -66,7 +66,7 @@
     [Fact]
     public void TestFormUpdated2()
     {
-        Services.AddScoped<ILocalTimeService, LocalTimeMockService>();
+        Services.AddLocalTimeMockService();
         
         var cut = RenderComponent<LocalTimeFormSplit2>(parameters => parameters
             .Add(p => p.Dto, new DateTimeOffset(2023, 10, 1, 12, 30, 0, TimeSpan.Zero)));

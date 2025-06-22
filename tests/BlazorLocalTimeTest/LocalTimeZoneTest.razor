@@ -4,7 +4,7 @@
     [Fact]
     public void TestTzId()
     {
-        Services.AddScoped<ILocalTimeService,LocalTimeMockService>();
+        Services.AddLocalTimeMockService();
 
         var dt = new DateTime(2023, 10, 1, 12, 30, 0, DateTimeKind.Utc);
         
