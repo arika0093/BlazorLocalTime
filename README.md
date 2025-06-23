@@ -2,12 +2,39 @@
 
 [![NuGet Version](https://img.shields.io/nuget/v/BlazorLocalTime?style=flat-square&logo=NuGet&color=0080CC)](https://www.nuget.org/packages/BlazorLocalTime/) ![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/arika0093/BlazorLocalTime/test.yaml?branch=main&label=Test&style=flat-square) ![GitHub last commit (branch)](https://img.shields.io/github/last-commit/arika0093/BlazorLocalTime?style=flat-square)
 
-`BlazorLocalTime` provides functionality to convert `DateTime` values to the user's local time zone in Blazor applications.
+`BlazorLocalTime` provides functionality to convert `DateTime` values to the user's local time zone in Blazor Server applications.
 
-## Demo
-[arika0093.github.io/BlazorLocalTime/](https://arika0093.github.io/BlazorLocalTime/)
+[Demo Page](https://arika0093.github.io/BlazorLocalTime/)
 
-## Installation
+## What's this?
+The following code contains a bug. Can you spot it?
+
+```razor
+<p>@DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")</p>
+```
+
+The issue is that this displays the **current time on the server, not the user's local time**.
+The time is formatted according to the Blazor host server's time zone, which may not match the user's time zone.
+
+This bug occurs when the Blazor host server's time zone ≠ user's time zone. Because of this, it's an easy bug to overlook during development.
+
+A similar issue arises with date/time input fields. In short, you can't determine "which time zone" the entered time refers to.
+
+```razor
+<InputDate Type="InputDateType.DateTimeLocal" @bind-Value="dt" />
+@code {
+    private DateTime dt { get; set; }
+    private void SaveToDatabase()
+    {
+        // Cannot correctly convert to UTC (uses server's time zone)
+        var utc = dt?.ToUniversalTime();
+    }
+}
+```
+
+You can use `BlazorLocalTime` to solve these problems.
+
+## Setup
 Install `BlazorLocalTime` from [NuGet](https://www.nuget.org/packages/BlazorLocalTime):
 
 ```bash
@@ -77,51 +104,7 @@ Input forms also support separate date and time inputs:
 }
 ```
 
-## Using with UI Libraries
-
-The `LocalTimeForm` component can be used with various UI libraries to create forms that handle local time input.
-Below are examples using [MudBlazor](https://mudblazor.com/), [Fluent UI](https://www.fluentui-blazor.net), and [Ant Design Blazor](https://antblazor.com/) components.
-
-### MudBlazor
-
-```razor
-<LocalTimeForm @bind-Value="Dt" Context="dtf">
-    <MudDatePicker Label="Date" @bind-Date="dtf.Value" ShowToolbar="false" />
-    <MudTimePicker Label="Time" @bind-Time="dtf.TimeSpan" ShowToolbar="false" />
-</LocalTimeForm>
-
-@code {
-    private DateTime? Dt { get; set; } = DateTime.UtcNow;
-}
-```
-
-### Fluent UI
-
-```razor
-<LocalTimeForm @bind-Value="Dt" Context="dtf">
-    <FluentDatePicker Label="Date" @bind-Value="dtf.Value" />
-    <FluentTimePicker Label="Time" @bind-Value="dtf.Value" />
-</LocalTimeForm>
-    
-@code {
-    private DateTime? Dt { get; set; } = DateTime.UtcNow;
-}
-```
-
-### Ant Design Blazor
-
-```razor
-<LocalTimeForm @bind-Value="Dt" Context="dtf">
-    <DatePicker TValue="DateTime?" @bind-Value="dtf.Value" ShowTime="@true" />
-    @* Alternatively, you can use separate date and time pickers *@
-    <DatePicker TValue="DateOnly?" @bind-Value="dtf.Date" />
-    <TimePicker TValue="TimeOnly?" @bind-Value="dtf.Time" />
-</LocalTimeForm>
-
-@code {
-    private DateTime? Dt { get; set; } = DateTime.UtcNow;
-}
-```
+and more usage examples can be found in the [Demo](https://arika0093.github.io/BlazorLocalTime/).
 
 ## Using as a Service
 
@@ -143,6 +126,11 @@ During the initial rendering (`OnInitialized`), the user's local time zone may n
 In such cases, you can use `ILocalTimeService.LocalTimeZoneChanged` to wait until the local time zone becomes available.
 
 ```razor
+@if(LocalTimeService.IsTimeZoneInfoAvailable)
+{
+    <p>Current Time is @LocalTimeService.Now</p>
+}
+
 @implements IDisposable
 @inject ILocalTimeService LocalTimeService
 @code {
@@ -158,13 +146,29 @@ In such cases, you can use `ILocalTimeService.LocalTimeZoneChanged` to wait unti
 
     private void OnLocalTimeZoneChanged(object? sender, EventArgs e)
     {
-        if(LocalTimeService.IsTimeZoneInfoAvailable)
-        {
-            // can use LocalTimeService.ToLocalTime() now
-        }
+        StateHasChanged();
     }
 }
 ```
+
+## Testing
+When testing, it is not practical to manually change the browser and runtime time zones each time.
+To address this, a function is provided to forcibly change the runtime time zone (`TimeZoneInfo.Local`).
+
+```csharp
+// UTC
+LocalTimeZoneOverwrite.UseUtc();
+// Custom Offset (e.g., UTC+9)
+LocalTimeZoneOverwrite.UseCustomOffset(TimeSpan.FromHours(9));
+```
+
+> [!NOTE]
+> Since the demo site is running on `WebAssembly`, the time zone of RunTime normally matches the browser's time zone and should not work well.
+Therefore, the above function is executed to force the time zone on the runtime side to be fixed to UTC.
+
+> [!WARNING]
+> This feature is intended for testing only. It is not recommended to change `TimeZoneInfo.Local` in production applications.
+
 
 ## Reference
 

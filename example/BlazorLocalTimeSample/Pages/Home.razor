@@ -20,22 +20,6 @@
     </a>
 </p>
 
-<h2>Installation</h2>
-<p>Install <code>BlazorLocalTime</code> from NuGet:</p>
-<pre><code>dotnet add package BlazorLocalTime
-</code></pre>
-
-<p>Next, register the service in your <code>Program.cs</code>:</p>
-<pre><code class="language-csharp">builder.Services.AddBlazorLocalTimeService();
-</code></pre>
-
-<p>
-    Finally, add the following component to <code>Routes.razor</code> (or <code>MainLayout.razor</code>, etc.):
-</p>
-<pre><code class="language-razor">@@using BlazorLocalTime
-&lt;BlazorLocalTimeProvider /&gt;
-</code></pre>
-
 <h2>Using as a Component</h2>
 <p>To simply display a local time as text, use the <code>LocalTimeText</code> component:</p>
 <pre><code class="language-razor">&lt;LocalTimeText Value="@@DateTime.UtcNow" Format="yyyy-MM-dd HH:mm:ssK" /&gt;
@@ -180,6 +164,11 @@
 
 <h3>Ant Design Blazor</h3>
 
+<p>
+    Due to implementation limitations, the <code>Today</code> and <code>Now</code> buttons reference the server-side current time and do not work as expected. <br/>
+    Therefore, it is recommended to hide these buttons.
+</p>
+
 <pre><code class="language-razor">Value: @@Dt?.ToString("yyyy-MM-dd HH:mm:ssK")
 &lt;br /&gt;
 &lt;LocalTimeForm @@bind-Value="Dt" Context="dtf"&gt;
@@ -188,6 +177,13 @@
     &lt;DatePicker TValue="DateOnly?" @@bind-Value="dtf.Date" /&gt;
     &lt;TimePicker TValue="TimeOnly?" @@bind-Value="dtf.Time" /&gt;
 &lt;/LocalTimeForm&gt;
+
+&lt;style&gt;
+    /* Hide "Today" and "Now" buttons */
+    a.ant-picker-now-btn, a.ant-picker-today-btn {
+        display: none;
+    }
+&lt;/style&gt;
 
 @@code {
     private DateTime? Dt { get; set; } = DateTime.UtcNow;
@@ -203,6 +199,12 @@
         <DatePicker TValue="DateOnly?" @bind-Value="dtf.Date" />
         <TimePicker TValue="TimeOnly?" @bind-Value="dtf.Time" />
     </LocalTimeForm>
+    
+    <style>
+        a.ant-picker-now-btn, a.ant-picker-today-btn {
+            display: none;
+        }
+    </style>
 </div>
 
 <h2>Using as a Service</h2>
