@@ -20,6 +20,38 @@
     </a>
 </p>
 
+<h2>What's this?</h2>
+<p>
+    Blazor applications often need to display dates and times in the user's local time zone. <br />
+    However, if you use <code>DateTime</code> as it is, various processes will be performed in the time zone on the server.<br/>
+    For example, the following code will not produce the expected output for many people (unless you live in an area with UTC+00:00!).
+</p>
+
+<pre><code class="language-razor">@@DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")</code></pre>
+<div class="component-sample">
+    @DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")
+</div>
+
+<p>
+    This package provides components and services to handle such conversions easily.
+</p>
+
+<h2>Setup</h2>
+<p>Install <code>BlazorLocalTime</code> from NuGet:</p>
+<pre><code>dotnet add package BlazorLocalTime
+</code></pre>
+
+<p>Next, register the service in your <code>Program.cs</code>:</p>
+<pre><code class="language-csharp">builder.Services.AddBlazorLocalTimeService();
+</code></pre>
+
+<p>
+    Finally, add the following component to <code>Routes.razor</code> (or <code>MainLayout.razor</code>, etc.):
+</p>
+<pre><code class="language-razor">@@using BlazorLocalTime
+&lt;BlazorLocalTimeProvider /&gt;
+</code></pre>
+
 <h2>Using as a Component</h2>
 <p>To simply display a local time as text, use the <code>LocalTimeText</code> component:</p>
 <pre><code class="language-razor">&lt;LocalTimeText Value="@@DateTime.UtcNow" Format="yyyy-MM-dd HH:mm:ssK" /&gt;

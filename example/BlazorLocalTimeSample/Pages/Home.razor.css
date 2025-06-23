@@ -1,6 +1,7 @@
 ﻿h2 {
     font-size: 16pt;
     padding-left: 1ex;
+    margin-top: 2ex;
     border-left: 5px solid #08F;
     border-bottom: 2px solid #08F;
 }
