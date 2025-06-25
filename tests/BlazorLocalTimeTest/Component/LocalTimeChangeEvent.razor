@@ -4,19 +4,28 @@
 @inject ILocalTimeService LocalTimeService
 @code {
     public int ChangeEventCount { get; private set; } = 0;
+    public List<(TimeZoneInfo?, TimeZoneInfo?)> ChangeEvents { get; } = [];
+
     protected override void OnInitialized()
     {
         LocalTimeService.LocalTimeZoneChanged += OnLocalTimeZoneChanged;
+        LocalTimeService.LocalTimeZoneChanged += OnLocalTimeZoneChangedHistory;
     }
     
     public void Dispose()
     {
         LocalTimeService.LocalTimeZoneChanged -= OnLocalTimeZoneChanged;
+        LocalTimeService.LocalTimeZoneChanged -= OnLocalTimeZoneChangedHistory;
     }
     
     private void OnLocalTimeZoneChanged(object? sender, EventArgs e)
     {
         ChangeEventCount++;
-        InvokeAsync(StateHasChanged);
     }
+        
+    private void OnLocalTimeZoneChangedHistory(object? sender, TimeZoneChangedEventArgs e)
+    {
+        ChangeEvents.Add((e.PreviousTimeZone, e.CurrentTimeZone));
+    }
+
 }

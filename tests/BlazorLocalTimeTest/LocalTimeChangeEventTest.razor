@@ -10,6 +10,8 @@
         {
             BrowserTimeZoneInfo = null
         };
+        var tokyo = TimeZoneInfo.FindSystemTimeZoneById("Asia/Tokyo");
+        var utc = TimeZoneInfo.FindSystemTimeZoneById("UTC");
         
         Services.AddScoped<ILocalTimeService, LocalTimeMockService>(_ => tms);
         TestInitializer.JavaScriptInitializer(JSInterop);
@@ -18,10 +20,12 @@
         cut.Instance.ChangeEventCount.ShouldBe(1);
 
         var localTimeService = Services.GetRequiredService<ILocalTimeService>();
-        localTimeService.OverrideTimeZoneInfo = TimeZoneInfo.FindSystemTimeZoneById("UTC");
+        localTimeService.OverrideTimeZoneInfo = utc;
         cut.Render();
 
         cut.Instance.ChangeEventCount.ShouldBe(2);
+        cut.Instance.ChangeEvents[0].ShouldBe((null, tokyo));
+        cut.Instance.ChangeEvents[1].ShouldBe((tokyo, utc));
     }
     
 }
