@@ -1,0 +1,22 @@
+﻿<BlazorLocalTimeProvider />
+
+@implements IDisposable
+@inject ILocalTimeService LocalTimeService
+@code {
+    public int ChangeEventCount { get; private set; } = 0;
+    protected override void OnInitialized()
+    {
+        LocalTimeService.LocalTimeZoneChanged += OnLocalTimeZoneChanged;
+    }
+    
+    public void Dispose()
+    {
+        LocalTimeService.LocalTimeZoneChanged -= OnLocalTimeZoneChanged;
+    }
+    
+    private void OnLocalTimeZoneChanged(object? sender, EventArgs e)
+    {
+        ChangeEventCount++;
+        InvokeAsync(StateHasChanged);
+    }
+}

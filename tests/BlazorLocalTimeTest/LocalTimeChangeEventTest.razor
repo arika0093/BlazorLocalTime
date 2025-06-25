@@ -1,0 +1,27 @@
+@using BlazorLocalTimeTest.Component
+@using Shouldly
+@inherits TestContext
+@code
+{
+    [Fact]
+    public void TestCustomFormat1()
+    {
+        var tms = new LocalTimeMockService(TimeProvider.System)
+        {
+            BrowserTimeZoneInfo = null
+        };
+        
+        Services.AddScoped<ILocalTimeService, LocalTimeMockService>(_ => tms);
+        TestInitializer.JavaScriptInitializer(JSInterop);
+
+        var cut = RenderComponent<LocalTimeChangeEvent>();
+        cut.Instance.ChangeEventCount.ShouldBe(1);
+
+        var localTimeService = Services.GetRequiredService<ILocalTimeService>();
+        localTimeService.OverrideTimeZoneInfo = TimeZoneInfo.FindSystemTimeZoneById("UTC");
+        cut.Render();
+
+        cut.Instance.ChangeEventCount.ShouldBe(2);
+    }
+    
+}
