@@ -144,8 +144,10 @@ In such cases, you can use `ILocalTimeService.LocalTimeZoneChanged` to wait unti
         LocalTimeService.LocalTimeZoneChanged -= OnLocalTimeZoneChanged;
     }
 
-    private void OnLocalTimeZoneChanged(object? sender, EventArgs e)
+    private void OnLocalTimeZoneChanged(object? sender, TimeZoneChangedEventArgs e)
     {
+        // e.PreviousTimeZone -> Before Time Zone
+        // e.CurrentTimeZone  -> After Time Zone
         StateHasChanged();
     }
 }
