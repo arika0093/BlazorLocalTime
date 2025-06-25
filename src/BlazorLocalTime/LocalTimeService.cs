@@ -26,9 +26,9 @@ public interface ILocalTimeService
     DateTimeOffset Now { get; }
 
     /// <summary>
-    /// On local time zone changed event.
+    /// On local time zone changed event with detailed timezone information.
     /// </summary>
-    event EventHandler LocalTimeZoneChanged;
+    event EventHandler<TimeZoneChangedEventArgs> LocalTimeZoneChanged;
 
     /// <summary>
     /// Is the local time zone set?
@@ -132,13 +132,17 @@ internal class LocalTimeService(TimeProvider timeProvider) : ILocalTimeService
             {
                 return;
             }
+            var previousTimeZone = TimeZoneInfo;
             _overrideTimeZoneInfo = value;
-            LocalTimeZoneChanged.Invoke(this, EventArgs.Empty);
+            var currentTimeZone = TimeZoneInfo;
+
+            // Fire both events for backward compatibility
+            LocalTimeZoneChanged.Invoke(this, new(previousTimeZone, currentTimeZone));
         }
     }
 
     /// <inheritdoc />
-    public event EventHandler LocalTimeZoneChanged = delegate { };
+    public event EventHandler<TimeZoneChangedEventArgs> LocalTimeZoneChanged = delegate { };
 
     /// <inheritdoc />
     public DateTimeOffset Now =>
@@ -151,7 +155,33 @@ internal class LocalTimeService(TimeProvider timeProvider) : ILocalTimeService
         {
             return;
         }
+        var previousTimeZone = TimeZoneInfo;
         BrowserTimeZoneInfo = timeZoneInfo;
-        LocalTimeZoneChanged.Invoke(this, EventArgs.Empty);
+        var currentTimeZone = TimeZoneInfo;
+
+        // Fire both events for backward compatibility
+        LocalTimeZoneChanged.Invoke(this, new(previousTimeZone, currentTimeZone));
     }
+}
+
+/// <summary>
+/// Event arguments for LocalTimeZoneChanged event.
+/// </summary>
+/// <remarks>
+/// Initializes a new instance of the LocalTimeZoneChangedEventArgs class.
+/// </remarks>
+/// <param name="previousTimeZone">The previous time zone information.</param>
+/// <param name="currentTimeZone">The current time zone information.</param>
+public class TimeZoneChangedEventArgs(TimeZoneInfo? previousTimeZone, TimeZoneInfo? currentTimeZone)
+    : EventArgs
+{
+    /// <summary>
+    /// The previous time zone information.
+    /// </summary>
+    public TimeZoneInfo? PreviousTimeZone { get; } = previousTimeZone;
+
+    /// <summary>
+    /// The current time zone information.
+    /// </summary>
+    public TimeZoneInfo? CurrentTimeZone { get; } = currentTimeZone;
 }

@@ -16,7 +16,7 @@ namespace BlazorLocalTime
         System.DateTimeOffset Now { get; }
         System.TimeZoneInfo? OverrideTimeZoneInfo { get; set; }
         System.TimeZoneInfo? TimeZoneInfo { get; }
-        event System.EventHandler LocalTimeZoneChanged;
+        event System.EventHandler<BlazorLocalTime.TimeZoneChangedEventArgs> LocalTimeZoneChanged;
         System.TimeZoneInfo GetBrowserTimeZone();
         System.DateTime ToLocalTime(System.DateTime utcDateTime);
         System.DateTime ToLocalTime(System.DateTimeOffset dateTimeOffset);
@@ -85,5 +85,11 @@ namespace BlazorLocalTime
     {
         public static void UseCustomOffset(System.TimeSpan offset) { }
         public static void UseUtc() { }
+    }
+    public class TimeZoneChangedEventArgs : System.EventArgs
+    {
+        public TimeZoneChangedEventArgs(System.TimeZoneInfo? previousTimeZone, System.TimeZoneInfo? currentTimeZone) { }
+        public System.TimeZoneInfo? CurrentTimeZone { get; }
+        public System.TimeZoneInfo? PreviousTimeZone { get; }
     }
 }
