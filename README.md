@@ -155,11 +155,10 @@ In such cases, you can use `ILocalTimeService.LocalTimeZoneChanged` to wait unti
 
 ## Overriding Time Zone
 
-You can programmatically override the browser's detected time zone using `OverrideTimeZoneInfo`. This is useful for testing different time zones or allowing users to select their preferred time zone:
+You can programmatically override the browser's detected time zone using `OverrideTimeZoneInfo`.
+This is useful for testing different time zones or allowing users to select their preferred time zone:
 
 ```razor
-@inject ILocalTimeService LocalTimeService
-
 <select @onchange="OnTimeZoneChanged">
     <option value="">-- Use Browser Time Zone --</option>
     @foreach (var tz in TimeZoneInfo.GetSystemTimeZones())
@@ -167,9 +166,8 @@ You can programmatically override the browser's detected time zone using `Overri
         <option value="@tz.Id">@tz.DisplayName</option>
     }
 </select>
-<br/>
-Current Time: <LocalTimeText Value="@DateTime.UtcNow" Format="yyyy-MM-dd HH:mm:ssK" />
 
+@inject ILocalTimeService LocalTimeService
 @code {
     private void OnTimeZoneChanged(ChangeEventArgs e)
     {
@@ -181,13 +179,8 @@ Current Time: <LocalTimeText Value="@DateTime.UtcNow" Format="yyyy-MM-dd HH:mm:s
 }
 ```
 
-The `OverrideTimeZoneInfo` property allows you to:
-- Override the browser's detected time zone with any system time zone
-- Reset to browser time zone by setting it to `null`
-- Automatically triggers `LocalTimeZoneChanged` event when changed
-
 ## Testing
-When testing, it is not practical to manually change the browser and runtime time zones each time.
+When testing, it is not practical to manually change the runtime time zones each time.
 To address this, a function is provided to forcibly change the runtime time zone (`TimeZoneInfo.Local`).
 
 ```csharp
