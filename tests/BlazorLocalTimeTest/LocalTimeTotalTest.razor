@@ -7,7 +7,7 @@
     {
         var timeProvider = new MockTimeProvider(new(2023, 10, 1, 12, 34, 56, TimeSpan.Zero));
         Services.AddBlazorLocalTimeService(timeProvider);
-        BlazorLocalTimeProviderTest.JavaScriptInitializer(JSInterop);
+        TestInitializer.JavaScriptInitializer(JSInterop);
 
         var cut = RenderComponent<LocalTimeTotal1>();
         // 12:34+09:00 -> 2023-10-01 21:34:56
@@ -18,7 +18,7 @@
     public void TestTotalFailed1()
     {
         Services.AddBlazorLocalTimeService();
-        BlazorLocalTimeProviderTest.JavaScriptInitializer(JSInterop);
+        TestInitializer.JavaScriptInitializer(JSInterop);
 
         Should.Throw<InvalidOperationException>(() =>
         {

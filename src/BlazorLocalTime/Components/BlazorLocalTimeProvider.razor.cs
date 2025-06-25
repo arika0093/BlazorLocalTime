@@ -8,7 +8,7 @@ namespace BlazorLocalTime;
 /// </summary>
 public sealed partial class BlazorLocalTimeProvider : ComponentBase
 {
-    private const string JsPath =
+    internal const string JsPath =
         "./_content/BlazorLocalTime/Components/BlazorLocalTimeProvider.razor.js";
 
     [Inject]
