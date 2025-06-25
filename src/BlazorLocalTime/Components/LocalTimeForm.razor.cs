@@ -43,24 +43,31 @@ public sealed partial class LocalTimeForm<T> : ComponentBase, IDisposable
 
     private async void OnLocalTimeZoneChangedDetailed(object? sender, TimeZoneChangedEventArgs e)
     {
+        var prevTimeZone = e.PreviousTimeZone ?? LocalTimeService.BrowserTimeZoneInfo;
+        var currTimeZone = e.CurrentTimeZone ?? LocalTimeService.BrowserTimeZoneInfo;
+        if (currTimeZone == null)
+        {
+            // If current timezone is null, we cannot proceed with the conversion.
+            // This can happen if the browser failed time zone detection.
+            return;
+        }
+        if (prevTimeZone == null)
+        {
+            // timezone is available now
+            await InvokeAsync(StateHasChanged);
+            return;
+        }
+        if (prevTimeZone.Equals(currTimeZone))
+        {
+            // If the time zones are the same, no need to change the value.
+            return;
+        }
+
         // When timezone changes, preserve the UI input value by recalculating the UTC Value
         // based on the current local time displayed in the UI
         var currentValue = ValueAsDateTimeOffset;
         if (currentValue.HasValue && ValueChanged.HasDelegate)
         {
-            var prevTimeZone = e.PreviousTimeZone ?? LocalTimeService.BrowserTimeZoneInfo;
-            var currTimeZone = e.CurrentTimeZone ?? LocalTimeService.BrowserTimeZoneInfo;
-            if (prevTimeZone == null || currTimeZone == null)
-            {
-                // If either previous or current timezone is null, we cannot proceed with the conversion.
-                // This can happen if the browser failed time zone detection.
-                return;
-            }
-            if (prevTimeZone.Equals(currTimeZone))
-            {
-                // If the time zones are the same, no need to change the value.
-                return;
-            }
             // Convert the current UTC value to the new local time based on the new time zone.
             var currentUtcVal = currentValue.Value.ToUniversalTime();
             var prevOffset = prevTimeZone.GetUtcOffset(currentValue.Value);
