@@ -162,9 +162,7 @@ You can programmatically override the browser's detected time zone using `Overri
     <option value="">-- Use Browser Time Zone --</option>
     @foreach (var tz in TimeZoneInfo.GetSystemTimeZones())
     {
-        <option value="@tz.Id" selected="@(LocalTimeService.TimeZoneInfo?.Id == tz.Id)">
-            @tz.DisplayName
-        </option>
+        <option value="@tz.Id">@tz.DisplayName</option>
     }
 </select>
 <br/>

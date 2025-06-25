@@ -275,9 +275,7 @@
     &lt;option value=""&gt;-- Use Browser Time Zone --&lt;/option&gt;
     @@foreach (var tz in TimeZoneInfo.GetSystemTimeZones())
     {
-        &lt;option value="@@tz.Id" selected="@@(LocalTimeService.TimeZoneInfo?.Id == tz.Id)"&gt;
-            @@tz.DisplayName
-        &lt;/option&gt;
+        &lt;option value="@@tz.Id"&gt;@@tz.DisplayName&lt;/option&gt;
     }
 &lt;/select&gt;
 &lt;br/&gt;
@@ -301,9 +299,7 @@ Current Time: &lt;LocalTimeText Value="@@DateTime.UtcNow" Format="yyyy-MM-dd HH:
         <option value="">-- Use Browser Time Zone --</option>
         @foreach (var tz in TimeZoneInfo.GetSystemTimeZones())
         {
-            <option value="@tz.Id" selected="@(LocalTimeService.TimeZoneInfo?.Id == tz.Id)">
-                @tz.DisplayName
-            </option>
+            <option value="@tz.Id">@tz.DisplayName</option>
         }
     </select>
     <br/>
