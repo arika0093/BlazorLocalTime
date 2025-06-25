@@ -1,0 +1,11 @@
+﻿<LocalTimeForm Value="Value" ValueChanged="ValueChanged" Context="dtf">
+    <InputDate Type="InputDateType.DateTimeLocal" Value="dtf.Value" ValueExpression="() => dtf.Value" ValueChanged="dtf.ValueChanged" />
+</LocalTimeForm>
+
+@code {
+    [Parameter]
+    public DateTimeOffset Value { get; set; }
+    
+    [Parameter]
+    public EventCallback<DateTimeOffset> ValueChanged { get; set; }
+}

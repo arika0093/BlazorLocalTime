@@ -1,4 +1,5 @@
-﻿@using Shouldly
+﻿@using BlazorLocalTimeTest.Component
+@using Shouldly
 @inherits TestContext
 @code
 {
@@ -9,11 +10,8 @@
 
         var dt = new DateTime(2023, 10, 1, 12, 30, 0, DateTimeKind.Utc);
         
-        var cut = Render(
-            @<LocalTimeForm @bind-Value="dt" Context="dtf">
-                <InputDate Type="InputDateType.DateTimeLocal" Value="dtf.Value" ValueExpression="() => dtf.Value" ValueChanged="dtf.ValueChanged" />
-            </LocalTimeForm>
-        );
+        var cut = RenderComponent<LocalTimeFormSingle1>(parameters =>
+            parameters.Bind(p => p.Value, dt, n => dt = n));
         var input = cut.Find("input[type='datetime-local']");
         
         // value is set to the local time in the input
@@ -57,11 +55,8 @@
 
         DateTime? dt = new DateTime(2023, 10, 1, 12, 30, 0, DateTimeKind.Utc);
         
-        var cut = Render(
-            @<LocalTimeForm @bind-Value="dt" Context="dtf">
-                <InputDate Type="InputDateType.DateTimeLocal" Value="dtf.Value" ValueExpression="() => dtf.Value" ValueChanged="dtf.ValueChanged" />
-            </LocalTimeForm>
-        );
+        var cut = RenderComponent<LocalTimeFormSingle1>(parameters =>
+            parameters.Bind(p => p.Value, dt.Value, n => dt = n));
         var input = cut.Find("input[type='datetime-local']");
         
         // value is set to the local time in the input
@@ -81,11 +76,8 @@
 
         var dt = new DateTimeOffset(2023, 10, 1, 12, 30, 0, TimeSpan.Zero);
         
-        var cut = Render(
-            @<LocalTimeForm @bind-Value="dt" Context="dtf">
-                <InputDate Type="InputDateType.DateTimeLocal" Value="dtf.Value" ValueExpression="() => dtf.Value" ValueChanged="dtf.ValueChanged" />
-            </LocalTimeForm>
-        );
+        var cut = RenderComponent<LocalTimeFormSingle2>(parameters =>
+            parameters.Bind(p => p.Value, dt, n => dt = n));
         var input = cut.Find("input[type='datetime-local']");
         
         // value is set to the local time in the input
@@ -143,4 +135,57 @@
         // the date should be set to the current date
         dt.ShouldBe(new DateTimeOffset(2023, 10, 1, 1, 45, 0, TimeSpan.FromHours((9))));
     }
+    
+    [Fact]
+    public void TestTimeZoneChangePreservesUiValue1()
+    {
+        Services.AddLocalTimeMockService();
+        var localTimeService = Services.GetRequiredService<ILocalTimeService>();
+
+        var dt = new DateTime(2023, 10, 1, 13, 00, 0, DateTimeKind.Utc);
+        
+        var cut = RenderComponent<LocalTimeFormSingle1>(parameters =>
+            parameters.Bind(p => p.Value, dt, n => dt = n));
+        
+        var input = cut.Find("input[type='datetime-local']");
+        
+        // Change timezone to Blazil (UTC-3)
+        localTimeService.OverrideTimeZoneInfo = TimeZoneInfo.FindSystemTimeZoneById("America/Sao_Paulo");
+        cut.SetParametersAndRender(parameters => 
+            parameters.Bind(p => p.Value, dt, n => dt = n));
+        
+        // The UI input should still show the same local time the user entered
+        input.GetAttribute("value").ShouldBe("2023-10-01T22:00:00");
+        
+        // But the bound Value should be recalculated for the new timezone
+        // 22:00 in São Paulo (UTC-3) is 01:00 in UTC the next day
+        dt.ShouldBe(new DateTime(2023, 10, 2, 1, 00, 0, DateTimeKind.Utc));
+    }
+    
+    [Fact]
+    public void TestTimeZoneChangePreservesUiValue2()
+    {
+        Services.AddLocalTimeMockService();
+        var localTimeService = Services.GetRequiredService<ILocalTimeService>();
+
+        var dt = new DateTimeOffset(2023, 10, 1, 22, 00, 0, TimeSpan.FromHours(9));
+        
+        var cut = RenderComponent<LocalTimeFormSingle2>(parameters =>
+            parameters.Bind(p => p.Value, dt, n => dt = n));
+        
+        var input = cut.Find("input[type='datetime-local']");
+        
+        // Change timezone to Blazil (UTC-3)
+        localTimeService.OverrideTimeZoneInfo = TimeZoneInfo.FindSystemTimeZoneById("America/Sao_Paulo");
+        cut.SetParametersAndRender(parameters => 
+            parameters.Bind(p => p.Value, dt, n => dt = n));
+        
+        // The UI input should still show the same local time the user entered
+        input.GetAttribute("value").ShouldBe("2023-10-01T22:00:00");
+        
+        // But the bound Value should be recalculated for the new timezone
+        // 22:00 in São Paulo (UTC-3) is 01:00 in UTC the next day
+        dt.ShouldBe(new DateTimeOffset(2023, 10, 1, 22, 00, 0, TimeSpan.FromHours(-3)));
+    }
+    
 }
