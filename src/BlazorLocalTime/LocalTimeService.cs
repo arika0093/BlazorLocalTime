@@ -119,8 +119,8 @@ internal class LocalTimeService(TimeProvider timeProvider) : ILocalTimeService
     public TimeZoneInfo? BrowserTimeZoneInfo { get; internal set; }
 
     /// <inheritdoc />
-    public TimeZoneInfo? OverrideTimeZoneInfo 
-    { 
+    public TimeZoneInfo? OverrideTimeZoneInfo
+    {
         get => _overrideTimeZoneInfo;
         set
         {

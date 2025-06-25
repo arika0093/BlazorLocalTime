@@ -1,4 +1,4 @@
-﻿# BlazorLocalTime
+# BlazorLocalTime
 
 [![NuGet Version](https://img.shields.io/nuget/v/BlazorLocalTime?style=flat-square&logo=NuGet&color=0080CC)](https://www.nuget.org/packages/BlazorLocalTime/) ![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/arika0093/BlazorLocalTime/test.yaml?branch=main&label=Test&style=flat-square) ![GitHub last commit (branch)](https://img.shields.io/github/last-commit/arika0093/BlazorLocalTime?style=flat-square)
 
@@ -150,6 +150,41 @@ In such cases, you can use `ILocalTimeService.LocalTimeZoneChanged` to wait unti
     }
 }
 ```
+
+## Overriding Time Zone
+
+You can programmatically override the browser's detected time zone using `OverrideTimeZoneInfo`. This is useful for testing different time zones or allowing users to select their preferred time zone:
+
+```razor
+@inject ILocalTimeService LocalTimeService
+
+<select @onchange="OnTimeZoneChanged">
+    <option value="">-- Use Browser Time Zone --</option>
+    @foreach (var tz in TimeZoneInfo.GetSystemTimeZones())
+    {
+        <option value="@tz.Id" selected="@(LocalTimeService.TimeZoneInfo?.Id == tz.Id)">
+            @tz.DisplayName
+        </option>
+    }
+</select>
+<br/>
+Current Time: <LocalTimeText Value="@DateTime.UtcNow" Format="yyyy-MM-dd HH:mm:ssK" />
+
+@code {
+    private void OnTimeZoneChanged(ChangeEventArgs e)
+    {
+        var timeZoneId = e.Value?.ToString();
+        LocalTimeService.OverrideTimeZoneInfo = !string.IsNullOrEmpty(timeZoneId)
+            ? TimeZoneInfo.FindSystemTimeZoneById(timeZoneId)
+            : null;
+    }
+}
+```
+
+The `OverrideTimeZoneInfo` property allows you to:
+- Override the browser's detected time zone with any system time zone
+- Reset to browser time zone by setting it to `null`
+- Automatically triggers `LocalTimeZoneChanged` event when changed
 
 ## Testing
 When testing, it is not practical to manually change the browser and runtime time zones each time.
