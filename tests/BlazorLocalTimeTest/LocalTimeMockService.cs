@@ -10,7 +10,7 @@ internal class LocalTimeMockService : LocalTimeService
         : base(provider)
     {
         // Mocking the browser's time zone to Asia/Tokyo for testing purposes.
-        TimeZoneInfo = TimeZoneInfo.FindSystemTimeZoneById("Asia/Tokyo");
+        BrowserTimeZoneInfo = TimeZoneInfo.FindSystemTimeZoneById("Asia/Tokyo");
     }
 }
 

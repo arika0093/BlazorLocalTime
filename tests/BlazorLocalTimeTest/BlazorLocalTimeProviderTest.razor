@@ -7,7 +7,7 @@
     {
         var tms = new LocalTimeMockService(TimeProvider.System)
         {
-            TimeZoneInfo = null
+            BrowserTimeZoneInfo = null
         };
         
         Services.AddScoped<ILocalTimeService, LocalTimeMockService>(_ => tms);
