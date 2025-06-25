@@ -188,4 +188,30 @@
         dt.ShouldBe(new DateTimeOffset(2023, 10, 1, 22, 00, 0, TimeSpan.FromHours(-3)));
     }
     
+    
+    [Fact]
+    public void TestTimeZoneChangePreservesUiValue3()
+    {
+        Services.AddLocalTimeMockService();
+        var localTimeService = Services.GetRequiredService<ILocalTimeService>();
+
+        var dt = new DateTimeOffset(2025, 6, 26, 4, 55, 0, TimeSpan.FromHours(9));
+        
+        var cut = RenderComponent<LocalTimeFormSingle2>(parameters =>
+            parameters.Bind(p => p.Value, dt, n => dt = n));
+        
+        var input = cut.Find("input[type='datetime-local']");
+        
+        // Change timezone to Vancouver (UTC-8) but use summer
+        localTimeService.OverrideTimeZoneInfo = TimeZoneInfo.FindSystemTimeZoneById("America/Vancouver");
+        cut.SetParametersAndRender(parameters => 
+            parameters.Bind(p => p.Value, dt, n => dt = n));
+        
+        // The UI input should still show the same local time the user entered
+        input.GetAttribute("value").ShouldBe("2025-06-26T04:55:00");
+        
+        // But the bound Value should be recalculated for the new timezone
+        // 04:55 in Vancouver (UTC-7) is 11:55 in UTC
+        dt.ShouldBe(new DateTimeOffset(2025, 6, 26, 11, 55, 0, TimeSpan.Zero));
+    }
 }

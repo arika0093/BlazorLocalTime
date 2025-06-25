@@ -63,10 +63,9 @@ public sealed partial class LocalTimeForm<T> : ComponentBase, IDisposable
             }
             // Convert the current UTC value to the new local time based on the new time zone.
             var currentUtcVal = currentValue.Value.ToUniversalTime();
-            var newValue = new DateTimeOffset(
-                currentUtcVal.DateTime + prevTimeZone.BaseUtcOffset,
-                currTimeZone.BaseUtcOffset
-            );
+            var prevOffset = prevTimeZone.GetUtcOffset(currentValue.Value);
+            var currOffset = currTimeZone.GetUtcOffset(currentValue.Value);
+            var newValue = new DateTimeOffset(currentUtcVal.DateTime + prevOffset, currOffset);
             var newValueAsT = ConvertValueAsT(newValue);
             await ValueChanged.InvokeAsync(newValueAsT);
         }
