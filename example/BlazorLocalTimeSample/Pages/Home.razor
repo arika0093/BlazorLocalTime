@@ -78,18 +78,18 @@
 <p>
     If you want to use <code>TimeZoneInfo</code>, you can use the <code>LocalTimeZone</code> component:
 </p>
-<pre><code class="language-razor">Runtime Time Zone: @@TimeZoneInfo.Local.DisplayName
+<pre><code class="language-razor">Server Time Zone: @@TimeZoneInfo.Local.DisplayName
 &lt;br /&gt;
 &lt;LocalTimeZone Context="tz"&gt;
-    Browser Time Zone: @@tz.DisplayName
+    Display Time Zone: @@tz.DisplayName
 &lt;/LocalTimeZone&gt;
 </code></pre>
 
 <div class="component-sample">
-    Runtime Time Zone: @TimeZoneInfo.Local.DisplayName
+    Server Time Zone: @TimeZoneInfo.Local.DisplayName
     <br/>
     <LocalTimeZone Context="tz">
-        Browser Time Zone: @tz.DisplayName
+        Display Time Zone: @tz.DisplayName
     </LocalTimeZone>
 </div>
 
@@ -265,6 +265,52 @@
     @LocalDt?.ToString("yyyy-MM-dd HH:mm:ss")
 </div>
 
+<h2>Overriding Time Zone</h2>
+<p>
+    You can programmatically override the browser's detected time zone using <code>OverrideTimeZoneInfo</code>. 
+    This is useful for testing different time zones or allowing users to select their preferred time zone.
+</p>
+
+<pre><code class="language-razor">&lt;select @@onchange="OnTimeZoneChanged"&gt;
+    &lt;option value=""&gt;-- Use Browser Time Zone --&lt;/option&gt;
+    @@foreach (var tz in TimeZoneInfo.GetSystemTimeZones())
+    {
+        &lt;option value="@@tz.Id" selected="@@(LocalTimeService.TimeZoneInfo?.Id == tz.Id)"&gt;
+            @@tz.DisplayName
+        &lt;/option&gt;
+    }
+&lt;/select&gt;
+&lt;br/&gt;
+Current Time: &lt;LocalTimeText Value="@@DateTime.UtcNow" Format="yyyy-MM-dd HH:mm:ssK" /&gt;
+
+@@inject ILocalTimeService LocalTimeService
+@@code {
+    private void OnTimeZoneChanged(ChangeEventArgs e)
+    {
+        var timeZoneId = e.Value?.ToString();
+        LocalTimeService.OverrideTimeZoneInfo = !string.IsNullOrEmpty(timeZoneId)
+            ? TimeZoneInfo.FindSystemTimeZoneById(timeZoneId)
+            : null;
+    }
+}
+</code></pre>
+
+<div class="component-sample">
+    <label>Select Time Zone:</label>
+    <select @onchange="OnTimeZoneChanged" style="width: 400px; padding: 1ex; margin: 5px 0; border: 1px solid #DDD;">
+        <option value="">-- Use Browser Time Zone --</option>
+        @foreach (var tz in TimeZoneInfo.GetSystemTimeZones())
+        {
+            <option value="@tz.Id" selected="@(LocalTimeService.TimeZoneInfo?.Id == tz.Id)">
+                @tz.DisplayName
+            </option>
+        }
+    </select>
+    <br/>
+    Current Time: <LocalTimeText Value="@DateTime.UtcNow" Format="yyyy-MM-dd HH:mm:ssK" />
+</div>
+
+
 <div class="blank"></div>
 
 @inject ILocalTimeService LocalTimeService
@@ -275,5 +321,13 @@
     private void ButtonClicked()
     {
         LocalDt = LocalTimeService.Now;
+    }
+
+    private void OnTimeZoneChanged(ChangeEventArgs e)
+    {
+        var timeZoneId = e.Value?.ToString();
+        LocalTimeService.OverrideTimeZoneInfo = !string.IsNullOrEmpty(timeZoneId)
+            ? TimeZoneInfo.FindSystemTimeZoneById(timeZoneId)
+            : null;
     }
 }
