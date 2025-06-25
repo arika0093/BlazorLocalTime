@@ -32,64 +32,45 @@ public sealed partial class LocalTimeForm<T> : ComponentBase, IDisposable
     /// <inheritdoc />
     protected override void OnInitialized()
     {
-        LocalTimeService.LocalTimeZoneChanged += OnLocalTimeZoneChanged;
+        LocalTimeService.LocalTimeZoneChanged += OnLocalTimeZoneChangedDetailed;
     }
 
     /// <inheritdoc />
     public void Dispose()
     {
-        LocalTimeService.LocalTimeZoneChanged -= OnLocalTimeZoneChanged;
+        LocalTimeService.LocalTimeZoneChanged -= OnLocalTimeZoneChangedDetailed;
     }
 
-    private void OnLocalTimeZoneChanged(object? sender, EventArgs e)
+    private async void OnLocalTimeZoneChangedDetailed(object? sender, TimeZoneChangedEventArgs e)
     {
-        StateHasChanged();
-    }
-
-    private async Task ValueChangedHandler(DateTime? newValue)
-    {
-        if (ValueChanged.HasDelegate)
+        // When timezone changes, preserve the UI input value by recalculating the UTC Value
+        // based on the current local time displayed in the UI
+        var currentValue = ValueAsDateTimeOffset;
+        if (currentValue.HasValue && ValueChanged.HasDelegate)
         {
-            // if the new value is null, we can directly invoke the ValueChanged callback with null.
-            if (newValue == null)
+            var prevTimeZone = e.PreviousTimeZone ?? LocalTimeService.BrowserTimeZoneInfo;
+            var currTimeZone = e.CurrentTimeZone ?? LocalTimeService.BrowserTimeZoneInfo;
+            if (prevTimeZone == null || currTimeZone == null)
             {
-                await ValueChanged.InvokeAsync(default(T));
+                // If either previous or current timezone is null, we cannot proceed with the conversion.
+                // This can happen if the browser failed time zone detection.
                 return;
             }
-
-            var validVal = newValue.Value;
-
-            // Overwrite the Kind of the DateTime to Unspecified (because AntBlazor DatePicker send as UTC).
-            if (validVal.Kind != DateTimeKind.Unspecified)
+            if (prevTimeZone.Equals(currTimeZone))
             {
-                validVal = DateTime.SpecifyKind(validVal, DateTimeKind.Unspecified);
+                // If the time zones are the same, no need to change the value.
+                return;
             }
-
-            // Since the edited value is in local time, attach the current local time zone information and convert to DateTimeOffset.
-            var timeZoneInfo = LocalTimeService.GetBrowserTimeZone();
-            var newDateTimeOffset = new DateTimeOffset(
-                validVal,
-                timeZoneInfo.GetUtcOffset(validVal)
+            // Convert the current UTC value to the new local time based on the new time zone.
+            var currentUtcVal = currentValue.Value.ToUniversalTime();
+            var newValue = new DateTimeOffset(
+                currentUtcVal.DateTime + prevTimeZone.BaseUtcOffset,
+                currTimeZone.BaseUtcOffset
             );
-            // if T is DateTimeOffset or Nullable<DateTimeOffset>, we can directly use the newDateTimeOffset.
-            if (typeof(T) == typeof(DateTimeOffset) || typeof(T) == typeof(DateTimeOffset?))
-            {
-                await ValueChanged.InvokeAsync((T)(object)newDateTimeOffset);
-                return;
-            }
-            // If T is DateTime or Nullable<DateTime>, we need to convert the DateTimeOffset to DateTime.
-            if (typeof(T) == typeof(DateTime) || typeof(T) == typeof(DateTime?))
-            {
-                // Convert the DateTimeOffset to UTC DateTime.
-                var utcValue = newDateTimeOffset.UtcDateTime;
-                await ValueChanged.InvokeAsync((T)(object)utcValue);
-                return;
-            }
-            // If T is neither DateTime nor DateTimeOffset, throw an exception.
-            throw new InvalidOperationException(
-                $"Unsupported type {typeof(T)}. Only DateTime, DateTimeOffset, and their nullable versions are supported."
-            );
+            var newValueAsT = ConvertValueAsT(newValue);
+            await ValueChanged.InvokeAsync(newValueAsT);
         }
+        await InvokeAsync(StateHasChanged);
     }
 
     private LocalTimeFormValue FormValue =>
@@ -101,6 +82,47 @@ public sealed partial class LocalTimeForm<T> : ComponentBase, IDisposable
             TimeChanged = EventCallback.Factory.Create<TimeOnly?>(this, TimeChangedHandler),
             TimeSpanChanged = EventCallback.Factory.Create<TimeSpan?>(this, TimespanChangedHandler),
         };
+
+    private DateTimeOffset? ValueAsDateTimeOffset
+    {
+        get
+        {
+            if (Value is null)
+            {
+                return null;
+            }
+            if (typeof(T) == typeof(DateTime) || typeof(T) == typeof(DateTime?))
+            {
+                var dt = (Value as DateTime?)!.Value.ToUniversalTime();
+                return new DateTimeOffset(dt, TimeSpan.Zero);
+            }
+            if (typeof(T) == typeof(DateTimeOffset) || typeof(T) == typeof(DateTimeOffset?))
+            {
+                return (Value as DateTimeOffset?)!.Value;
+            }
+            throw new InvalidOperationException(
+                $"Unsupported type {typeof(T)}. Only DateTime, DateTimeOffset, and their nullable versions are supported."
+            );
+        }
+    }
+
+    private static T ConvertValueAsT(DateTimeOffset val)
+    {
+        if (typeof(T) == typeof(DateTimeOffset) || typeof(T) == typeof(DateTimeOffset?))
+        {
+            return (T)(object)val;
+        }
+        // If T is DateTime or Nullable<DateTime>, we need to convert the DateTimeOffset to DateTime.
+        if (typeof(T) == typeof(DateTime) || typeof(T) == typeof(DateTime?))
+        {
+            // Convert the DateTimeOffset to UTC DateTime.
+            var utcValue = val.UtcDateTime;
+            return (T)(object)utcValue;
+        }
+        throw new InvalidOperationException(
+            $"Unsupported type {typeof(T)}. Only DateTime, DateTimeOffset, and their nullable versions are supported."
+        );
+    }
 
     private DateTime? LocalTimeValue
     {
@@ -120,12 +142,38 @@ public sealed partial class LocalTimeForm<T> : ComponentBase, IDisposable
                     .ToLocalTimeOffset((Value as DateTimeOffset?)!.Value)
                     .DateTime;
             }
-            else
+            throw new InvalidOperationException(
+                $"Unsupported type {typeof(T)}. Only DateTime, DateTimeOffset, and their nullable versions are supported."
+            );
+        }
+    }
+
+    private async Task ValueChangedHandler(DateTime? newValue)
+    {
+        if (ValueChanged.HasDelegate)
+        {
+            // if the new value is null, we can directly invoke the ValueChanged callback with null.
+            if (newValue == null)
             {
-                throw new InvalidOperationException(
-                    $"Unsupported type {typeof(T)}. Only DateTime, DateTimeOffset, and their nullable versions are supported."
-                );
+                await ValueChanged.InvokeAsync(default);
+                return;
             }
+
+            var validVal = newValue.Value;
+            // Overwrite the Kind of the DateTime to Unspecified (because AntBlazor DatePicker send as UTC).
+            if (validVal.Kind != DateTimeKind.Unspecified)
+            {
+                validVal = DateTime.SpecifyKind(validVal, DateTimeKind.Unspecified);
+            }
+
+            // Since the edited value is in local time, attach the current local time zone information and convert to DateTimeOffset.
+            var timeZoneInfo = LocalTimeService.GetBrowserTimeZone();
+            var newDateTimeOffset = new DateTimeOffset(
+                validVal,
+                timeZoneInfo.GetUtcOffset(validVal)
+            );
+            var convertedValue = ConvertValueAsT(newDateTimeOffset);
+            await ValueChanged.InvokeAsync(convertedValue);
         }
     }
 
