@@ -30,7 +30,7 @@ public sealed partial class BlazorLocalTimeProvider : ComponentBase
                 );
                 var timeZoneString = await module.InvokeAsync<string>("getBrowserTimeZone");
                 var timeZone = TimeZoneInfo.FindSystemTimeZoneById(timeZoneString);
-                LocalTimeService.SetTimeZoneInfo(timeZone);
+                LocalTimeService.SetBrowserTimeZoneInfo(timeZone);
             }
             catch (JSDisconnectedException)
             {

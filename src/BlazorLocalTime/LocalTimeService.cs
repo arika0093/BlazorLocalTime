@@ -6,9 +6,19 @@
 public interface ILocalTimeService
 {
     /// <summary>
-    /// Browser's time zone information.
+    /// Browser's time zone information. if you want to override it, set <see cref="OverrideTimeZoneInfo"/>.
     /// </summary>
     TimeZoneInfo? TimeZoneInfo { get; }
+
+    /// <summary>
+    /// Browser's original time zone information (read-only).
+    /// </summary>
+    TimeZoneInfo? BrowserTimeZoneInfo { get; }
+
+    /// <summary>
+    /// User-specified override time zone information. If you want to reset it, set this property to null.
+    /// </summary>
+    TimeZoneInfo? OverrideTimeZoneInfo { get; set; }
 
     /// <summary>
     /// Gets the current browser's local time as a <see cref="DateTimeOffset"/>.
@@ -29,7 +39,7 @@ public interface ILocalTimeService
     /// Sets the browser's time zone information.
     /// this method is only for internal use.
     /// </summary>
-    internal void SetTimeZoneInfo(TimeZoneInfo timeZoneInfo);
+    internal void SetBrowserTimeZoneInfo(TimeZoneInfo timeZoneInfo);
 
     /// <summary>
     /// Converts the specified UTC <see cref="DateTime"/> to local time.
@@ -100,8 +110,32 @@ public interface ILocalTimeService
 /// </summary>
 internal class LocalTimeService(TimeProvider timeProvider) : ILocalTimeService
 {
+    private TimeZoneInfo? _overrideTimeZoneInfo;
+
     /// <inheritdoc />
-    public TimeZoneInfo? TimeZoneInfo { get; internal set; }
+    public TimeZoneInfo? TimeZoneInfo => OverrideTimeZoneInfo ?? BrowserTimeZoneInfo;
+
+    /// <inheritdoc />
+    public TimeZoneInfo? BrowserTimeZoneInfo { get; internal set; }
+
+    /// <inheritdoc />
+    public TimeZoneInfo? OverrideTimeZoneInfo 
+    { 
+        get => _overrideTimeZoneInfo;
+        set
+        {
+            if (_overrideTimeZoneInfo != null && _overrideTimeZoneInfo.Equals(value))
+            {
+                return;
+            }
+            if (_overrideTimeZoneInfo == null && value == null)
+            {
+                return;
+            }
+            _overrideTimeZoneInfo = value;
+            LocalTimeZoneChanged.Invoke(this, EventArgs.Empty);
+        }
+    }
 
     /// <inheritdoc />
     public event EventHandler LocalTimeZoneChanged = delegate { };
@@ -111,13 +145,13 @@ internal class LocalTimeService(TimeProvider timeProvider) : ILocalTimeService
         ((ILocalTimeService)this).ToLocalTimeOffset(timeProvider.GetUtcNow());
 
     /// <inheritdoc />
-    public void SetTimeZoneInfo(TimeZoneInfo timeZoneInfo)
+    public void SetBrowserTimeZoneInfo(TimeZoneInfo timeZoneInfo)
     {
-        if (TimeZoneInfo != null && TimeZoneInfo.Equals(timeZoneInfo))
+        if (BrowserTimeZoneInfo != null && BrowserTimeZoneInfo.Equals(timeZoneInfo))
         {
             return;
         }
-        TimeZoneInfo = timeZoneInfo;
+        BrowserTimeZoneInfo = timeZoneInfo;
         LocalTimeZoneChanged.Invoke(this, EventArgs.Empty);
     }
 }
