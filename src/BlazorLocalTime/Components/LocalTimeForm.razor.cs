@@ -43,17 +43,16 @@ public sealed partial class LocalTimeForm<T> : ComponentBase, IDisposable
 
     private async void OnLocalTimeZoneChangedDetailed(object? sender, TimeZoneChangedEventArgs e)
     {
-        var prevTimeZone = e.PreviousTimeZone ?? LocalTimeService.BrowserTimeZoneInfo;
-        var currTimeZone = e.CurrentTimeZone ?? LocalTimeService.BrowserTimeZoneInfo;
+        var prevTimeZone = e.PreviousTimeZone;
+        var currTimeZone = e.CurrentTimeZone;
         if (currTimeZone == null)
         {
-            // If current timezone is null, we cannot proceed with the conversion.
-            // This can happen if the browser failed time zone detection.
+            // If current timezone is null, this can happen if the browser failed time zone detection.
             return;
         }
         if (prevTimeZone == null)
         {
-            // timezone is available now
+            // timezone is available now !
             await InvokeAsync(StateHasChanged);
             return;
         }
