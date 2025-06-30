@@ -53,8 +53,15 @@
 </code></pre>
 
 <h2>Using as a Component</h2>
-<p>To simply display a local time as text, use the <code>LocalTimeText</code> component:</p>
+<p>
+    To display a local time with semantic HTML, use the <code>LocalTimeText</code> component. By default, it wraps the output in an HTML <code>&lt;time&gt;</code> element with proper datetime attribute for accessibility.
+    If you need just the text without the <code>&lt;time&gt;</code> element wrapper, you can disable it using the <code>DisableTimeElement</code> parameter.
+</p>
+
 <pre><code class="language-razor">&lt;LocalTimeText Value="@@DateTime.UtcNow" Format="yyyy-MM-dd HH:mm:ssK" /&gt;
+&lt;!-- should output something like this: 
+&lt;time datetime="2025-06-30T17:45:27.4610000Z"&gt;2025-07-01 02:45:27+09:00&lt;/time&gt;  
+--&gt;
 </code></pre>
 
 <div class="component-sample">
