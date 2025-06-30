@@ -3,14 +3,14 @@
   "isRoot": true,
   "tools": {
     "nbgv": {
-      "version": "3.6.146",
+      "version": "3.7.115",
       "commands": [
         "nbgv"
       ],
       "rollForward": false
     },
     "csharpier": {
-      "version": "1.0.2",
+      "version": "1.0.3",
       "commands": [
         "csharpier"
       ],
