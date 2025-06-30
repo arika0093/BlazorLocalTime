@@ -12,7 +12,7 @@
         );
         
         // 12:30+09:00 -> 2023-10-01 21:30:00
-        cut.MarkupMatches("2023-10-01 21:30:00");
+        cut.MarkupMatches(@"<time datetime=""2023-10-01T12:30:00.0000000Z"">2023-10-01 21:30:00</time>");
     }
     
     [Fact]
@@ -27,7 +27,7 @@
         );
         
         // 12:30+09:00 -> 2023-10-01 21:30:00
-        cut.MarkupMatches("2023-10-01 21:30:00");
+        cut.MarkupMatches(@"<time datetime=""2023-10-01T12:30:00.0000000Z"">2023-10-01 21:30:00</time>");
     }
     
     [Fact]
@@ -41,7 +41,7 @@
         var cut = Render(@<LocalTimeText Value="dt"/>
         );
         
-        cut.MarkupMatches("2023-10-01 12:30:00");
+        cut.MarkupMatches(@"<time datetime=""2023-10-01T03:30:00.0000000Z"">2023-10-01 12:30:00</time>");
     }
     
     [Fact]
@@ -54,7 +54,21 @@
         var cut = Render(@<LocalTimeText Value="dt" Format="yyyy-MM-dd HH:mm"/>
         );
         
-        cut.MarkupMatches("2023-10-01 21:30");
+        cut.MarkupMatches(@"<time datetime=""2023-10-01T12:30:00.0000000Z"">2023-10-01 21:30</time>");
+    }
+    
+    [Fact]
+    public void TestWithoutTimeElement()
+    {
+        Services.AddLocalTimeMockService();
+
+        var dt = new DateTime(2023, 10, 1, 12, 30, 0, DateTimeKind.Utc);
+
+        var cut = Render(@<LocalTimeText Value="dt" DisableTimeElement />
+        );
+        
+        // Should render without time element (default behavior)
+        cut.MarkupMatches("2023-10-01 21:30:00");
     }
     
 }
