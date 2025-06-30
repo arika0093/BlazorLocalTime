@@ -26,9 +26,9 @@ public sealed partial class LocalTimeText : ComponentBase, IDisposable
     public string Format { get; set; } = "yyyy-MM-dd HH:mm:ss";
 
     /// <summary>
-    /// Gets or sets whether to wrap the output in an HTML &lt;time&gt; element with a datetime attribute.
-    /// When false, generates a semantic &lt;time&gt; tag with ISO-8601 datetime attribute for accessibility.
-    /// The default value is false.
+    /// Gets or sets whether to disable wrapping the output in an HTML &lt;time&gt; element.
+    /// When false (default), generates a semantic &lt;time&gt; tag with ISO-8601 datetime attribute for accessibility.
+    /// When true, renders plain text output for backward compatibility.
     /// </summary>
     [Parameter]
     public bool DisableTimeElement { get; set; } = false;
