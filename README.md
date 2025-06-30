@@ -198,6 +198,10 @@ Therefore, the above function is executed to force the time zone on the runtime 
 > This feature is intended for testing only. It is not recommended to change `TimeZoneInfo.Local` in production applications.
 
 
+## API Reference
+
+For detailed API documentation, see [API.md](docs/API.md).
+
 ## Reference
 
 [This article](https://www.meziantou.net/convert-datetime-to-user-s-time-zone-with-server-side-blazor-time-provider.htm) was used as a major reference. I would like to express my gratitude for the reference article.
