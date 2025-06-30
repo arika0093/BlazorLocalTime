@@ -25,6 +25,14 @@ public sealed partial class LocalTimeText : ComponentBase, IDisposable
     [Parameter]
     public string Format { get; set; } = "yyyy-MM-dd HH:mm:ss";
 
+    /// <summary>
+    /// Gets or sets whether to wrap the output in an HTML &lt;time&gt; element with a datetime attribute.
+    /// When false, generates a semantic &lt;time&gt; tag with ISO-8601 datetime attribute for accessibility.
+    /// The default value is false.
+    /// </summary>
+    [Parameter]
+    public bool DisableTimeElement { get; set; } = false;
+
     /// <inheritdoc />
     protected override void OnInitialized()
     {
@@ -47,4 +55,7 @@ public sealed partial class LocalTimeText : ComponentBase, IDisposable
         Value.HasValue && LocalTimeService.IsTimeZoneInfoAvailable
             ? LocalTimeService.ToLocalTimeOffset(Value.Value).ToString(Format)
             : null;
+
+    // ISO-8601 datetime attribute for the time element
+    private string? IsoDateTime => Value?.UtcDateTime.ToString("O");
 }
