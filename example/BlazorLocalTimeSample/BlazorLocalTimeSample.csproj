@@ -5,11 +5,11 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="AntDesign" Version="1.4.1.1" />
+    <PackageReference Include="AntDesign" Version="1.4.2" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="9.0.4" />
     <PackageReference
       Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer"
-      Version="9.0.4"
+      Version="9.0.6"
       PrivateAssets="all"
     />
     <PackageReference Include="Microsoft.FluentUI.AspNetCore.Components" Version="4.12.0" />
