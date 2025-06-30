@@ -63,6 +63,8 @@ namespace BlazorLocalTime
     {
         public LocalTimeText() { }
         [Microsoft.AspNetCore.Components.Parameter]
+        public bool DisableTimeElement { get; set; }
+        [Microsoft.AspNetCore.Components.Parameter]
         public string Format { get; set; }
         [Microsoft.AspNetCore.Components.Parameter]
         public System.DateTimeOffset? Value { get; set; }
