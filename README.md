@@ -59,7 +59,12 @@ Finally, add the following component to `Routes.razor` (or `MainLayout.razor`, e
 To simply display a local time as text, use the `LocalTimeText` component:
 
 ```razor
-<LocalTimeText Value="@DateTime.UtcNow" Format="yyyy-MM-dd HH:mm:ss" />
+<LocalTimeText Value="@DateTime.UtcNow" Format="yyyy-MM-dd HH:mm:ssK" />
+```
+
+For example, this will render as:
+```html
+<time datetime="2025-06-30T17:45:27.4610000Z">2025-07-01 02:45:27+09:00</time>
 ```
 
 Alternatively, you can use the `LocalTime` component to receive the converted value in the child content:
