@@ -36,6 +36,13 @@ public interface ILocalTimeService
     public bool IsTimeZoneInfoAvailable => TimeZoneInfo != null;
 
     /// <summary>
+    /// Is the browser's time zone information successfully loaded?
+    /// This property is set to null until the browser's time zone information is loaded.
+    /// If the browser's time zone information is successfully loaded, it will be set to true.
+    /// </summary>
+    internal bool? IsSuccessLoadBrowserTimeZone { get; set; }
+
+    /// <summary>
     /// Sets the browser's time zone information.
     /// this method is only for internal use.
     /// </summary>
@@ -147,6 +154,9 @@ internal class LocalTimeService(TimeProvider timeProvider) : ILocalTimeService
     /// <inheritdoc />
     public DateTimeOffset Now =>
         ((ILocalTimeService)this).ToLocalTimeOffset(timeProvider.GetUtcNow());
+
+    /// <inheritdoc />
+    public bool? IsSuccessLoadBrowserTimeZone { get; set; } = null;
 
     /// <inheritdoc />
     public void SetBrowserTimeZoneInfo(TimeZoneInfo timeZoneInfo)
