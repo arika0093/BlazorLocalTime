@@ -13,7 +13,7 @@
         // 12:34+09:00 -> 2023-10-01 21:34:56
         cut.MarkupMatches("<p>2023-10-01 21:34:56</p>");
     }
-    
+
     [Fact]
     public void TestTotalFailed1()
     {
@@ -26,4 +26,29 @@
             RenderComponent<LocalTimeTotalFailed1>();
         });
     }
+
+    [Fact]
+    public void TestTotal2Success()
+    {
+        var timeProvider = new MockTimeProvider(new(2023, 10, 1, 12, 34, 56, TimeSpan.Zero));
+        Services.AddBlazorLocalTimeService(timeProvider);
+        TestInitializer.JavaScriptInitializer(JSInterop);
+
+        var cut = RenderComponent<LocalTimeTotal2>();
+        // 12:34+09:00 -> 2023-10-01 21:34:56
+        cut.MarkupMatches("2023-10-01 21:34:56");
+    }
+
+    [Fact]
+    public void TestTotal2Error()
+    {
+        var timeProvider = new MockTimeProvider(new(2023, 10, 1, 12, 34, 56, TimeSpan.Zero));
+        Services.AddBlazorLocalTimeService(timeProvider);
+        var module = JSInterop.SetupModule(BlazorLocalTimeProvider.JsPath);
+        module.Setup<string>("getBrowserTimeZone").SetException(new JSException("error"));
+
+        var cut = RenderComponent<LocalTimeTotal2>();
+        cut.MarkupMatches("Error");
+    }
+
 }

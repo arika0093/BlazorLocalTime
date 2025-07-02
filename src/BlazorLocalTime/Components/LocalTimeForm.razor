@@ -5,3 +5,11 @@
 {
     @ChildContent(@FormValue)
 }
+else if (OnLoading != null && LocalTimeService.IsSuccessLoadBrowserTimeZone == null)
+{
+    @OnLoading
+}
+else if (OnError != null && LocalTimeService.IsSuccessLoadBrowserTimeZone == false)
+{
+    @OnError
+}

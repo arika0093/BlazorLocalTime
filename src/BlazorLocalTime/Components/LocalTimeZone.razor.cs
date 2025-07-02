@@ -17,10 +17,16 @@ public sealed partial class LocalTimeZone : ComponentBase, IDisposable
     public RenderFragment<TimeZoneInfo>? ChildContent { get; set; }
 
     /// <summary>
-    /// if the local time zone is unknown, this content will be rendered.
+    /// A render fragment that is displayed while the browser's time zone is being loaded.
     /// </summary>
     [Parameter]
-    public RenderFragment? UnknownContent { get; set; }
+    public RenderFragment? OnLoading { get; set; }
+
+    /// <summary>
+    /// A render fragment that is displayed if an error occurs while loading the browser's time zone.
+    /// </summary>
+    [Parameter]
+    public RenderFragment? OnError { get; set; }
 
     /// <inheritdoc />
     protected override void OnInitialized()

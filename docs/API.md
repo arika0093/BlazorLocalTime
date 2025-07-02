@@ -5,19 +5,20 @@
 ### `ILocalTimeService`
 Core service interface for timezone conversion and browser timezone detection.
 
-| Type | Member | Description |
-|------|--------|-------------|
-| Property | `TimeZoneInfo? TimeZoneInfo` | Current timezone (override or browser-detected) |
-| Property | `TimeZoneInfo? BrowserTimeZoneInfo` | Original browser timezone |
-| Property | `TimeZoneInfo? OverrideTimeZoneInfo` | User-specified override timezone |
-| Property | `DateTimeOffset Now` | Current local time as DateTimeOffset |
-| Property | `bool IsTimeZoneInfoAvailable` | Whether timezone info is available |
-| Method | `TimeZoneInfo GetBrowserTimeZone()` | Gets browser timezone (throws if unavailable) |
-| Method | `DateTime ToLocalTime(DateTime utcDateTime)` | Converts UTC to local DateTime |
-| Method | `DateTime ToLocalTime(DateTimeOffset dateTimeOffset)` | Converts DateTimeOffset to local DateTime |
-| Method | `DateTimeOffset ToLocalTimeOffset(DateTime utcDateTime)` | Converts UTC to local DateTimeOffset |
-| Method | `DateTimeOffset ToLocalTimeOffset(DateTimeOffset dateTimeOffset)` | Converts DateTimeOffset to local DateTimeOffset |
-| Event | `LocalTimeZoneChanged` | Fired when timezone changes |
+| Type | Member | Return Type | Description |
+|------|--------|-------------|-------------|
+| Property | `TimeZoneInfo` | `TimeZoneInfo?` | Current timezone (override or browser-detected) |
+| Property | `BrowserTimeZoneInfo` | `TimeZoneInfo?` | Original browser timezone |
+| Property | `OverrideTimeZoneInfo` | `TimeZoneInfo?` | User-specified override timezone |
+| Property | `Now` | `DateTimeOffset` | Current local time as DateTimeOffset |
+| Property | `IsTimeZoneInfoAvailable` | `bool` | Whether timezone info is available |
+| Property | `IsSuccessLoadBrowserTimeZone` | `bool?` | Whether browser timezone loading succeeded (null=loading, true=success, false=error) |
+| Method | `GetBrowserTimeZone()` | `TimeZoneInfo` | Gets browser timezone (throws if unavailable) |
+| Method | `ToLocalTime(DateTime utcDateTime)` | `DateTime` | Converts UTC to local DateTime |
+| Method | `ToLocalTime(DateTimeOffset dateTimeOffset)` | `DateTime` | Converts DateTimeOffset to local DateTime |
+| Method | `ToLocalTimeOffset(DateTime utcDateTime)` | `DateTimeOffset` | Converts UTC to local DateTimeOffset |
+| Method | `ToLocalTimeOffset(DateTimeOffset dateTimeOffset)` | `DateTimeOffset` | Converts DateTimeOffset to local DateTimeOffset |
+| Event | `LocalTimeZoneChanged` | `Action` | Fired when timezone changes |
 
 ## Components
 
@@ -38,29 +39,34 @@ Displays formatted local time text.
 | `DisableTimeElement` | `bool` | `false` | Whether to wrap in `<time>` element |
 
 ### `LocalTime`
-Provides local time via render fragment.
+Provides local time via render fragment with loading and error state support.
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
 | `Value` | `DateTimeOffset?` | UTC datetime to convert |
 | `ChildContent` | `RenderFragment<DateTimeOffset>?` | Content receiving converted time |
+| `OnLoading` | `RenderFragment?` | Content displayed while timezone is loading |
+| `OnError` | `RenderFragment?` | Content displayed if timezone loading fails |
 
 ### `LocalTimeZone`
-Provides timezone info via render fragment.
+Provides timezone info via render fragment with loading and error state support.
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
 | `ChildContent` | `RenderFragment<TimeZoneInfo>?` | Content when timezone available |
-| `UnknownContent` | `RenderFragment?` | Content when timezone unavailable |
+| `OnLoading` | `RenderFragment?` | Content displayed while timezone is loading |
+| `OnError` | `RenderFragment?` | Content displayed if timezone loading fails |
 
 ### `LocalTimeForm<T>`
-Form component with timezone conversion for DateTime inputs.
+Form component with timezone conversion for DateTime inputs and loading/error state support.
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
 | `Value` | `T` | UTC datetime value (DateTime, DateTimeOffset, or nullable versions) |
 | `ValueChanged` | `EventCallback<T>` | Value change callback |
 | `ChildContent` | `RenderFragment<LocalTimeFormValue>?` | Form content |
+| `OnLoading` | `RenderFragment?` | Content displayed while timezone is loading |
+| `OnError` | `RenderFragment?` | Content displayed if timezone loading fails |
 
 ## Extension Methods
 
@@ -68,15 +74,6 @@ Form component with timezone conversion for DateTime inputs.
 |--------|-------------|
 | `AddBlazorLocalTimeService()` | Registers BlazorLocalTime services with system TimeProvider |
 | `AddBlazorLocalTimeService(TimeProvider timeProvider)` | Registers BlazorLocalTime services with custom TimeProvider |
-
-**Usage:**
-```csharp
-// With system TimeProvider
-builder.Services.AddBlazorLocalTimeService();
-
-// With custom TimeProvider
-builder.Services.AddBlazorLocalTimeService(customTimeProvider);
-```
 
 ## Testing Utilities
 

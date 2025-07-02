@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.Logging;
 using Microsoft.JSInterop;
 
 namespace BlazorLocalTime;
@@ -17,11 +18,15 @@ public sealed partial class BlazorLocalTimeProvider : ComponentBase
     [Inject]
     private ILocalTimeService LocalTimeService { get; set; } = null!;
 
+    [Inject]
+    private ILogger<BlazorLocalTimeProvider> Logger { get; set; } = null!;
+
     /// <inheritdoc />
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender && !LocalTimeService.IsTimeZoneInfoAvailable)
         {
+            TimeZoneInfo? timeZone = null;
             try
             {
                 await using var module = await JsRuntime.InvokeAsync<IJSObjectReference>(
@@ -29,12 +34,28 @@ public sealed partial class BlazorLocalTimeProvider : ComponentBase
                     JsPath
                 );
                 var timeZoneString = await module.InvokeAsync<string>("getBrowserTimeZone");
-                var timeZone = TimeZoneInfo.FindSystemTimeZoneById(timeZoneString);
-                LocalTimeService.SetBrowserTimeZoneInfo(timeZone);
+                timeZone = TimeZoneInfo.FindSystemTimeZoneById(timeZoneString);
             }
-            catch (JSDisconnectedException)
+            catch (JSDisconnectedException ex)
             {
-                // ignore this exception, it means the JS runtime is not available
+                Logger.LogDebug(
+                    ex,
+                    "JSDisconnectedException occurred while trying to load browser time zone information. "
+                        + "This may happen if the Blazor application is disconnected from the JavaScript runtime."
+                );
+            }
+            catch (JSException ex)
+            {
+                Logger.LogWarning(
+                    ex,
+                    "JSException occurred while trying to load browser time zone information. "
+                        + "This may happen if the browser does not support the required JavaScript APIs or if the time zone information is not available."
+                );
+            }
+            finally
+            {
+                LocalTimeService.IsSuccessLoadBrowserTimeZone = (timeZone != null);
+                LocalTimeService.SetBrowserTimeZoneInfo(timeZone);
             }
         }
     }

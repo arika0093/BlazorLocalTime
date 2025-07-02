@@ -1,10 +1,13 @@
 ﻿@namespace BlazorLocalTime
 
-@if (!DisableTimeElement)
+@if (Value != null && LocalTimeService.IsTimeZoneInfoAvailable)
 {
-    <time datetime="@IsoDateTime">@FormattedValue</time>
-}
-else
-{
-    @FormattedValue
+    @if (!DisableTimeElement)
+    {
+        <time datetime="@IsoDateTime">@FormattedValue</time>
+    }
+    else
+    {
+        @FormattedValue
+    }
 }

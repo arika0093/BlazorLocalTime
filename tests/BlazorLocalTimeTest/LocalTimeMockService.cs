@@ -14,6 +14,15 @@ internal class LocalTimeMockService : LocalTimeService
     }
 }
 
+internal class LocalTimeEmptyMockService : LocalTimeService
+{
+    public LocalTimeEmptyMockService(TimeProvider provider)
+        : base(provider)
+    {
+        BrowserTimeZoneInfo = null;
+    }
+}
+
 internal static class LocalTimeMockServiceExtension
 {
     public static IServiceCollection AddLocalTimeMockService(this IServiceCollection services)

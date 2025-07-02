@@ -65,8 +65,51 @@
                 @dtl.ToString("yyyy-MM-dd HH:mm")
             </LocalTime>
         );
-        
+
         cut.MarkupMatches("2023-10-01 21:30");
     }
-    
+
+    [Fact]
+    public void TestLoadingComponent1()
+    {
+        Services.AddScoped<ILocalTimeService, LocalTimeEmptyMockService>();
+        Services.AddSingleton<TimeProvider>(TimeProvider.System);
+
+        var dt = new DateTime(2023, 10, 1, 12, 30, 0, DateTimeKind.Utc);
+
+        var cut = Render(
+            @<LocalTime Value="dt">
+                <ChildContent Context="dtl">
+                    @dtl.ToString("yyyy-MM-dd HH:mm")
+                </ChildContent>
+                <OnLoading>
+                    Loading...
+                </OnLoading>
+            </LocalTime>
+        );
+
+        cut.MarkupMatches("Loading...");
+    }
+
+    [Fact]
+    public void TestLoadingComponent2()
+    {
+        Services.AddLocalTimeMockService();
+
+        var dt = new DateTime(2023, 10, 1, 12, 30, 0, DateTimeKind.Utc);
+
+        var cut = Render(
+            @<LocalTime Value="dt">
+                <ChildContent Context="dtl">
+                    @dtl.ToString("yyyy-MM-dd HH:mm")
+                </ChildContent>
+                <OnLoading>
+                    Loading...
+                </OnLoading>
+            </LocalTime>
+        );
+
+        cut.MarkupMatches("2023-10-01 21:30");
+    }
+
 }
