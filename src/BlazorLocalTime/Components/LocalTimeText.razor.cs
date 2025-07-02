@@ -52,9 +52,7 @@ public sealed partial class LocalTimeText : ComponentBase, IDisposable
 
     // formatted value
     private string? FormattedValue =>
-        Value.HasValue && LocalTimeService.IsTimeZoneInfoAvailable
-            ? LocalTimeService.ToLocalTimeOffset(Value.Value).ToString(Format)
-            : null;
+        Value.HasValue ? LocalTimeService.ToLocalTimeOffset(Value.Value).ToString(Format) : null;
 
     // ISO-8601 datetime attribute for the time element
     private string? IsoDateTime => Value?.UtcDateTime.ToString("O");

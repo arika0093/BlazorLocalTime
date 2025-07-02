@@ -18,6 +18,18 @@ public sealed partial class LocalTimeForm<T> : ComponentBase, IDisposable
     public RenderFragment<LocalTimeFormValue>? ChildContent { get; set; }
 
     /// <summary>
+    /// A render fragment that is displayed while the browser's time zone is being loaded.
+    /// </summary>
+    [Parameter]
+    public RenderFragment? OnLoading { get; set; }
+
+    /// <summary>
+    /// A render fragment that is displayed if an error occurs while loading the browser's time zone.
+    /// </summary>
+    [Parameter]
+    public RenderFragment? OnError { get; set; }
+
+    /// <summary>
     /// The UTC DateTime value to be converted to local time.
     /// </summary>
     [Parameter]

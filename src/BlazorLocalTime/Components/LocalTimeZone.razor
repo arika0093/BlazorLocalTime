@@ -4,7 +4,12 @@
 {
     @ChildContent(LocalTimeService.GetBrowserTimeZone())
 }
-@if (UnknownContent != null && !LocalTimeService.IsTimeZoneInfoAvailable)
+else if (OnLoading != null && !LocalTimeService.IsSuccessLoadBrowserTimeZone == null)
 {
-    @UnknownContent
+    @OnLoading
 }
+else if (OnError != null && LocalTimeService.IsSuccessLoadBrowserTimeZone ==false)
+{
+    @OnError
+}
+
