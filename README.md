@@ -55,6 +55,7 @@ Finally, add the following component to `Routes.razor` (or `MainLayout.razor`, e
 ```
 
 ## Using as a Component
+### Displaying Local Time
 
 To simply display a local time as text, use the `LocalTimeText` component:
 
@@ -75,6 +76,20 @@ Alternatively, you can use the `LocalTime` component to receive the converted va
 </LocalTime>
 ```
 
+If the user's local time zone is not yet available when loading, the `LocalTime` component will not display anything.
+As a fallback, you can use `OnLoading` to specify content to show until the local time zone is obtained.
+
+```razor
+<LocalTime Value="@DateTime.UtcNow">
+    <ChildContent Context="dt">
+        @dt.ToString("yyyy-MM-dd HH:mm:ss")
+    </ChildContent>
+    <OnLoading>
+        <p>Loading...</p>
+    </OnLoading>
+</LocalTime>
+```
+
 If you want to use `TimeZoneInfo`, you can use the `LocalTimeZone` component:
 
 ```razor
@@ -82,6 +97,8 @@ If you want to use `TimeZoneInfo`, you can use the `LocalTimeZone` component:
     <p>Current Time Zone: @tz.DisplayName</p>
 </LocalTimeZone>
 ```
+
+### Input Forms
 
 For input forms, it is common to display values in local time and save them as UTC.  
 You can easily create such forms using the `LocalTimeForm` component:
