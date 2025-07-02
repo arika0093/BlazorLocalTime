@@ -5,19 +5,20 @@
 ### `ILocalTimeService`
 Core service interface for timezone conversion and browser timezone detection.
 
-| Type | Member | Description |
-|------|--------|-------------|
-| Property | `TimeZoneInfo? TimeZoneInfo` | Current timezone (override or browser-detected) |
-| Property | `TimeZoneInfo? BrowserTimeZoneInfo` | Original browser timezone |
-| Property | `TimeZoneInfo? OverrideTimeZoneInfo` | User-specified override timezone |
-| Property | `DateTimeOffset Now` | Current local time as DateTimeOffset |
-| Property | `bool IsTimeZoneInfoAvailable` | Whether timezone info is available |
-| Method | `TimeZoneInfo GetBrowserTimeZone()` | Gets browser timezone (throws if unavailable) |
-| Method | `DateTime ToLocalTime(DateTime utcDateTime)` | Converts UTC to local DateTime |
-| Method | `DateTime ToLocalTime(DateTimeOffset dateTimeOffset)` | Converts DateTimeOffset to local DateTime |
-| Method | `DateTimeOffset ToLocalTimeOffset(DateTime utcDateTime)` | Converts UTC to local DateTimeOffset |
-| Method | `DateTimeOffset ToLocalTimeOffset(DateTimeOffset dateTimeOffset)` | Converts DateTimeOffset to local DateTimeOffset |
-| Event | `LocalTimeZoneChanged` | Fired when timezone changes |
+| Type | Member | Return Type | Description |
+|------|--------|-------------|-------------|
+| Property | `TimeZoneInfo` | `TimeZoneInfo?` | Current timezone (override or browser-detected) |
+| Property | `BrowserTimeZoneInfo` | `TimeZoneInfo?` | Original browser timezone |
+| Property | `OverrideTimeZoneInfo` | `TimeZoneInfo?` | User-specified override timezone |
+| Property | `Now` | `DateTimeOffset` | Current local time as DateTimeOffset |
+| Property | `IsTimeZoneInfoAvailable` | `bool` | Whether timezone info is available |
+| Property | `IsSuccessLoadBrowserTimeZone` | `bool?` | Whether browser timezone loading succeeded (null=loading, true=success, false=error) |
+| Method | `GetBrowserTimeZone()` | `TimeZoneInfo` | Gets browser timezone (throws if unavailable) |
+| Method | `ToLocalTime(DateTime utcDateTime)` | `DateTime` | Converts UTC to local DateTime |
+| Method | `ToLocalTime(DateTimeOffset dateTimeOffset)` | `DateTime` | Converts DateTimeOffset to local DateTime |
+| Method | `ToLocalTimeOffset(DateTime utcDateTime)` | `DateTimeOffset` | Converts UTC to local DateTimeOffset |
+| Method | `ToLocalTimeOffset(DateTimeOffset dateTimeOffset)` | `DateTimeOffset` | Converts DateTimeOffset to local DateTimeOffset |
+| Event | `LocalTimeZoneChanged` | `Action` | Fired when timezone changes |
 
 ## Components
 
