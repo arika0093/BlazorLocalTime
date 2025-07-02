@@ -26,6 +26,7 @@ public sealed partial class BlazorLocalTimeProvider : ComponentBase
     {
         if (firstRender && !LocalTimeService.IsTimeZoneInfoAvailable)
         {
+            TimeZoneInfo? timeZone = null;
             try
             {
                 await using var module = await JsRuntime.InvokeAsync<IJSObjectReference>(
@@ -33,9 +34,7 @@ public sealed partial class BlazorLocalTimeProvider : ComponentBase
                     JsPath
                 );
                 var timeZoneString = await module.InvokeAsync<string>("getBrowserTimeZone");
-                var timeZone = TimeZoneInfo.FindSystemTimeZoneById(timeZoneString);
-                LocalTimeService.SetBrowserTimeZoneInfo(timeZone);
-                LocalTimeService.IsSuccessLoadBrowserTimeZone = true;
+                timeZone = TimeZoneInfo.FindSystemTimeZoneById(timeZoneString);
             }
             catch (JSDisconnectedException ex)
             {
@@ -44,7 +43,6 @@ public sealed partial class BlazorLocalTimeProvider : ComponentBase
                     "JSDisconnectedException occurred while trying to load browser time zone information. "
                         + "This may happen if the Blazor application is disconnected from the JavaScript runtime."
                 );
-                LocalTimeService.IsSuccessLoadBrowserTimeZone = false;
             }
             catch (JSException ex)
             {
@@ -53,7 +51,11 @@ public sealed partial class BlazorLocalTimeProvider : ComponentBase
                     "JSException occurred while trying to load browser time zone information. "
                         + "This may happen if the browser does not support the required JavaScript APIs or if the time zone information is not available."
                 );
-                LocalTimeService.IsSuccessLoadBrowserTimeZone = false;
+            }
+            finally
+            {
+                LocalTimeService.IsSuccessLoadBrowserTimeZone = (timeZone != null);
+                LocalTimeService.SetBrowserTimeZoneInfo(timeZone);
             }
         }
     }

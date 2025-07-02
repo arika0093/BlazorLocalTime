@@ -46,7 +46,7 @@ public interface ILocalTimeService
     /// Sets the browser's time zone information.
     /// this method is only for internal use.
     /// </summary>
-    internal void SetBrowserTimeZoneInfo(TimeZoneInfo timeZoneInfo);
+    internal void SetBrowserTimeZoneInfo(TimeZoneInfo? timeZoneInfo);
 
     /// <summary>
     /// Converts the specified UTC <see cref="DateTime"/> to local time.
@@ -159,7 +159,7 @@ internal class LocalTimeService(TimeProvider timeProvider) : ILocalTimeService
     public bool? IsSuccessLoadBrowserTimeZone { get; set; } = null;
 
     /// <inheritdoc />
-    public void SetBrowserTimeZoneInfo(TimeZoneInfo timeZoneInfo)
+    public void SetBrowserTimeZoneInfo(TimeZoneInfo? timeZoneInfo)
     {
         if (BrowserTimeZoneInfo != null && BrowserTimeZoneInfo.Equals(timeZoneInfo))
         {
