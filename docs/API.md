@@ -38,29 +38,34 @@ Displays formatted local time text.
 | `DisableTimeElement` | `bool` | `false` | Whether to wrap in `<time>` element |
 
 ### `LocalTime`
-Provides local time via render fragment.
+Provides local time via render fragment with loading and error state support.
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
 | `Value` | `DateTimeOffset?` | UTC datetime to convert |
 | `ChildContent` | `RenderFragment<DateTimeOffset>?` | Content receiving converted time |
+| `OnLoading` | `RenderFragment?` | Content displayed while timezone is loading |
+| `OnError` | `RenderFragment?` | Content displayed if timezone loading fails |
 
 ### `LocalTimeZone`
-Provides timezone info via render fragment.
+Provides timezone info via render fragment with loading and error state support.
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
 | `ChildContent` | `RenderFragment<TimeZoneInfo>?` | Content when timezone available |
-| `UnknownContent` | `RenderFragment?` | Content when timezone unavailable |
+| `OnLoading` | `RenderFragment?` | Content displayed while timezone is loading |
+| `OnError` | `RenderFragment?` | Content displayed if timezone loading fails |
 
 ### `LocalTimeForm<T>`
-Form component with timezone conversion for DateTime inputs.
+Form component with timezone conversion for DateTime inputs and loading/error state support.
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
 | `Value` | `T` | UTC datetime value (DateTime, DateTimeOffset, or nullable versions) |
 | `ValueChanged` | `EventCallback<T>` | Value change callback |
 | `ChildContent` | `RenderFragment<LocalTimeFormValue>?` | Form content |
+| `OnLoading` | `RenderFragment?` | Content displayed while timezone is loading |
+| `OnError` | `RenderFragment?` | Content displayed if timezone loading fails |
 
 ## Extension Methods
 
@@ -68,15 +73,6 @@ Form component with timezone conversion for DateTime inputs.
 |--------|-------------|
 | `AddBlazorLocalTimeService()` | Registers BlazorLocalTime services with system TimeProvider |
 | `AddBlazorLocalTimeService(TimeProvider timeProvider)` | Registers BlazorLocalTime services with custom TimeProvider |
-
-**Usage:**
-```csharp
-// With system TimeProvider
-builder.Services.AddBlazorLocalTimeService();
-
-// With custom TimeProvider
-builder.Services.AddBlazorLocalTimeService(customTimeProvider);
-```
 
 ## Testing Utilities
 
