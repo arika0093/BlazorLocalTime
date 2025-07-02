@@ -12,7 +12,6 @@ Core service interface for timezone conversion and browser timezone detection.
 | Property | `OverrideTimeZoneInfo` | `TimeZoneInfo?` | User-specified override timezone |
 | Property | `Now` | `DateTimeOffset` | Current local time as DateTimeOffset |
 | Property | `IsTimeZoneInfoAvailable` | `bool` | Whether timezone info is available |
-| Property | `IsSuccessLoadBrowserTimeZone` | `bool?` | Whether browser timezone loading succeeded (null=loading, true=success, false=error) |
 | Method | `GetBrowserTimeZone()` | `TimeZoneInfo` | Gets browser timezone (throws if unavailable) |
 | Method | `ToLocalTime(DateTime utcDateTime)` | `DateTime` | Converts UTC to local DateTime |
 | Method | `ToLocalTime(DateTimeOffset dateTimeOffset)` | `DateTime` | Converts DateTimeOffset to local DateTime |
