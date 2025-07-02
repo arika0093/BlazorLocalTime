@@ -1,0 +1,15 @@
+@inject ILocalTimeService LocalTimeService
+@inject TimeProvider TimeProvider
+
+<LocalTime Value="TimeProvider.GetUtcNow()">
+    <ChildContent Context="dt">
+        @dt.ToString("yyyy-MM-dd HH:mm:ss")
+    </ChildContent>
+    <OnLoading>
+        Loading
+    </OnLoading>
+    <OnError>
+        Error
+    </OnError>
+</LocalTime>
+<BlazorLocalTimeProvider />
