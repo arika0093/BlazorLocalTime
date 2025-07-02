@@ -29,6 +29,10 @@ namespace BlazorLocalTime
         [Microsoft.AspNetCore.Components.Parameter]
         public Microsoft.AspNetCore.Components.RenderFragment<System.DateTimeOffset>? ChildContent { get; set; }
         [Microsoft.AspNetCore.Components.Parameter]
+        public Microsoft.AspNetCore.Components.RenderFragment? OnError { get; set; }
+        [Microsoft.AspNetCore.Components.Parameter]
+        public Microsoft.AspNetCore.Components.RenderFragment? OnLoading { get; set; }
+        [Microsoft.AspNetCore.Components.Parameter]
         public System.DateTimeOffset? Value { get; set; }
         protected override void BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder @__builder) { }
         public void Dispose() { }
@@ -51,6 +55,10 @@ namespace BlazorLocalTime
         public LocalTimeForm() { }
         [Microsoft.AspNetCore.Components.Parameter]
         public Microsoft.AspNetCore.Components.RenderFragment<BlazorLocalTime.LocalTimeFormValue>? ChildContent { get; set; }
+        [Microsoft.AspNetCore.Components.Parameter]
+        public Microsoft.AspNetCore.Components.RenderFragment? OnError { get; set; }
+        [Microsoft.AspNetCore.Components.Parameter]
+        public Microsoft.AspNetCore.Components.RenderFragment? OnLoading { get; set; }
         [Microsoft.AspNetCore.Components.Parameter]
         public T Value { get; set; }
         [Microsoft.AspNetCore.Components.Parameter]
@@ -78,7 +86,9 @@ namespace BlazorLocalTime
         [Microsoft.AspNetCore.Components.Parameter]
         public Microsoft.AspNetCore.Components.RenderFragment<System.TimeZoneInfo>? ChildContent { get; set; }
         [Microsoft.AspNetCore.Components.Parameter]
-        public Microsoft.AspNetCore.Components.RenderFragment? UnknownContent { get; set; }
+        public Microsoft.AspNetCore.Components.RenderFragment? OnError { get; set; }
+        [Microsoft.AspNetCore.Components.Parameter]
+        public Microsoft.AspNetCore.Components.RenderFragment? OnLoading { get; set; }
         protected override void BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder @__builder) { }
         public void Dispose() { }
         protected override void OnInitialized() { }
