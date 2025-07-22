@@ -11,11 +11,7 @@
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference
-      Include="Nerdbank.GitVersioning"
-      Version="3.*"
-      Condition="!Exists('packages.config')"
-    >
+    <PackageReference Include="Nerdbank.GitVersioning" Version="3.*" Condition="!Exists('packages.config')">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
@@ -23,11 +19,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference
-      Include="SonarAnalyzer.CSharp"
-      Version="10.*"
-      Condition="!Exists('packages.config')"
-    >
+    <PackageReference Include="SonarAnalyzer.CSharp" Version="10.14.0.120626" Condition="!Exists('packages.config')">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
