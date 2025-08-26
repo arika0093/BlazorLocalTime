@@ -1,4 +1,6 @@
-﻿namespace BlazorLocalTime;
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace BlazorLocalTime;
 
 /// <summary>
 /// Provides an interface for a local time service.
@@ -33,6 +35,7 @@ public interface ILocalTimeService
     /// <summary>
     /// Is the local time zone set?
     /// </summary>
+    [MemberNotNullWhen(true, nameof(TimeZoneInfo))]
     public bool IsTimeZoneInfoAvailable => TimeZoneInfo != null;
 
     /// <summary>
@@ -94,7 +97,7 @@ public interface ILocalTimeService
     /// <returns>The <see cref="TimeZoneInfo"/> representing the browser's time zone.</returns>
     public TimeZoneInfo GetBrowserTimeZone()
     {
-        if (TimeZoneInfo == null || !IsTimeZoneInfoAvailable)
+        if (!IsTimeZoneInfoAvailable)
         {
             throw new InvalidOperationException(
                 """
