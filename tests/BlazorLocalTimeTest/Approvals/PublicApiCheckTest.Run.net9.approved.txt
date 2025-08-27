@@ -1,4 +1,4 @@
-﻿[assembly: System.Reflection.AssemblyMetadata("RepositoryUrl", "https://github.com/arika0093/BlazorLocalTime")]
+[assembly: System.Reflection.AssemblyMetadata("RepositoryUrl", "https://github.com/arika0093/BlazorLocalTime")]
 [assembly: System.Runtime.CompilerServices.InternalsVisibleTo("BlazorLocalTimeTest")]
 [assembly: System.Runtime.Versioning.TargetFramework(".NETCoreApp,Version=v9.0", FrameworkDisplayName=".NET 9.0")]
 namespace BlazorLocalTime
@@ -12,6 +12,8 @@ namespace BlazorLocalTime
     public interface ILocalTimeService
     {
         System.TimeZoneInfo? BrowserTimeZoneInfo { get; }
+        [System.Diagnostics.CodeAnalysis.MemberNotNullWhen(true, "TimeZoneInfo")]
+        [get: System.Diagnostics.CodeAnalysis.MemberNotNullWhen(true, "TimeZoneInfo")]
         bool IsTimeZoneInfoAvailable { get; }
         System.DateTimeOffset Now { get; }
         System.TimeZoneInfo? OverrideTimeZoneInfo { get; set; }

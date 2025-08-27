@@ -12,6 +12,8 @@ namespace BlazorLocalTime
     public interface ILocalTimeService
     {
         System.TimeZoneInfo? BrowserTimeZoneInfo { get; }
+        [System.Diagnostics.CodeAnalysis.MemberNotNullWhen(true, "TimeZoneInfo")]
+        [get: System.Diagnostics.CodeAnalysis.MemberNotNullWhen(true, "TimeZoneInfo")]
         bool IsTimeZoneInfoAvailable { get; }
         System.DateTimeOffset Now { get; }
         System.TimeZoneInfo? OverrideTimeZoneInfo { get; set; }
