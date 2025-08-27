@@ -103,8 +103,8 @@ public interface ILocalTimeService
                 """
                 Failed to obtain the browser's time zone information.
                 Possible causes:
-                1) The `<BrowserLocalTimeProvider />` component has not been added.
-                    In this case, please add `<BrowserLocalTimeProvider />` to a root component such as `Routes.razor`.
+                1) The `<BlazorLocalTimeProvider />` component has not been added.
+                    In this case, please add `<BlazorLocalTimeProvider />` to a root component such as `Routes.razor`.
                 2) You are trying to use `ILocalTimeService` in `OnInitialized(Async)`.
                     In this case, you need to subscribe to the `ILocalTimeService.OnLocalTimeZoneChanged` event
                     and perform processing after the time zone information has been set.
