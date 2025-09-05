@@ -91,7 +91,7 @@ public sealed partial class LocalTimeForm<T> : ComponentBase, IDisposable
     }
 
     private LocalTimeFormValue FormValue =>
-        new()
+        new(LocalTimeService)
         {
             Value = LocalTimeValue,
             ValueChanged = EventCallback.Factory.Create<DateTime?>(this, ValueChangedHandler),

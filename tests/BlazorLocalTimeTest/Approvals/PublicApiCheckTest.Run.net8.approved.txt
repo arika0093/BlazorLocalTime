@@ -42,15 +42,18 @@ namespace BlazorLocalTime
     }
     public class LocalTimeFormValue : System.IEquatable<BlazorLocalTime.LocalTimeFormValue>
     {
-        public LocalTimeFormValue() { }
         public System.DateOnly? Date { get; set; }
         public required Microsoft.AspNetCore.Components.EventCallback<System.DateOnly?> DateChanged { get; init; }
+        public System.DateOnly DateOrToday { get; set; }
         public System.TimeOnly? Time { get; set; }
         public required Microsoft.AspNetCore.Components.EventCallback<System.TimeOnly?> TimeChanged { get; init; }
+        public System.TimeOnly TimeOrNow { get; set; }
         public System.TimeSpan? TimeSpan { get; set; }
         public required Microsoft.AspNetCore.Components.EventCallback<System.TimeSpan?> TimeSpanChanged { get; init; }
+        public System.TimeSpan TimeSpanOrNow { get; set; }
         public required System.DateTime? Value { get; set; }
         public required Microsoft.AspNetCore.Components.EventCallback<System.DateTime?> ValueChanged { get; init; }
+        public System.DateTime ValueOrNow { get; set; }
     }
     public sealed class LocalTimeForm<T> : Microsoft.AspNetCore.Components.ComponentBase, System.IDisposable
     {

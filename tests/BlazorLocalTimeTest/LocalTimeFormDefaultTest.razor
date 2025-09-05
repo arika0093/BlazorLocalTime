@@ -1,0 +1,31 @@
+﻿@using BlazorLocalTimeTest.Component
+@using Microsoft.Extensions.DependencyInjection.Extensions
+@using Shouldly
+@inherits TestContext
+@code
+{
+    [Fact]
+    public void TestFormUpdated1()
+    {
+        // add a mock time provider to control the current time
+        var mockTimeProvider = new MockTimeProvider(new(2020, 1, 1, 12, 34, 56, TimeSpan.Zero));
+        Services.AddScoped<ILocalTimeService, LocalTimeMockService>(); // Asia/Tokyo (UTC+9)
+        Services.TryAddSingleton<TimeProvider>(mockTimeProvider);
+
+        DateTime? dt = null;
+        var cut = RenderComponent<LocalTimeFormWithDefault>(parameters =>
+            parameters.Bind(p => p.Dt, dt, n => dt = n));
+        var input_dt = cut.Find("input[type='datetime-local']");
+        var input_date = cut.Find("input[type='date']");
+        var input_time = cut.Find("input[type='time']");
+        // value is set to the local time in the input
+        input_dt.GetAttribute("value").ShouldBe("2020-01-01T21:34:56");
+        input_date.GetAttribute("value").ShouldBe("2020-01-01");
+        input_time.GetAttribute("value").ShouldBe("21:34:56");
+        
+        // call update
+        input_dt.Change("2020-10-01T12:00:00");
+        dt.ShouldBe(new DateTime(2020, 10, 1, 3, 00, 0, DateTimeKind.Utc));
+    }
+
+}

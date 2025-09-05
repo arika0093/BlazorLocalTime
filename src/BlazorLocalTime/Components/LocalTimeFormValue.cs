@@ -7,6 +7,18 @@ namespace BlazorLocalTime;
 /// </summary>
 public record LocalTimeFormValue
 {
+    // Since users likely won't create it themselves, the constructor is internal.
+    internal LocalTimeFormValue(ILocalTimeService localTimeService)
+    {
+        _localTimeService = localTimeService;
+    }
+
+    /// <summary>
+    /// The local time service used to get the current local time.
+    /// </summary>
+    private readonly ILocalTimeService _localTimeService;
+
+    // Backing field for Value property.
     private DateTime? _innerValue;
 
     /// <summary>
@@ -27,10 +39,7 @@ public record LocalTimeFormValue
     /// </summary>
     public DateOnly? Date
     {
-        get =>
-            Value.HasValue
-                ? new DateOnly(Value.Value.Year, Value.Value.Month, Value.Value.Day)
-                : null;
+        get => Value.HasValue ? DateOnly.FromDateTime(Value.Value) : null;
         set => DateChanged.InvokeAsync(value);
     }
 
@@ -39,10 +48,7 @@ public record LocalTimeFormValue
     /// </summary>
     public TimeOnly? Time
     {
-        get =>
-            Value.HasValue
-                ? new TimeOnly(Value.Value.Hour, Value.Value.Minute, Value.Value.Second)
-                : null;
+        get => Value.HasValue ? TimeOnly.FromDateTime(Value.Value) : null;
         set => TimeChanged.InvokeAsync(value);
     }
 
@@ -51,11 +57,48 @@ public record LocalTimeFormValue
     /// </summary>
     public TimeSpan? TimeSpan
     {
-        get =>
-            Value.HasValue
-                ? new TimeSpan(Value.Value.Hour, Value.Value.Minute, Value.Value.Second)
-                : null;
+        get => Value.HasValue ? Value.Value.TimeOfDay : null;
         set => TimeSpanChanged.InvokeAsync(value);
+    }
+
+    /// <summary>
+    /// It is essentially the same as <see cref="Value"/>. but returns the current date and time when the value is null. <br/>
+    /// This is useful when binding values to date and time components that do not tolerate null values.
+    /// </summary>
+    public DateTime ValueOrNow
+    {
+        get => _innerValue ?? _localTimeService.Now.DateTime;
+        set => Value = value;
+    }
+
+    /// <summary>
+    /// It is essentially the same as <see cref="Date"/>, but returns today's date when the value is null. <br/>
+    /// This is useful when binding values to date components that do not tolerate null values.
+    /// </summary>
+    public DateOnly DateOrToday
+    {
+        get => Date ?? DateOnly.FromDateTime(_localTimeService.Now.DateTime);
+        set => Date = value;
+    }
+
+    /// <summary>
+    /// It is essentially the same as <see cref="Time"/>, but returns current time when the value is null. <br/>
+    /// This is useful when binding values to time components that do not tolerate null values.
+    /// </summary>
+    public TimeOnly TimeOrNow
+    {
+        get => Time ?? TimeOnly.FromDateTime(_localTimeService.Now.DateTime);
+        set => Time = value;
+    }
+
+    /// <summary>
+    /// It is essentially the same as <see cref="TimeSpan"/>, but returns current time when the value is null. <br/>
+    /// This is useful when binding values to time components that do not tolerate null values.
+    /// </summary>
+    public TimeSpan TimeSpanOrNow
+    {
+        get => TimeSpan ?? _localTimeService.Now.DateTime.TimeOfDay;
+        set => TimeSpan = value;
     }
 
     /// <summary>
