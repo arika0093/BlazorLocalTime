@@ -3,7 +3,7 @@
 {
 	"name": "C# (.NET)",
 	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
-	"image": "mcr.microsoft.com/devcontainers/dotnet:1-9.0-bookworm",
+	"image": "mcr.microsoft.com/devcontainers/debian:bullseye",
 	"customizations": {
 		"vscode": {
 			"extensions": [
@@ -12,9 +12,14 @@
 				"csharpier.csharpier-vscode"
 			]
 		}
-	}
+	},
 	// Features to add to the dev container. More info: https://containers.dev/features.
-	// "features": {},
+	"features": {
+		"ghcr.io/devcontainers/features/dotnet:2": {
+			"version": "lts",
+			"additionalDotnetVersions": "8.0, 7.0, 6.0"
+		}
+	}
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	// "forwardPorts": [5000, 5001],
 	// "portsAttributes": {
