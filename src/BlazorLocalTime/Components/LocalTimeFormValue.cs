@@ -10,13 +10,13 @@ public record LocalTimeFormValue
     // Since users likely won't create it themselves, the constructor is internal.
     internal LocalTimeFormValue(ILocalTimeService localTimeService)
     {
-        LocalTimeService = localTimeService;
+        _localTimeService = localTimeService;
     }
 
     /// <summary>
     /// The local time service used to get the current local time.
     /// </summary>
-    private ILocalTimeService LocalTimeService { get; }
+    private readonly ILocalTimeService _localTimeService;
 
     // Backing field for Value property.
     private DateTime? _innerValue;
@@ -57,10 +57,7 @@ public record LocalTimeFormValue
     /// </summary>
     public TimeSpan? TimeSpan
     {
-        get =>
-            Value.HasValue
-                ? new TimeSpan(Value.Value.Hour, Value.Value.Minute, Value.Value.Second)
-                : null;
+        get => Value.HasValue ? Value.Value.TimeOfDay : null;
         set => TimeSpanChanged.InvokeAsync(value);
     }
 
@@ -70,7 +67,7 @@ public record LocalTimeFormValue
     /// </summary>
     public DateTime ValueOrNow
     {
-        get => _innerValue ?? LocalTimeService.Now.DateTime;
+        get => _innerValue ?? _localTimeService.Now.DateTime;
         set => Value = value;
     }
 
@@ -80,7 +77,7 @@ public record LocalTimeFormValue
     /// </summary>
     public DateOnly DateOrToday
     {
-        get => Date ?? DateOnly.FromDateTime(LocalTimeService.Now.DateTime);
+        get => Date ?? DateOnly.FromDateTime(_localTimeService.Now.DateTime);
         set => Date = value;
     }
 
@@ -90,7 +87,7 @@ public record LocalTimeFormValue
     /// </summary>
     public TimeOnly TimeOrNow
     {
-        get => Time ?? TimeOnly.FromDateTime(LocalTimeService.Now.DateTime);
+        get => Time ?? TimeOnly.FromDateTime(_localTimeService.Now.DateTime);
         set => Time = value;
     }
 
@@ -100,15 +97,7 @@ public record LocalTimeFormValue
     /// </summary>
     public TimeSpan TimeSpanOrNow
     {
-        get
-        {
-            if (TimeSpan.HasValue)
-            {
-                return TimeSpan.Value;
-            }
-            var now = LocalTimeService.Now;
-            return new TimeSpan(now.Hour, now.Minute, now.Second);
-        }
+        get => TimeSpan ?? _localTimeService.Now.DateTime.TimeOfDay;
         set => TimeSpan = value;
     }
 
