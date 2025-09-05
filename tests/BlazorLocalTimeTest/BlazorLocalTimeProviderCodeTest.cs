@@ -19,10 +19,10 @@ public class BlazorLocalTimeProviderCodeTest : TestContext
     public void BlazorLocalTimeProvider_SetsTimeZoneSuccessfully()
     {
         TestInitializer.JavaScriptInitializer(JSInterop);
-        
+
         var component = RenderComponent<BlazorLocalTimeProvider>();
         var localTimeService = Services.GetRequiredService<ILocalTimeService>();
-        
+
         localTimeService.IsTimeZoneInfoAvailable.ShouldBeTrue();
         localTimeService.IsSuccessLoadBrowserTimeZone?.ShouldBeTrue();
         localTimeService.GetBrowserTimeZone().Id.ShouldBe("Asia/Tokyo");
@@ -32,11 +32,13 @@ public class BlazorLocalTimeProviderCodeTest : TestContext
     public void BlazorLocalTimeProvider_HandlesJSDisconnectedException()
     {
         var module = JSInterop.SetupModule(BlazorLocalTimeProvider.JsPath);
-        module.Setup<string>("getBrowserTimeZone").SetException(new JSDisconnectedException("Test disconnection"));
-        
+        module
+            .Setup<string>("getBrowserTimeZone")
+            .SetException(new JSDisconnectedException("Test disconnection"));
+
         var component = RenderComponent<BlazorLocalTimeProvider>();
         var localTimeService = Services.GetRequiredService<ILocalTimeService>();
-        
+
         localTimeService.IsTimeZoneInfoAvailable.ShouldBeFalse();
         localTimeService.IsSuccessLoadBrowserTimeZone?.ShouldBeFalse();
     }
@@ -45,11 +47,13 @@ public class BlazorLocalTimeProviderCodeTest : TestContext
     public void BlazorLocalTimeProvider_HandlesJSException()
     {
         var module = JSInterop.SetupModule(BlazorLocalTimeProvider.JsPath);
-        module.Setup<string>("getBrowserTimeZone").SetException(new JSException("Browser API not supported"));
-        
+        module
+            .Setup<string>("getBrowserTimeZone")
+            .SetException(new JSException("Browser API not supported"));
+
         var component = RenderComponent<BlazorLocalTimeProvider>();
         var localTimeService = Services.GetRequiredService<ILocalTimeService>();
-        
+
         localTimeService.IsTimeZoneInfoAvailable.ShouldBeFalse();
         localTimeService.IsSuccessLoadBrowserTimeZone?.ShouldBeFalse();
     }
@@ -59,7 +63,7 @@ public class BlazorLocalTimeProviderCodeTest : TestContext
     {
         // Don't setup JS interop to simulate initial state
         var localTimeService = Services.GetRequiredService<ILocalTimeService>();
-        
+
         localTimeService.IsSuccessLoadBrowserTimeZone.ShouldBeNull();
         localTimeService.IsTimeZoneInfoAvailable.ShouldBeFalse();
     }
