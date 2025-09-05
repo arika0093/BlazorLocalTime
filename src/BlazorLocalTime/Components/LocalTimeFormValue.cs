@@ -7,6 +7,18 @@ namespace BlazorLocalTime;
 /// </summary>
 public record LocalTimeFormValue
 {
+    // Since users likely won't create it themselves, the constructor is internal.
+    internal LocalTimeFormValue(ILocalTimeService localTimeService)
+    {
+        LocalTimeService = localTimeService;
+    }
+
+    /// <summary>
+    /// The local time service used to get the current local time.
+    /// </summary>
+    private ILocalTimeService LocalTimeService { get; }
+
+    // Backing field for Value property.
     private DateTime? _innerValue;
 
     /// <summary>
@@ -56,6 +68,54 @@ public record LocalTimeFormValue
                 ? new TimeSpan(Value.Value.Hour, Value.Value.Minute, Value.Value.Second)
                 : null;
         set => TimeSpanChanged.InvokeAsync(value);
+    }
+
+    /// <summary>
+    /// It is essentially the same as <see cref="Value"/>. but returns the current date and time when the value is null. <br/>
+    /// This is useful when binding values to date and time components that do not tolerate null values.
+    /// </summary>
+    public DateTime ValueOrNow
+    {
+        get => _innerValue ?? LocalTimeService.Now.DateTime;
+        set => Value = value;
+    }
+
+    /// <summary>
+    /// It is essentially the same as <see cref="Date"/>, but returns today's date when the value is null. <br/>
+    /// This is useful when binding values to date components that do not tolerate null values.
+    /// </summary>
+    public DateOnly DateOrToday
+    {
+        get
+        {
+            if (Date.HasValue)
+            {
+                return Date.Value;
+            }
+            var now = LocalTimeService.Now;
+            return new DateOnly(now.Year, now.Month, now.Day);
+        }
+        set => Date = value;
+    }
+
+    /// <summary>
+    /// It is essentially the same as <see cref="Time"/>, but returns 00:00:00 when the value is null. <br/>
+    /// This is useful when binding values to time components that do not tolerate null values.
+    /// </summary>
+    public TimeOnly TimeOrDefault
+    {
+        get => Time ?? new TimeOnly(0, 0, 0);
+        set => Time = value;
+    }
+
+    /// <summary>
+    /// It is essentially the same as <see cref="TimeSpan"/>, but returns 00:00:00 when the value is null. <br/>
+    /// This is useful when binding values to time components that do not tolerate null values.
+    /// </summary>
+    public TimeSpan TimeSpanOrDefault
+    {
+        get => TimeSpan ?? new TimeSpan(0, 0, 0);
+        set => TimeSpan = value;
     }
 
     /// <summary>
