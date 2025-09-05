@@ -39,10 +39,7 @@ public record LocalTimeFormValue
     /// </summary>
     public DateOnly? Date
     {
-        get =>
-            Value.HasValue
-                ? new DateOnly(Value.Value.Year, Value.Value.Month, Value.Value.Day)
-                : null;
+        get => Value.HasValue ? DateOnly.FromDateTime(Value.Value) : null;
         set => DateChanged.InvokeAsync(value);
     }
 
@@ -86,15 +83,7 @@ public record LocalTimeFormValue
     /// </summary>
     public DateOnly DateOrToday
     {
-        get
-        {
-            if (Date.HasValue)
-            {
-                return Date.Value;
-            }
-            var now = LocalTimeService.Now;
-            return new DateOnly(now.Year, now.Month, now.Day);
-        }
+        get => Date ?? DateOnly.FromDateTime(LocalTimeService.Now.DateTime);
         set => Date = value;
     }
 
@@ -104,7 +93,7 @@ public record LocalTimeFormValue
     /// </summary>
     public TimeOnly TimeOrDefault
     {
-        get => Time ?? new TimeOnly(0, 0, 0);
+        get => Time ?? TimeOnly.MinValue;
         set => Time = value;
     }
 
@@ -114,7 +103,7 @@ public record LocalTimeFormValue
     /// </summary>
     public TimeSpan TimeSpanOrDefault
     {
-        get => TimeSpan ?? new TimeSpan(0, 0, 0);
+        get => TimeSpan ?? System.TimeSpan.Zero;
         set => TimeSpan = value;
     }
 
