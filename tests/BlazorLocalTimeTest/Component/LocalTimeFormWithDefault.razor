@@ -1,0 +1,13 @@
+<LocalTimeForm Value="Dt" ValueChanged="DtChanged" Context="dtf">
+    <InputDate Type="InputDateType.DateTimeLocal" @bind-Value="dtf.ValueOrNow" />
+    <InputDate Type="InputDateType.Date" @bind-Value="dtf.DateOrToday" />
+    <InputDate Type="InputDateType.Time" @bind-Value="dtf.TimeOrNow" />
+</LocalTimeForm>
+
+@code {
+    [Parameter]
+    public DateTime? Dt { get; set; }
+
+    [Parameter]
+    public EventCallback<DateTime?> DtChanged { get; set; }
+}
