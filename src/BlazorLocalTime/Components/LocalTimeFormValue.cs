@@ -48,10 +48,7 @@ public record LocalTimeFormValue
     /// </summary>
     public TimeOnly? Time
     {
-        get =>
-            Value.HasValue
-                ? new TimeOnly(Value.Value.Hour, Value.Value.Minute, Value.Value.Second)
-                : null;
+        get => Value.HasValue ? TimeOnly.FromDateTime(Value.Value) : null;
         set => TimeChanged.InvokeAsync(value);
     }
 
@@ -88,22 +85,30 @@ public record LocalTimeFormValue
     }
 
     /// <summary>
-    /// It is essentially the same as <see cref="Time"/>, but returns 00:00:00 when the value is null. <br/>
+    /// It is essentially the same as <see cref="Time"/>, but returns current time when the value is null. <br/>
     /// This is useful when binding values to time components that do not tolerate null values.
     /// </summary>
-    public TimeOnly TimeOrDefault
+    public TimeOnly TimeOrNow
     {
-        get => Time ?? TimeOnly.MinValue;
+        get => Time ?? TimeOnly.FromDateTime(LocalTimeService.Now.DateTime);
         set => Time = value;
     }
 
     /// <summary>
-    /// It is essentially the same as <see cref="TimeSpan"/>, but returns 00:00:00 when the value is null. <br/>
+    /// It is essentially the same as <see cref="TimeSpan"/>, but returns current time when the value is null. <br/>
     /// This is useful when binding values to time components that do not tolerate null values.
     /// </summary>
-    public TimeSpan TimeSpanOrDefault
+    public TimeSpan TimeSpanOrNow
     {
-        get => TimeSpan ?? System.TimeSpan.Zero;
+        get
+        {
+            if (TimeSpan.HasValue)
+            {
+                return TimeSpan.Value;
+            }
+            var now = LocalTimeService.Now;
+            return new TimeSpan(now.Hour, now.Minute, now.Second);
+        }
         set => TimeSpan = value;
     }
 
