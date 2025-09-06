@@ -40,13 +40,13 @@ public static class BlazorLocalTimeExtension
         );
     }
 
-	/// <summary>
-	/// Adds the BlazorLocalTime service to the service collection with configurable option.
-	/// </summary>
-	/// <param name="services">The service collection.</param>
-	/// <param name="configuration">An action to configure BlazorLocalTime options.</param>
-	/// <returns>The updated service collection.</returns>
-	public static IServiceCollection AddBlazorLocalTimeService(
+    /// <summary>
+    /// Adds the BlazorLocalTime service to the service collection with configurable option.
+    /// </summary>
+    /// <param name="services">The service collection.</param>
+    /// <param name="configuration">An action to configure BlazorLocalTime options.</param>
+    /// <returns>The updated service collection.</returns>
+    public static IServiceCollection AddBlazorLocalTimeService(
         this IServiceCollection services,
         Action<BlazorLocalTimeConfiguration> configuration
     )
