@@ -6,7 +6,8 @@
     public void TestTotal1()
     {
         var timeProvider = new MockTimeProvider(new(2023, 10, 1, 12, 34, 56, TimeSpan.Zero));
-        Services.AddBlazorLocalTimeService(timeProvider);
+        Services.AddBlazorLocalTimeService(option => option.TimeProvider = timeProvider);
+        Services.AddSingleton<TimeProvider>(timeProvider);
         TestInitializer.JavaScriptInitializer(JSInterop);
 
         var cut = RenderComponent<LocalTimeTotal1>();
@@ -18,6 +19,7 @@
     public void TestTotalFailed1()
     {
         Services.AddBlazorLocalTimeService();
+        Services.AddSingleton<TimeProvider>(TimeProvider.System);
         TestInitializer.JavaScriptInitializer(JSInterop);
 
         Should.Throw<InvalidOperationException>(() =>
@@ -31,7 +33,8 @@
     public void TestTotal2Success()
     {
         var timeProvider = new MockTimeProvider(new(2023, 10, 1, 12, 34, 56, TimeSpan.Zero));
-        Services.AddBlazorLocalTimeService(timeProvider);
+        Services.AddBlazorLocalTimeService(option => option.TimeProvider = timeProvider);
+        Services.AddSingleton<TimeProvider>(timeProvider);
         TestInitializer.JavaScriptInitializer(JSInterop);
 
         var cut = RenderComponent<LocalTimeTotal2>();
@@ -43,7 +46,8 @@
     public void TestTotal2Error()
     {
         var timeProvider = new MockTimeProvider(new(2023, 10, 1, 12, 34, 56, TimeSpan.Zero));
-        Services.AddBlazorLocalTimeService(timeProvider);
+        Services.AddBlazorLocalTimeService(option => option.TimeProvider = timeProvider);
+        Services.AddSingleton<TimeProvider>(timeProvider);
         var module = JSInterop.SetupModule(BlazorLocalTimeProvider.JsPath);
         module.Setup<string>("getBrowserTimeZone").SetException(new JSException("error"));
 

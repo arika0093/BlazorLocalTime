@@ -94,8 +94,8 @@
     public void TestFormOnlyDateUpdate()
     {
         // add a mock time provider to control the current time
-        Services.AddSingleton<TimeProvider>(_ => new MockTimeProvider(new(2023, 10, 1, 12, 34, 56, TimeSpan.Zero)));
-        Services.AddLocalTimeMockService();
+        var mockTimeProvider = new MockTimeProvider(new(2023, 10, 1, 12, 34, 56, TimeSpan.Zero));
+        Services.AddLocalTimeMockService(mockTimeProvider);
 
         DateTime? dt = null;
         
@@ -117,8 +117,8 @@
     public void TestFormOnlyTimeUpdate()
     {
         // add a mock time provider to control the current time
-        Services.AddSingleton<TimeProvider>(_ => new MockTimeProvider(new(2023, 10, 1, 12, 34, 56, TimeSpan.Zero)));
-        Services.AddLocalTimeMockService();
+        var mockTimeProvider = new MockTimeProvider(new(2023, 10, 1, 12, 34, 56, TimeSpan.Zero));
+        Services.AddLocalTimeMockService(mockTimeProvider);
 
         DateTimeOffset? dt = null;
         

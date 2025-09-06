@@ -17,7 +17,7 @@ public static class TestInitializer
         TimeZoneInfo.Local.BaseUtcOffset.ShouldBe(TimeSpan.Zero);
     }
 
-    internal static void JavaScriptInitializer(BunitJSInterop jsInterop)
+    public static void JavaScriptInitializer(BunitJSInterop jsInterop)
     {
         var module = jsInterop.SetupModule(BlazorLocalTimeProvider.JsPath);
         module.Setup<string>("getBrowserTimeZone").SetResult("Asia/Tokyo");

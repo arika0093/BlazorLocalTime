@@ -3,17 +3,15 @@
 @inherits TestContext
 @code
 {
+
     [Fact]
     public void TestCustomFormat1()
     {
-        var tms = new LocalTimeMockService(TimeProvider.System)
-        {
-            BrowserTimeZoneInfo = null
-        };
+        var tms = new LocalTimeEmptyMockService(new());
         var tokyo = TimeZoneInfo.FindSystemTimeZoneById("Asia/Tokyo");
         var utc = TimeZoneInfo.FindSystemTimeZoneById("UTC");
         
-        Services.AddScoped<ILocalTimeService, LocalTimeMockService>(_ => tms);
+        Services.AddLocalTimeMockService(tms);
         TestInitializer.JavaScriptInitializer(JSInterop);
 
         var cut = RenderComponent<LocalTimeChangeEvent>();
