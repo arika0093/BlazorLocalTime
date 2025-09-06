@@ -52,11 +52,12 @@ public static class BlazorLocalTimeExtension
     )
     {
         services.AddScoped<ILocalTimeService, LocalTimeService>();
-        services.AddSingleton<BlazorLocalTimeConfiguration>(_ => {
+        services.AddSingleton<BlazorLocalTimeConfiguration>(_ =>
+        {
             var config = new BlazorLocalTimeConfiguration();
             configuration(config);
             return config;
-		});
-		return services;
+        });
+        return services;
     }
 }

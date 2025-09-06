@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using System.Globalization;
+using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Logging;
 using Microsoft.JSInterop;
-using System.Globalization;
 
 namespace BlazorLocalTime;
 
@@ -22,11 +22,11 @@ public sealed partial class BlazorLocalTimeProvider : ComponentBase
     [Inject]
     private ILogger<BlazorLocalTimeProvider> Logger { get; set; } = null!;
 
-	[Inject]
-	private BlazorLocalTimeConfiguration Configuration { get; set; } = null!;
+    [Inject]
+    private BlazorLocalTimeConfiguration Configuration { get; set; } = null!;
 
-	/// <inheritdoc />
-	protected override async Task OnAfterRenderAsync(bool firstRender)
+    /// <inheritdoc />
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender && !LocalTimeService.IsTimeZoneInfoAvailable)
         {
@@ -38,19 +38,21 @@ public sealed partial class BlazorLocalTimeProvider : ComponentBase
                     JsPath
                 );
                 var timeZoneString = await module.InvokeAsync<string>("getBrowserTimeZone");
-                if(!ICUMode()) {
-					// On Windows with NLS mode, IANA time zone are must be converted to Windows time zone.
-					var converter = Configuration.IanaToWindows;
-                    if(converter == null) {
+                if (!ICUMode())
+                {
+                    // On Windows with NLS mode, IANA time zone are must be converted to Windows time zone.
+                    var converter = Configuration.IanaToWindows;
+                    if (converter == null)
+                    {
                         var message = """
-                        In older Windows environments, IANA time zones (such as “Asia/Tokyo”) cannot be used directly.
-                        For details, see https://github.com/arika0093/BlazorLocalTime/issues/19.
-                        """;
+                            In older Windows environments, IANA time zones (such as “Asia/Tokyo”) cannot be used directly.
+                            For details, see https://github.com/arika0093/BlazorLocalTime/issues/19.
+                            """;
                         throw new TimeZoneNotFoundException(message);
-					}
+                    }
                     timeZoneString = converter(timeZoneString);
-				}
-				timeZone = TimeZoneInfo.FindSystemTimeZoneById(timeZoneString);
+                }
+                timeZone = TimeZoneInfo.FindSystemTimeZoneById(timeZoneString);
             }
             catch (JSDisconnectedException ex)
             {
@@ -76,12 +78,12 @@ public sealed partial class BlazorLocalTimeProvider : ComponentBase
         }
     }
 
-	// https://learn.microsoft.com/en-us/dotnet/core/extensions/globalization-icu#determine-if-your-app-is-using-icu
-	private static bool ICUMode()
-	{
-		SortVersion sortVersion = CultureInfo.InvariantCulture.CompareInfo.Version;
-		byte[] bytes = sortVersion.SortId.ToByteArray();
-		int version = bytes[3] << 24 | bytes[2] << 16 | bytes[1] << 8 | bytes[0];
-		return version != 0 && version == sortVersion.FullVersion;
-	}
+    // https://learn.microsoft.com/en-us/dotnet/core/extensions/globalization-icu#determine-if-your-app-is-using-icu
+    private static bool ICUMode()
+    {
+        SortVersion sortVersion = CultureInfo.InvariantCulture.CompareInfo.Version;
+        byte[] bytes = sortVersion.SortId.ToByteArray();
+        int version = bytes[3] << 24 | bytes[2] << 16 | bytes[1] << 8 | bytes[0];
+        return version != 0 && version == sortVersion.FullVersion;
+    }
 }
