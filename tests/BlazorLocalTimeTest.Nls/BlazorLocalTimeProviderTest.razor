@@ -3,9 +3,12 @@
 {
     // try NLS timezone detection
     // https://github.com/arika0093/BlazorLocalTime/issues/19
-    [Fact]
+    [SkippableFact]
     public void TestLocalTimeProviderInNls()
     {
+        // only windows
+        Skip.IfNot(IsWindows(), $"Only Windows OS can run this test.");
+
         Services.AddBlazorLocalTimeService();
         TestInitializer.JavaScriptInitializer(JSInterop);
 
@@ -19,9 +22,12 @@
     }
 
     // try NLS timezone detection with converter
-    [Fact]
+    [SkippableFact]
     public void TestLocalTimeProviderInNlsWithConverter()
     {
+        // only windows
+        Skip.IfNot(IsWindows(), $"Only Windows OS can run this test.");
+
         Services.AddBlazorLocalTimeService(options =>
         {
             options.IanaToWindows = TimeZoneConverter.TZConvert.IanaToWindows;
@@ -34,5 +40,7 @@
         );
     }
 
+
+    private bool IsWindows() => OperatingSystem.IsWindows();
 }
 
