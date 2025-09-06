@@ -1,0 +1,38 @@
+﻿@inherits TestContext
+@code
+{
+    // try NLS timezone detection
+    // https://github.com/arika0093/BlazorLocalTime/issues/19
+    [Fact]
+    public void TestLocalTimeProviderInNls()
+    {
+        Services.AddBlazorLocalTimeService();
+        TestInitializer.JavaScriptInitializer(JSInterop);
+
+        Should.Throw<System.TimeZoneNotFoundException>(() =>
+        {
+            // cannot convert timezone from IANA to Windows
+            Render(
+                @<BlazorLocalTimeProvider />
+            );
+        });
+    }
+
+    // try NLS timezone detection with converter
+    [Fact]
+    public void TestLocalTimeProviderInNlsWithConverter()
+    {
+        Services.AddBlazorLocalTimeService(options =>
+        {
+            options.IanaToWindows = TimeZoneConverter.TZConvert.IanaToWindows;
+        });
+        TestInitializer.JavaScriptInitializer(JSInterop);
+
+        // can convertable
+        Render(
+            @<BlazorLocalTimeProvider />
+        );
+    }
+
+}
+
