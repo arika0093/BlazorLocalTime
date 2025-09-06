@@ -38,7 +38,7 @@ public sealed partial class BlazorLocalTimeProvider : ComponentBase
                     JsPath
                 );
                 var timeZoneString = await module.InvokeAsync<string>("getBrowserTimeZone");
-                if (!ICUMode())
+                if (!IsIcuEnabled())
                 {
                     // On Windows with NLS mode, IANA time zone are must be converted to Windows time zone.
                     var converter = Configuration.IanaToWindows;
@@ -79,7 +79,7 @@ public sealed partial class BlazorLocalTimeProvider : ComponentBase
     }
 
     // https://learn.microsoft.com/en-us/dotnet/core/extensions/globalization-icu#determine-if-your-app-is-using-icu
-    private static bool ICUMode()
+    private static bool IsIcuEnabled()
     {
         SortVersion sortVersion = CultureInfo.InvariantCulture.CompareInfo.Version;
         byte[] bytes = sortVersion.SortId.ToByteArray();
