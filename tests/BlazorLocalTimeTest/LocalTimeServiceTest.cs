@@ -8,8 +8,7 @@ public class LocalTimeServiceTest
     [Fact]
     public void LocalTimeService_InitialState_IsSuccessLoadBrowserTimeZoneIsNull()
     {
-        var service = new LocalTimeService(TimeProvider.System);
-
+        var service = new LocalTimeService(new(){ TimeProvider = TimeProvider.System });
         service.IsSuccessLoadBrowserTimeZone.ShouldBeNull();
         ((ILocalTimeService)service).IsTimeZoneInfoAvailable.ShouldBeFalse();
     }
@@ -17,7 +16,7 @@ public class LocalTimeServiceTest
     [Fact]
     public void LocalTimeService_SetBrowserTimeZoneInfo_SetsSuccessFlag()
     {
-        var service = new LocalTimeService(TimeProvider.System);
+        var service = new LocalTimeService(new(){ TimeProvider = TimeProvider.System });
         var timeZone = TimeZoneInfo.FindSystemTimeZoneById("America/New_York");
 
         service.SetBrowserTimeZoneInfo(timeZone);
@@ -29,7 +28,7 @@ public class LocalTimeServiceTest
     [Fact]
     public void LocalTimeService_TimeZoneConversion_WorksWithSetTimeZone()
     {
-        var service = new LocalTimeService(TimeProvider.System);
+        var service = new LocalTimeService(new(){ TimeProvider = TimeProvider.System });
         var utcTime = new DateTimeOffset(2023, 12, 25, 10, 0, 0, TimeSpan.Zero);
         var timeZone = TimeZoneInfo.FindSystemTimeZoneById("Asia/Tokyo");
 

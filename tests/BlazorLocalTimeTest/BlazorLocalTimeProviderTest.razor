@@ -5,12 +5,8 @@
     [Fact]
     public void TestLocalTimeProvider()
     {
-        var tms = new LocalTimeMockService(TimeProvider.System)
-        {
-            BrowserTimeZoneInfo = null
-        };
-        
-        Services.AddScoped<ILocalTimeService, LocalTimeMockService>(_ => tms);
+        var tms = new LocalTimeEmptyMockService(new() { TimeProvider = TimeProvider.System });
+        Services.AddLocalTimeMockService(tms);
         TestInitializer.JavaScriptInitializer(JSInterop);
 
         Render(

@@ -72,8 +72,8 @@
     [Fact]
     public void TestLoadingComponent1()
     {
-        Services.AddScoped<ILocalTimeService, LocalTimeEmptyMockService>();
-        Services.AddSingleton<TimeProvider>(TimeProvider.System);
+        var tms = new LocalTimeEmptyMockService(new() { TimeProvider = TimeProvider.System });
+        Services.AddLocalTimeMockService(tms);
 
         var dt = new DateTime(2023, 10, 1, 12, 30, 0, DateTimeKind.Utc);
 

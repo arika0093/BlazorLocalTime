@@ -1,8 +1,15 @@
 ﻿[assembly: System.Reflection.AssemblyMetadata("RepositoryUrl", "https://github.com/arika0093/BlazorLocalTime")]
 [assembly: System.Runtime.CompilerServices.InternalsVisibleTo("BlazorLocalTimeTest")]
+[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("BlazorLocalTimeTest.Nls")]
 [assembly: System.Runtime.Versioning.TargetFramework(".NETCoreApp,Version=v8.0", FrameworkDisplayName=".NET 8.0")]
 namespace BlazorLocalTime
 {
+    public class BlazorLocalTimeConfiguration
+    {
+        public BlazorLocalTimeConfiguration() { }
+        public System.Func<string, string>? IanaToWindows { get; set; }
+        public System.TimeProvider TimeProvider { get; set; }
+    }
     public sealed class BlazorLocalTimeProvider : Microsoft.AspNetCore.Components.ComponentBase
     {
         public BlazorLocalTimeProvider() { }

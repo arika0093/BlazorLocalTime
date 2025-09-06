@@ -9,8 +9,7 @@
     {
         // add a mock time provider to control the current time
         var mockTimeProvider = new MockTimeProvider(new(2020, 1, 1, 12, 34, 56, TimeSpan.Zero));
-        Services.AddScoped<ILocalTimeService, LocalTimeMockService>(); // Asia/Tokyo (UTC+9)
-        Services.TryAddSingleton<TimeProvider>(mockTimeProvider);
+        Services.AddLocalTimeMockService(mockTimeProvider);
 
         DateTime? dt = null;
         var cut = RenderComponent<LocalTimeFormWithDefault>(parameters =>
