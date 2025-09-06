@@ -149,11 +149,12 @@
 
 <p>
     If you want to use non-nullable components or create a form that sets the current date and time as the initial value,
-    you can use the <code>DateOrToday</code> and <code>TimeOrNow</code> properties.
+    you can use the <code>ValueOrNow</code>, <code>DateOrToday</code> and <code>TimeOrNow</code> properties.
 </p>
 <pre><code class="language-razor">Value: @@(Dt?.ToString("yyyy-MM-dd HH:mm:ssK") ?? "Not specified yet")
 &lt;br /&gt;
 &lt;LocalTimeForm @@bind-Value="Dt" Context="dtf"&gt;
+    &lt;InputDate Type="InputDateType.DateTimeLocal" @@bind-Value="dtf.ValueOrNow" /&gt;
     &lt;InputDate Type="InputDateType.Date" @@bind-Value="dtf.DateOrToday" /&gt;
     &lt;InputDate Type="InputDateType.Time" @@bind-Value="dtf.TimeOrNow" /&gt;
     &lt;button @@onclick="() =&gt; Dt = null"&gt;Reset&lt;/button&gt;
@@ -168,6 +169,7 @@
     Value: @(Dt2?.ToString("yyyy-MM-dd HH:mm:ssK") ?? "Not specified yet")
     <br />
     <LocalTimeForm @bind-Value="Dt2" Context="dtf">
+        <InputDate Type="InputDateType.DateTimeLocal" @bind-Value="dtf.ValueOrNow" />
         <InputDate Type="InputDateType.Date" @bind-Value="dtf.DateOrToday" />
         <InputDate Type="InputDateType.Time" @bind-Value="dtf.TimeOrNow" />
         <button @onclick="() => Dt2 = null">Reset</button>
