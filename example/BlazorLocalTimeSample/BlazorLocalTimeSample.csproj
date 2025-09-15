@@ -9,7 +9,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="9.0.4" />
     <PackageReference
       Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer"
-      Version="9.0.8"
+      Version="9.0.9"
       PrivateAssets="all"
     />
     <PackageReference Include="Microsoft.FluentUI.AspNetCore.Components" Version="4.12.1" />
