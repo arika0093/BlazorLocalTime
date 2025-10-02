@@ -18,7 +18,7 @@ public class PublicApiCheckTest
             }
         );
         // dotnet version to the end of the file name
-        // e.g. PublicApiCheckTest.net8-0.approved.txt
+        // e.g. PublicApiCheckTest.approved.txt
         publicApi.ShouldMatchApproved(c =>
         {
             c.SubFolder("Approvals");
