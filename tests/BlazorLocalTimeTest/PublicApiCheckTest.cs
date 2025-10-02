@@ -10,21 +10,18 @@ public class PublicApiCheckTest
     [Fact]
     public void Run()
     {
-        var publicApi = typeof(ILocalTimeService).Assembly.GeneratePublicApi();
+        var publicApi = typeof(ILocalTimeService).Assembly.GeneratePublicApi(
+            new()
+            {
+                // ignore target framework specific attributes
+                IncludeAssemblyAttributes = false,
+            }
+        );
         // dotnet version to the end of the file name
-        // e.g. PublicApiCheckTest.net8-0.approved.txt
-        var dotnetVersion = GetDotnetVersion();
+        // e.g. PublicApiCheckTest.approved.txt
         publicApi.ShouldMatchApproved(c =>
         {
             c.SubFolder("Approvals");
-            c.WithDiscriminator(dotnetVersion);
         });
-    }
-
-    private string GetDotnetVersion()
-    {
-        var version = Environment.Version;
-        var majorVersion = version.Major;
-        return $"net{majorVersion}";
     }
 }
