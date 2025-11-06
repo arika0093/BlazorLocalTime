@@ -1,7 +1,7 @@
-﻿// ReSharper disable CheckNamespace
+﻿#pragma warning disable IDE0130
+// ReSharper disable CheckNamespace
 
 using BlazorLocalTime;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace Microsoft.Extensions.DependencyInjection;
 
@@ -17,27 +17,7 @@ public static class BlazorLocalTimeExtension
     /// <returns>The updated service collection.</returns>
     public static IServiceCollection AddBlazorLocalTimeService(this IServiceCollection services)
     {
-        return AddBlazorLocalTimeService(services, TimeProvider.System);
-    }
-
-    /// <summary>
-    /// Adds the BlazorLocalTime service to the service collection with a custom time provider.
-    /// </summary>
-    /// <param name="services">The service collection.</param>
-    /// <param name="timeProvider">The time provider to use for local time calculations.</param>
-    /// <returns>The updated service collection.</returns>
-    public static IServiceCollection AddBlazorLocalTimeService(
-        this IServiceCollection services,
-        TimeProvider timeProvider
-    )
-    {
-        return AddBlazorLocalTimeService(
-            services,
-            option =>
-            {
-                option.TimeProvider = timeProvider;
-            }
-        );
+        return AddBlazorLocalTimeService(services, _ => { });
     }
 
     /// <summary>
