@@ -15,7 +15,7 @@
       Version="10.0.0"
       PrivateAssets="all"
     />
-    <PackageReference Include="Microsoft.FluentUI.AspNetCore.Components" Version="4.12.1" />
+    <PackageReference Include="Microsoft.FluentUI.AspNetCore.Components" Version="4.13.1" />
     <PackageReference Include="MudBlazor" Version="8.10.0" />
     <PackageReference Include="PublishSPAforGitHubPages.Build" Version="3.0.1" />
   </ItemGroup>
