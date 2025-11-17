@@ -8,6 +8,9 @@ on:
       - '**.cs'
       - '**.razor'
       - '**.yaml'
+      # for auto mergie
+      - '**/package*.json'
+      - '**/dotnet-tools.json'
 
 jobs:
   test:

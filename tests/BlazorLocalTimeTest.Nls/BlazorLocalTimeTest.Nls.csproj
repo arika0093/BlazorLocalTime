@@ -6,7 +6,7 @@
     <IsPackable>false</IsPackable>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="TimeZoneConverter" Version="7.0.0" />
+    <PackageReference Include="TimeZoneConverter" Version="7.2.0" />
     <PackageReference Include="Xunit.SkippableFact" Version="1.5.23" />
   </ItemGroup>
   <ItemGroup>
