@@ -36,6 +36,8 @@ Displays formatted local time text.
 | `Value` | `DateTimeOffset?` | - | UTC datetime to display |
 | `Format` | `string` | `"yyyy-MM-dd HH:mm:ss"` | Display format string |
 | `DisableTimeElement` | `bool` | `false` | Whether to wrap in `<time>` element |
+| `OnNullText` | `string?` | `null` | Text to display if `Value` is null |
+| `OnNullContent` | `RenderFragment?` | `null` | Content to display if `Value` is null |
 
 ### `LocalTime`
 Provides local time via render fragment with loading and error state support.
