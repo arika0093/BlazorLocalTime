@@ -70,6 +70,16 @@
 </div>
 
 <p>
+    If you want to specify what to display when the value is null, you can use the <code>OnNullText</code> or <code>OnNullContent</code> parameters.
+</p>
+
+<pre><code class="language-razor">&lt;LocalTimeText Value="@@null" DisableTimeElement OnNullText="No date available" /&gt;</code></pre>
+
+<div class="component-sample">
+    <LocalTimeText Value="@null" DisableTimeElement OnNullText="No date available" />
+</div>
+
+<p>
     Alternatively, you can use the <code>LocalTime</code> component to receive the converted value in the child content:
 </p>
 <pre><code class="language-razor">&lt;LocalTime Value="@@DateTime.UtcNow" Context="dt"&gt;

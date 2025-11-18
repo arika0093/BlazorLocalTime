@@ -26,6 +26,18 @@ public sealed partial class LocalTimeText : ComponentBase, IDisposable
     public string Format { get; set; } = "yyyy-MM-dd HH:mm:ss";
 
     /// <summary>
+    /// Gets or sets the text to display when the value is null.
+    /// </summary>
+    [Parameter]
+    public string? OnNullText { get; set; } = null;
+
+    /// <summary>
+    /// Gets or sets the components to display when the value is null.
+    /// </summary>
+    [Parameter]
+    public RenderFragment? OnNullContent { get; set; } = null;
+
+    /// <summary>
     /// Gets or sets whether to disable wrapping the output in an HTML &lt;time&gt; element.
     /// When false (default), generates a semantic &lt;time&gt; tag with ISO-8601 datetime attribute for accessibility.
     /// When true, renders plain text output for backward compatibility.
