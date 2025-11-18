@@ -11,3 +11,14 @@
         @FormattedValue
     }
 }
+@if (Value == null)
+{
+    if(OnNullContent != null)
+    {
+        @OnNullContent
+    }
+    else if(OnNullText != null)
+    {
+        @OnNullText
+    }
+}

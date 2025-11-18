@@ -70,5 +70,47 @@
         // Should render without time element (default behavior)
         cut.MarkupMatches("2023-10-01 21:30:00");
     }
-    
+
+    [Fact]
+    public void TestWithNullNoOptions()
+    {
+        Services.AddLocalTimeMockService();
+
+        DateTimeOffset? dt = null;
+
+        var cut = Render(@<LocalTimeText Value="dt" DisableTimeElement />
+        );
+
+        // Should render nothing
+        cut.MarkupMatches(string.Empty);
+    }
+
+    [Fact]
+    public void TestWithNullWithOptions()
+    {
+        Services.AddLocalTimeMockService();
+
+        DateTimeOffset? dt = null;
+
+        var cut = Render(@<LocalTimeText Value="dt" DisableTimeElement OnNullText="Nothing" />
+        );
+
+        // Should render "Nothing"
+        cut.MarkupMatches("Nothing");
+    }
+
+    [Fact]
+    public void TestWithNullWithOptions2()
+    {
+        Services.AddLocalTimeMockService();
+
+        DateTimeOffset? dt = null;
+
+        var cut = Render(@<LocalTimeText Value="dt" DisableTimeElement><OnNullContent><p>Nothing Value</p></OnNullContent></LocalTimeText>
+        );
+
+        // Should render "Nothing Value"
+        cut.MarkupMatches("<p>Nothing Value</p>");
+    }
+
 }
