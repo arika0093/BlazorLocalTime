@@ -83,6 +83,10 @@
         [Microsoft.AspNetCore.Components.Parameter]
         public string Format { get; set; }
         [Microsoft.AspNetCore.Components.Parameter]
+        public Microsoft.AspNetCore.Components.RenderFragment? OnNullContent { get; set; }
+        [Microsoft.AspNetCore.Components.Parameter]
+        public string? OnNullText { get; set; }
+        [Microsoft.AspNetCore.Components.Parameter]
         public System.DateTimeOffset? Value { get; set; }
         protected override void BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder @__builder) { }
         public void Dispose() { }
