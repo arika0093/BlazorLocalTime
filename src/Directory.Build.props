@@ -27,7 +27,7 @@
     </PackageReference>
     <PackageReference
       Include="SonarAnalyzer.CSharp"
-      Version="10.15.0.120848"
+      Version="10.17.0.131074"
       Condition="!Exists('packages.config')"
     >
       <PrivateAssets>all</PrivateAssets>
