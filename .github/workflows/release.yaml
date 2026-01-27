@@ -38,7 +38,7 @@ jobs:
         run: echo "semver=${{ steps.nbgv.outputs.SemVer2 }}" >> "$GITHUB_OUTPUT"
 
       - name: Restore dependencies
-        run: dotnet restore --locked-mode
+        run: dotnet restore 
 
       - name: Build
         run: dotnet build --no-restore -c Release

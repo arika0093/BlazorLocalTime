@@ -8,8 +8,6 @@ on:
       - '**.cs'
       - '**.razor'
       - '**.yaml'
-      # for auto mergie
-      - '**/package*.json'
       - '**/dotnet-tools.json'
 
 jobs:
@@ -31,11 +29,9 @@ jobs:
             10.x
             9.x
             8.x
-          cache: true
-          cache-dependency-path: '**/packages.lock.json'
 
       - name: Restore dependencies
-        run: dotnet restore --locked-mode
+        run: dotnet restore 
 
       - name: Build
         run: dotnet build --no-restore
