@@ -1,0 +1,59 @@
+@import '_content/Microsoft.FluentUI.AspNetCore.Components/Microsoft.FluentUI.AspNetCore.Components.84wtju4z0n.bundle.scp.css';
+
+/* /Layout/MainLayout.razor.rz.scp.css */
+.main-layout[b-05ga5y03b5] {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 1ex;
+}
+/* /Pages/Home.razor.rz.scp.css */
+h2[b-5yaraqilrs] {
+    font-size: 16pt;
+    padding-left: 1ex;
+    margin-top: 2ex;
+    border-left: 5px solid #08F;
+    border-bottom: 2px solid #08F;
+}
+
+h3[b-5yaraqilrs] {
+    font-size: 14pt;
+    padding-left: 0.5ex;
+    border-left: 4px solid #08F;
+}
+
+code[b-5yaraqilrs] {
+    font-family: "Jetbrains Mono", Consolas, monospace;
+    font-size: 14px;
+}
+
+p > code[b-5yaraqilrs] {
+    display: inline-block;
+    padding: 2px;
+    background: #E0F0F0;
+    font-size: 14px;
+}
+
+a[b-5yaraqilrs] {
+    color: #08F;
+    text-decoration: none;
+}
+
+[b-5yaraqilrs] > input {
+    font-family: "Jetbrains Mono", Consolas, monospace;
+    font-size: 14px;
+    padding: 4px;
+    border: 1px solid #CCC;
+    border-radius: 4px;
+}
+
+.component-sample[b-5yaraqilrs] {
+    padding: 1ex 1em;
+    background: #EFF;
+    border: 1px dashed #08F;
+    margin-bottom: 3ex;
+    margin-top: -10px;
+}
+
+.blank[b-5yaraqilrs] {
+    min-height: 50px;
+}
