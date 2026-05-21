@@ -9,7 +9,7 @@
     <PackageReference Include="GitHubActionsTestLogger" Version="3.0.4" />
     <PackageReference Include="Shouldly" Version="4.*" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.5.1" />
-    <PackageReference Include="bunit" Version="1.*" />
+    <PackageReference Include="bunit" Version="2.*" />
     <PackageReference Include="xunit" Version="2.*" />
     <PackageReference Include="xunit.runner.visualstudio" Version="3.*">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
