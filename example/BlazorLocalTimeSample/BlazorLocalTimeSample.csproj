@@ -7,7 +7,7 @@
   <ItemGroup>
     <PackageReference Include="AntDesign" Version="1.6.1" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="10.0.8" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="10.0.8" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="10.0.9" PrivateAssets="all" />
     <PackageReference Include="Microsoft.FluentUI.AspNetCore.Components" Version="4.14.2" />
     <PackageReference Include="MudBlazor" Version="9.4.0" />
     <PackageReference Include="PublishSPAforGitHubPages.Build" Version="3.0.3" />
