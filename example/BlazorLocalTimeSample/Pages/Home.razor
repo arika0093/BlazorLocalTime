@@ -41,15 +41,8 @@
 <pre><code>dotnet add package BlazorLocalTime
 </code></pre>
 
-<p>Next, register the service in your <code>Program.cs</code>:</p>
+<p>And register the service in your <code>Program.cs</code>:</p>
 <pre><code class="language-csharp">builder.Services.AddBlazorLocalTimeService();
-</code></pre>
-
-<p>
-    Finally, add the following component to <code>Routes.razor</code> (or <code>MainLayout.razor</code>, etc.):
-</p>
-<pre><code class="language-razor">@@using BlazorLocalTime
-&lt;BlazorLocalTimeProvider /&gt;
 </code></pre>
 
 <h2>Using as a Component</h2>
