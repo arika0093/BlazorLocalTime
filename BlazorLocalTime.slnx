@@ -1,0 +1,12 @@
+<Solution>
+  <Folder Name="/sample/">
+    <Project Path="example/BlazorLocalTimeSample/BlazorLocalTimeSample.csproj" />
+  </Folder>
+  <Folder Name="/src/">
+    <Project Path="src/BlazorLocalTime/BlazorLocalTime.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/BlazorLocalTimeTest.Nls/BlazorLocalTimeTest.Nls.csproj" />
+    <Project Path="tests/BlazorLocalTimeTest/BlazorLocalTimeTest.csproj" />
+  </Folder>
+</Solution>
