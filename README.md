@@ -35,6 +35,7 @@ A similar issue arises with date/time input fields. In short, you can't determin
 You can use `BlazorLocalTime` to solve these problems.
 
 ## Setup
+### Installation
 Install `BlazorLocalTime` from [NuGet](https://www.nuget.org/packages/BlazorLocalTime):
 
 ```bash
@@ -48,6 +49,20 @@ builder.Services.AddBlazorLocalTime();
 ```
 
 That's it! Now you can use the components.
+
+### Skills
+
+This repository publishes an [Agent Skills](https://agentskills.io) compatible skill at [`skills/blazor-local-time/`](skills/blazor-local-time/). Install it with the [skills CLI](https://skills.sh):
+
+```bash
+# Install into the current project; select the target agent interactively
+npx skills add arika0093/BlazorLocalTime --skill blazor-local-time
+
+# Install globally for both Codex and Claude Code without prompts
+npx skills add arika0093/BlazorLocalTime --skill blazor-local-time --global --agent codex --agent claude-code --yes
+```
+
+The CLI installs the same skill into the correct directory for the chosen agent. You can invoke it explicitly as `$blazor-local-time` in Codex or `/blazor-local-time` in Claude Code, or let the agent select it for relevant requests.
 
 ## Using as a Component
 ### Displaying Local Time

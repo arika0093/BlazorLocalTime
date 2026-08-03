@@ -1,0 +1,5 @@
+interface:
+  display_name: "BlazorLocalTime"
+  short_description: "Use browser-local time in Blazor apps"
+  default_prompt: "Use $blazor-local-time to add browser-local time handling to this Blazor application."
+
