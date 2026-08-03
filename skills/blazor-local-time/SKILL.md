@@ -1,6 +1,6 @@
 ---
 name: blazor-local-time
-description: Use BlazorLocalTime whenever a Blazor application displays, edits, converts, or otherwise handles a user-facing date or time. Use when working with the BlazorLocalTime NuGet package, ILocalTimeService, LocalTimeText, LocalTime, LocalTimeForm, LocalTimeZone, or BlazorLocalTimeProvider.
+description: Use BlazorLocalTime whenever a Blazor application displays, edits, converts, or otherwise handles a user-facing date or time.
 ---
 
 # BlazorLocalTime
@@ -13,16 +13,28 @@ Keep persisted and transmitted instants in UTC. Prefer `DateTimeOffset` where po
 
 ## Components
 
-- Display a value with `LocalTimeText`:
-
-  ```razor
-  <LocalTimeText Value="@utcValue" Format="yyyy-MM-dd HH:mm:ssK" />
-  ```
-
+- Display a value with `LocalTimeText`.
 - Render a custom local-time view with `LocalTime`. Specify `OnLoading` or `OnError` when needed.
 - Edit a date or time with `LocalTimeForm`; bind inputs to its supplied context. It converts the local browser input back to UTC.
 - Render the current browser timezone with `LocalTimeZone`.
 - Use `ILocalTimeService` only for non-component conversion. Check `IsTimeZoneInfoAvailable` before converting. If no library component is rendered, place `<BlazorLocalTimeProvider />` in a root component.
+
+For example, to display a value in local time:
+
+```razor
+@* Display a value in local time *@
+<LocalTimeText Value="@utcValue" Format="yyyy-MM-dd HH:mm:ssK" />
+
+@* Display a value in local time with a custom view *@
+<LocalTime Value="@utcValue" Context="dt">
+  @dt.ToString("yyyy-MM-dd HH:mm:ss")
+</LocalTime>
+
+@* Form input in local time and save as UTC *@
+<LocalTimeForm @bind-Value="Dt" Context="dtf">
+  <InputDate Type="InputDateType.DateTimeLocal" @bind-Value="dtf.Value" />
+</LocalTimeForm>
+```
 
 ## Details
 
