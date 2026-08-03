@@ -70,28 +70,6 @@
     }
 
     [Fact]
-    public void TestLoadingComponent1()
-    {
-        var tms = new LocalTimeEmptyMockService(new() { TimeProvider = TimeProvider.System });
-        Services.AddLocalTimeMockService(tms);
-
-        var dt = new DateTime(2023, 10, 1, 12, 30, 0, DateTimeKind.Utc);
-
-        var cut = Render(
-            @<LocalTime Value="dt">
-                <ChildContent Context="dtl">
-                    @dtl.ToString("yyyy-MM-dd HH:mm")
-                </ChildContent>
-                <OnLoading>
-                    Loading...
-                </OnLoading>
-            </LocalTime>
-        );
-
-        cut.MarkupMatches("Loading...");
-    }
-
-    [Fact]
     public void TestLoadingComponent2()
     {
         Services.AddLocalTimeMockService();

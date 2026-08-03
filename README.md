@@ -47,12 +47,9 @@ Next, register the service in your `Program.cs`:
 builder.Services.AddBlazorLocalTimeService();
 ```
 
-Finally, add the following component to `Routes.razor` (or `MainLayout.razor`, etc.):
+That's all for the usual component-based usage. `LocalTimeText`, `LocalTime`, `LocalTimeZone`, and `LocalTimeForm` automatically obtain the browser time zone when they are first rendered, so you do not need to add a provider component to `Routes.razor` or a layout.
 
-```razor
-@using BlazorLocalTime
-<BlazorLocalTimeProvider />
-```
+If you use `ILocalTimeService` directly, keep `<BlazorLocalTimeProvider />` in a root component, or subscribe to `LocalTimeZoneChanged` and call conversion methods after the time zone is available.
 
 ## Using as a Component
 ### Displaying Local Time

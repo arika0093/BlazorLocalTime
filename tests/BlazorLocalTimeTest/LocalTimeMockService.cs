@@ -31,6 +31,7 @@ internal static class LocalTimeMockServiceExtension
     public static IServiceCollection AddLocalTimeMockService(this IServiceCollection services)
     {
         services.AddScoped<ILocalTimeService, LocalTimeMockService>();
+        AddInitializer(services);
         services.TryAddSingleton<BlazorLocalTimeConfiguration>(_ =>
             new() { TimeProvider = TimeProvider.System }
         );
@@ -43,6 +44,7 @@ internal static class LocalTimeMockServiceExtension
     )
     {
         services.AddScoped<ILocalTimeService>(_ => instance);
+        AddInitializer(services);
         services.TryAddSingleton<BlazorLocalTimeConfiguration>(_ => instance.Config);
         return services;
     }
@@ -53,9 +55,17 @@ internal static class LocalTimeMockServiceExtension
     )
     {
         services.AddScoped<ILocalTimeService, LocalTimeMockService>();
+        AddInitializer(services);
         services.TryAddSingleton<BlazorLocalTimeConfiguration>(_ =>
             new() { TimeProvider = instance }
         );
         return services;
+    }
+
+    private static void AddInitializer(IServiceCollection services)
+    {
+        services.TryAddScoped<ILocalTimeZoneInitializer>(provider =>
+            (ILocalTimeZoneInitializer)provider.GetRequiredService<ILocalTimeService>()
+        );
     }
 }

@@ -31,7 +31,11 @@ public static class BlazorLocalTimeExtension
         Action<BlazorLocalTimeConfiguration> configuration
     )
     {
-        services.AddScoped<ILocalTimeService, LocalTimeService>();
+        services.AddScoped<LocalTimeService>();
+        services.AddScoped<ILocalTimeService>(provider => provider.GetRequiredService<LocalTimeService>());
+        services.AddScoped<ILocalTimeZoneInitializer>(provider =>
+            provider.GetRequiredService<LocalTimeService>()
+        );
         services.AddSingleton<BlazorLocalTimeConfiguration>(_ =>
         {
             var config = new BlazorLocalTimeConfiguration();

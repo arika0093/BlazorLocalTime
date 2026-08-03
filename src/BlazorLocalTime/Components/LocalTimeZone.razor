@@ -1,4 +1,6 @@
-﻿@namespace BlazorLocalTime
+@namespace BlazorLocalTime
+
+<BlazorLocalTimeProvider />
 
 @if (ChildContent != null && LocalTimeService.IsTimeZoneInfoAvailable)
 {
@@ -12,4 +14,3 @@ else if (OnError != null && LocalTimeService.IsSuccessLoadBrowserTimeZone == fal
 {
     @OnError
 }
-

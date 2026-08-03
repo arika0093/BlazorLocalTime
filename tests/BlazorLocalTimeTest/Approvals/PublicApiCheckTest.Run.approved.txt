@@ -1,4 +1,4 @@
-﻿namespace BlazorLocalTime
+namespace BlazorLocalTime
 {
     public class BlazorLocalTimeConfiguration
     {

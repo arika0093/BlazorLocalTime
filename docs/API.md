@@ -22,7 +22,7 @@ Core service interface for timezone conversion and browser timezone detection.
 ## Components
 
 ### `BlazorLocalTimeProvider`
-Root component for timezone detection. Place in Routes.razor or MainLayout.razor.
+Optional root component for timezone detection. It is only needed when using `ILocalTimeService` directly before any BlazorLocalTime component has rendered.
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
@@ -74,7 +74,7 @@ Form component with timezone conversion for DateTime inputs and loading/error st
 | Method | Description |
 |--------|-------------|
 | `AddBlazorLocalTimeService()` | Registers BlazorLocalTime services with system TimeProvider |
-| `AddBlazorLocalTimeService(TimeProvider timeProvider)` | Registers BlazorLocalTime services with custom TimeProvider |
+| `AddBlazorLocalTimeService(Action<BlazorLocalTimeConfiguration>)` | Registers BlazorLocalTime services with custom configuration |
 
 ## Testing Utilities
 
