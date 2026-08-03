@@ -55,14 +55,8 @@ That's it! Now you can use the components.
 This repository publishes an [Agent Skills](https://agentskills.io) compatible skill at [`skills/blazor-local-time/`](skills/blazor-local-time/). Install it with the [skills CLI](https://skills.sh):
 
 ```bash
-# Install into the current project; select the target agent interactively
 npx skills add arika0093/BlazorLocalTime --skill blazor-local-time
-
-# Install globally for both Codex and Claude Code without prompts
-npx skills add arika0093/BlazorLocalTime --skill blazor-local-time --global --agent codex --agent claude-code --yes
 ```
-
-The CLI installs the same skill into the correct directory for the chosen agent. You can invoke it explicitly as `$blazor-local-time` in Codex or `/blazor-local-time` in Claude Code, or let the agent select it for relevant requests.
 
 ## Using as a Component
 ### Displaying Local Time
