@@ -208,29 +208,10 @@ This is useful for testing different time zones or allowing users to select thei
 }
 ```
 
-## Testing
-When testing, it is not practical to manually change the runtime time zones each time.
-To address this, a function is provided to forcibly change the runtime time zone (`TimeZoneInfo.Local`).
-
-```csharp
-// UTC
-LocalTimeZoneOverwrite.UseUtc();
-// Custom Offset (e.g., UTC+9)
-LocalTimeZoneOverwrite.UseCustomOffset(TimeSpan.FromHours(9));
-```
-
-> [!NOTE]
-> Since the demo site is running on `WebAssembly`, the time zone of RunTime normally matches the browser's time zone and should not work well.
-Therefore, the above function is executed to force the time zone on the runtime side to be fixed to UTC.
-
-> [!WARNING]
-> This feature is intended for testing only. It is not recommended to change `TimeZoneInfo.Local` in production applications.
-
-
 ## API Reference
 
 For detailed API documentation, see [API.md](docs/API.md).
 
 ## Reference
 
-[This article](https://www.meziantou.net/convert-datetime-to-user-s-time-zone-with-server-side-blazor-time-provider.htm) was used as a major reference. I would like to express my gratitude for the reference article.
+[This article](https://www.meziantou.net/convert-datetime-to-user-s-time-zone-with-server-side-blazor-time-provider.htm) was used as a major reference.
