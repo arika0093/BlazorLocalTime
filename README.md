@@ -210,7 +210,7 @@ This is useful for testing different time zones or allowing users to select thei
 
 ## API Reference
 
-For detailed API documentation, see [API.md](docs/API.md).
+For detailed API documentation, see [API.md](skills/blazor-local-time/references/API.md).
 
 ## Reference
 

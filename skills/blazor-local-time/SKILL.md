@@ -38,5 +38,4 @@ For example, to display a value in local time:
 
 ## Details
 
-Read the [usage guide](https://github.com/arika0093/BlazorLocalTime#using-as-a-component) and [API reference](https://github.com/arika0093/BlazorLocalTime/blob/main/docs/API.md) for parameters, loading states, service events, timezone overrides, and testing.
-
+Read the [usage guide](https://github.com/arika0093/BlazorLocalTime#using-as-a-component) and [API reference](references/API.md) for parameters, loading states, service events, timezone overrides, and testing.
