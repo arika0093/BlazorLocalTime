@@ -1,5 +1,6 @@
 ﻿<Project>
   <PropertyGroup>
+    <TargetFrameworks>net8.0;net10.0</TargetFrameworks>
     <LangVersion>latest</LangVersion>
     <Nullable>enable</Nullable>
     <PackageDescription>BlazorLocalTime provides functionality to convert DateTime to the user's local time zone in Blazor applications.</PackageDescription>
