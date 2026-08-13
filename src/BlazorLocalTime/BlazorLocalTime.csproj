@@ -7,7 +7,7 @@
   <ItemGroup>
     <PackageReference
       Include="Microsoft.Extensions.DependencyInjection.Abstractions"
-      Version="10.0.10"
+      Version="10.0.11"
     />
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'net8.0'">
