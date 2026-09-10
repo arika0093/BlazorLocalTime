@@ -9,7 +9,7 @@
     <IsTestProject>true</IsTestProject>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="AngleSharp" Version="1.7.2" />
+    <PackageReference Include="AngleSharp" Version="1.8.0" />
     <PackageReference Include="GitHubActionsTestLogger" Version="3.0.5" />
     <PackageReference Include="Shouldly" Version="4.*" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.9.0" />
