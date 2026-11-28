@@ -1,7 +1,7 @@
 ﻿@using BlazorLocalTimeTest.Component
 @using Microsoft.Extensions.DependencyInjection.Extensions
 @using Shouldly
-@inherits TestContext
+@inherits BunitContext
 @code
 {
     [Fact]
@@ -12,7 +12,7 @@
         Services.AddLocalTimeMockService(mockTimeProvider);
 
         DateTime? dt = null;
-        var cut = RenderComponent<LocalTimeFormWithDefault>(parameters =>
+        var cut = Render<LocalTimeFormWithDefault>(parameters =>
             parameters.Bind(p => p.Dt, dt, n => dt = n));
         var input_dt = cut.Find("input[type='datetime-local']");
         var input_date = cut.Find("input[type='date']");

@@ -1,6 +1,6 @@
 @using BlazorLocalTimeTest.Component
 @using Shouldly
-@inherits TestContext
+@inherits BunitContext
 @code
 {
 
@@ -14,7 +14,7 @@
         Services.AddLocalTimeMockService(tms);
         TestInitializer.JavaScriptInitializer(JSInterop);
 
-        var cut = RenderComponent<LocalTimeChangeEvent>();
+        var cut = Render<LocalTimeChangeEvent>();
         cut.Instance.ChangeEventCount.ShouldBe(1);
 
         var localTimeService = Services.GetRequiredService<ILocalTimeService>();

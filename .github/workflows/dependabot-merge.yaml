@@ -31,18 +31,22 @@ jobs:
 
       - name: Run tests only for .NET 10.0
         run: dotnet test --no-build --verbosity normal --logger GitHubActions -f net10.0
-  
+
   dependabot:
     runs-on: ubuntu-latest
     needs: package-test
+    if: needs.package-test.result == 'success' && github.event.pull_request.user.login == 'dependabot[bot]'
     steps:
       - name: Dependabot metadata
         id: metadata
-        uses: dependabot/fetch-metadata@25dd0e34f4fe68f24cc83900b1fe3fe149efef98
+        uses: dependabot/fetch-metadata@v2
         with:
           github-token: "${{ secrets.GITHUB_TOKEN }}"
       - name: Enable auto-merge for Dependabot PRs
-        run: gh pr merge --squash "$PR_URL"
+        # --auto waits for all required checks (e.g. .NET Build and Test on
+        # ubuntu/macos/windows) instead of merging immediately and failing
+        # while checks are still pending. --delete-branch cleans up afterwards.
+        run: gh pr merge --auto --squash --delete-branch "$PR_URL"
         env:
           PR_URL: ${{github.event.pull_request.html_url}}
           GH_TOKEN: ${{secrets.GITHUB_TOKEN}}

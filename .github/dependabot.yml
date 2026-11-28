@@ -4,8 +4,6 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
-    ignore:
-      - dependency-name: "bunit"
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:

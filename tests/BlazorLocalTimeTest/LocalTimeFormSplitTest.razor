@@ -1,6 +1,6 @@
 ﻿@using BlazorLocalTimeTest.Component
 @using Shouldly
-@inherits TestContext
+@inherits BunitContext
 
 @code {
     [Fact]
@@ -8,7 +8,7 @@
     {
         Services.AddLocalTimeMockService();
         
-        var cut = RenderComponent<LocalTimeFormSplit1>(parameters => parameters
+        var cut = Render<LocalTimeFormSplit1>(parameters => parameters
             .Add(p => p.Dt, new DateTime(2023, 10, 1, 12, 30, 0, DateTimeKind.Utc)));
 
         // value should be updated to the local time
@@ -38,7 +38,7 @@
     {
         Services.AddLocalTimeMockService();
         
-        var cut = RenderComponent<LocalTimeFormSplit1Bind>(parameters => parameters
+        var cut = Render<LocalTimeFormSplit1Bind>(parameters => parameters
             .Add(p => p.Dt, new DateTime(2023, 10, 1, 12, 30, 0, DateTimeKind.Utc)));
 
         // value should be updated to the local time
@@ -68,7 +68,7 @@
     {
         Services.AddLocalTimeMockService();
         
-        var cut = RenderComponent<LocalTimeFormSplit2>(parameters => parameters
+        var cut = Render<LocalTimeFormSplit2>(parameters => parameters
             .Add(p => p.Dto, new DateTimeOffset(2023, 10, 1, 12, 30, 0, TimeSpan.Zero)));
 
         // value should be updated to the local time

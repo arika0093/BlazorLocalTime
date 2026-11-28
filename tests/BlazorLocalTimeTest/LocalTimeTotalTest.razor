@@ -1,6 +1,6 @@
 ﻿@using BlazorLocalTimeTest.Component
 @using Shouldly
-@inherits TestContext
+@inherits BunitContext
 @code {
     [Fact]
     public void TestTotal1()
@@ -10,7 +10,7 @@
         Services.AddSingleton<TimeProvider>(timeProvider);
         TestInitializer.JavaScriptInitializer(JSInterop);
 
-        var cut = RenderComponent<LocalTimeTotal1>();
+        var cut = Render<LocalTimeTotal1>();
         // 12:34+09:00 -> 2023-10-01 21:34:56
         cut.MarkupMatches("<p>2023-10-01 21:34:56</p>");
     }
@@ -25,7 +25,7 @@
         Should.Throw<InvalidOperationException>(() =>
         {
             // This test is expected to fail because BlazorLocalTimeProvider is not initialized
-            RenderComponent<LocalTimeTotalFailed1>();
+            Render<LocalTimeTotalFailed1>();
         });
     }
 
@@ -37,7 +37,7 @@
         Services.AddSingleton<TimeProvider>(timeProvider);
         TestInitializer.JavaScriptInitializer(JSInterop);
 
-        var cut = RenderComponent<LocalTimeTotal2>();
+        var cut = Render<LocalTimeTotal2>();
         // 12:34+09:00 -> 2023-10-01 21:34:56
         cut.MarkupMatches("2023-10-01 21:34:56");
     }
@@ -51,7 +51,7 @@
         var module = JSInterop.SetupModule(BlazorLocalTimeProvider.JsPath);
         module.Setup<string>("getBrowserTimeZone").SetException(new JSException("error"));
 
-        var cut = RenderComponent<LocalTimeTotal2>();
+        var cut = Render<LocalTimeTotal2>();
         cut.MarkupMatches("Error");
     }
 

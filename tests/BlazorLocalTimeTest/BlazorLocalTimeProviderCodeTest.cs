@@ -7,7 +7,7 @@ using Shouldly;
 
 namespace BlazorLocalTimeTest;
 
-public class BlazorLocalTimeProviderCodeTest : TestContext
+public class BlazorLocalTimeProviderCodeTest : BunitContext
 {
     public BlazorLocalTimeProviderCodeTest()
     {
@@ -32,10 +32,10 @@ public class BlazorLocalTimeProviderCodeTest : TestContext
     {
         TestInitializer.JavaScriptInitializer(JSInterop);
 
-        RenderComponent<LocalTimeText>(parameters =>
+        Render<LocalTimeText>(parameters =>
             parameters.Add(component => component.Value, DateTimeOffset.UtcNow)
         );
-        RenderComponent<LocalTimeText>(parameters =>
+        Render<LocalTimeText>(parameters =>
             parameters.Add(component => component.Value, DateTimeOffset.UtcNow)
         );
 
@@ -48,7 +48,7 @@ public class BlazorLocalTimeProviderCodeTest : TestContext
     {
         TestInitializer.JavaScriptInitializer(JSInterop);
 
-        var component = RenderComponent<BlazorLocalTimeProvider>();
+        var component = Render<BlazorLocalTimeProvider>();
         var localTimeService = Services.GetRequiredService<ILocalTimeService>();
 
         localTimeService.IsTimeZoneInfoAvailable.ShouldBeTrue();
@@ -64,7 +64,7 @@ public class BlazorLocalTimeProviderCodeTest : TestContext
             .Setup<string>("getBrowserTimeZone")
             .SetException(new JSDisconnectedException("Test disconnection"));
 
-        var component = RenderComponent<BlazorLocalTimeProvider>();
+        var component = Render<BlazorLocalTimeProvider>();
         var localTimeService = Services.GetRequiredService<ILocalTimeService>();
 
         localTimeService.IsTimeZoneInfoAvailable.ShouldBeFalse();
@@ -79,7 +79,7 @@ public class BlazorLocalTimeProviderCodeTest : TestContext
             .Setup<string>("getBrowserTimeZone")
             .SetException(new JSException("Browser API not supported"));
 
-        var component = RenderComponent<BlazorLocalTimeProvider>();
+        var component = Render<BlazorLocalTimeProvider>();
         var localTimeService = Services.GetRequiredService<ILocalTimeService>();
 
         localTimeService.IsTimeZoneInfoAvailable.ShouldBeFalse();

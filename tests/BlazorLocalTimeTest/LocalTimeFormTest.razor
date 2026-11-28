@@ -1,6 +1,6 @@
 ﻿@using BlazorLocalTimeTest.Component
 @using Shouldly
-@inherits TestContext
+@inherits BunitContext
 @code
 {
     [Fact]
@@ -10,7 +10,7 @@
 
         var dt = new DateTime(2023, 10, 1, 12, 30, 0, DateTimeKind.Utc);
         
-        var cut = RenderComponent<LocalTimeFormSingle1>(parameters =>
+        var cut = Render<LocalTimeFormSingle1>(parameters =>
             parameters.Bind(p => p.Value, dt, n => dt = n));
         var input = cut.Find("input[type='datetime-local']");
         
@@ -55,7 +55,7 @@
 
         DateTime? dt = new DateTime(2023, 10, 1, 12, 30, 0, DateTimeKind.Utc);
         
-        var cut = RenderComponent<LocalTimeFormSingle1>(parameters =>
+        var cut = Render<LocalTimeFormSingle1>(parameters =>
             parameters.Bind(p => p.Value, dt.Value, n => dt = n));
         var input = cut.Find("input[type='datetime-local']");
         
@@ -76,7 +76,7 @@
 
         var dt = new DateTimeOffset(2023, 10, 1, 12, 30, 0, TimeSpan.Zero);
         
-        var cut = RenderComponent<LocalTimeFormSingle2>(parameters =>
+        var cut = Render<LocalTimeFormSingle2>(parameters =>
             parameters.Bind(p => p.Value, dt, n => dt = n));
         var input = cut.Find("input[type='datetime-local']");
         
@@ -144,14 +144,14 @@
 
         var dt = new DateTime(2023, 10, 1, 13, 00, 0, DateTimeKind.Utc);
         
-        var cut = RenderComponent<LocalTimeFormSingle1>(parameters =>
+        var cut = Render<LocalTimeFormSingle1>(parameters =>
             parameters.Bind(p => p.Value, dt, n => dt = n));
         
         var input = cut.Find("input[type='datetime-local']");
         
         // Change timezone to Blazil (UTC-3)
         localTimeService.OverrideTimeZoneInfo = TimeZoneInfo.FindSystemTimeZoneById("America/Sao_Paulo");
-        cut.SetParametersAndRender(parameters => 
+        cut.Render(parameters => 
             parameters.Bind(p => p.Value, dt, n => dt = n));
         
         // The UI input should still show the same local time the user entered
@@ -170,14 +170,14 @@
 
         var dt = new DateTimeOffset(2023, 10, 1, 22, 00, 0, TimeSpan.FromHours(9));
         
-        var cut = RenderComponent<LocalTimeFormSingle2>(parameters =>
+        var cut = Render<LocalTimeFormSingle2>(parameters =>
             parameters.Bind(p => p.Value, dt, n => dt = n));
         
         var input = cut.Find("input[type='datetime-local']");
         
         // Change timezone to Blazil (UTC-3)
         localTimeService.OverrideTimeZoneInfo = TimeZoneInfo.FindSystemTimeZoneById("America/Sao_Paulo");
-        cut.SetParametersAndRender(parameters => 
+        cut.Render(parameters => 
             parameters.Bind(p => p.Value, dt, n => dt = n));
         
         // The UI input should still show the same local time the user entered
@@ -197,14 +197,14 @@
 
         var dt = new DateTimeOffset(2025, 6, 26, 4, 55, 0, TimeSpan.FromHours(9));
         
-        var cut = RenderComponent<LocalTimeFormSingle2>(parameters =>
+        var cut = Render<LocalTimeFormSingle2>(parameters =>
             parameters.Bind(p => p.Value, dt, n => dt = n));
         
         var input = cut.Find("input[type='datetime-local']");
         
         // Change timezone to Vancouver (UTC-8) but use summer
         localTimeService.OverrideTimeZoneInfo = TimeZoneInfo.FindSystemTimeZoneById("America/Vancouver");
-        cut.SetParametersAndRender(parameters => 
+        cut.Render(parameters => 
             parameters.Bind(p => p.Value, dt, n => dt = n));
         
         // The UI input should still show the same local time the user entered
